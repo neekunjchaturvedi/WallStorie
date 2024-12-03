@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-[#EAF7E5] shadow-lg backdrop-blur-md ">
+    <nav className="flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md ">
       <div className="flex items-center">
         <img
           src="\src\assets\logo.png"
@@ -11,7 +11,6 @@ const Navbar = () => {
         />
       </div>
 
-      {/* Navigation Links */}
       <ul className="flex space-x-8 text-[#4a4a4a] font-medium text-lg">
         <li>
           <a
@@ -47,7 +46,6 @@ const Navbar = () => {
         </li>
       </ul>
 
-      {/* Icons Section */}
       <div className="flex items-center space-x-6 text-[#4a4a4a] text-xl">
         <button className="hover:text-green-700 transition-colors duration-300">
           <i className="fa-solid fa-magnifying-glass"></i>
