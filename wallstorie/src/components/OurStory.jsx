@@ -8,10 +8,12 @@ const OurStory = () => {
         style={{ backgroundImage: 'url("/src/assets/storysection.jpg")' }}
       >
         <div className="p-8 md:p-12 h-full flex flex-col justify-start">
-          <h1 className="text-5xl font-bold text-white leading-tight">
+          <h1 className="text-5xl font-bold text-white leading-tight flex">
             OUR STORY
           </h1>
-          <p className="text-white italic mt-4 text-lg">Where it all began</p>
+          <p className="text-white italic mt-4 text-lg flex">
+            Where it all began
+          </p>
         </div>
       </div>
 
