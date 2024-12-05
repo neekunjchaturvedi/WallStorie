@@ -3,15 +3,17 @@ import React from "react";
 export const Hero = () => {
   return (
     <>
-      <section class="relative bg-green-100 py-12">
-        <div class="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
-          <div class="bg-[url('/path/to/image1.jpg')] bg-cover bg-center h-[500px] rounded-tl-[50px] rounded-bl-[50px] border-4 border-yellow-400"></div>
-          <div class="bg-[url('/path/to/image2.jpg')] bg-cover bg-center h-[500px] border-4 border-yellow-400"></div>
-          <div class="bg-[url('/path/to/image3.jpg')] bg-cover bg-center h-[500px] rounded-tr-[50px] rounded-br-[50px] border-4 border-yellow-400"></div>
+      <section class="relative bg-white py-12">
+        <div class="max-w-6xl mx-auto justify-items-center ">
+          <img
+            src="/src/assets/wallpaperimages/group40.png"
+            alt="union1"
+            class="h-[600px] w-[900px] bg-cover bg-center"
+          />
         </div>
 
         <div class="absolute inset-0 flex items-center justify-center">
-          <div class="bg-white/70 backdrop-blur-md p-10 rounded-lg shadow-lg max-w-lg text-center opacity">
+          <div class="bg-gray-70 backdrop-blur-md p-10 rounded-lg shadow-lg max-w-lg text-center ">
             <h1 class="text-4xl font-bold text-gray-800 mb-4 opacity-100">
               LET YOUR WALLS TELL YOUR STORIES
             </h1>

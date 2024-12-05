@@ -8,8 +8,13 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-green-50  text-white p-4 mt-10 px-10">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10">
+    <footer className="bg-green-50 text-white p-4 mt-10 px-10 ">
+      <div
+        className=" h-screen max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10 bg-cover bg-end"
+        style={{
+          backgroundImage: "url('/src/assets/wallpaperimages/footer.png')",
+        }}
+      >
         <div>
           <img
             src="\src\assets\logo.png"
@@ -125,16 +130,11 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <img
+      {/* <img
         src="\src\assets\wallpaperimages/footer.png"
         alt="Wall Storie Logo"
         className="h-screen  mb-4 lg:w-full "
-      />
-      <div className="mt-10 text-center">
-        <p className="text-gray-600">
-          &copy; 2024 Wall Storie. All rights reserved.
-        </p>
-      </div>
+      /> */}
     </footer>
   );
 };

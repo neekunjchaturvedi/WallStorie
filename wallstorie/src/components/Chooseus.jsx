@@ -29,7 +29,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <div className="py-16 bg-green-50 mt-10 rounded-lg shadow">
+    <div className="py-16 bg-green-50 mt-10 rounded-lg shadow w-3/4 mx-auto">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-green-700">Why Choose Us?</h2>
         <p className="text-gray-700 mt-2">

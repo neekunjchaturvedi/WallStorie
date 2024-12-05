@@ -7,18 +7,22 @@ import OurStorySection from "./components/OurStory";
 import OurCollections from "./components/OurCollections";
 import WhyChooseUs from "./components/Chooseus";
 import Footer from "./components/Footer";
+import { Hheader } from "./components/header";
+import { Bottomfoot } from "./components/Bottomfoot";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
+      <Hheader />
       <Navbar />
       <Hero />
       <OurStorySection />
       <OurCollections />
       <WhyChooseUs />
-      <Footer/>
+      <Footer />
+      <Bottomfoot/>
     </>
   );
 }
