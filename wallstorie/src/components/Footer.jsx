@@ -130,11 +130,6 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      {/* <img
-        src="\src\assets\wallpaperimages/footer.png"
-        alt="Wall Storie Logo"
-        className="h-screen  mb-4 lg:w-full "
-      /> */}
     </footer>
   );
 };

@@ -17,7 +17,7 @@ const Navbar = () => {
             href="#"
             className="hover:text-green-700 transition-colors duration-300"
           >
-            Home
+            Wallpapers
           </a>
         </li>
         <li>
@@ -25,7 +25,7 @@ const Navbar = () => {
             href="#"
             className="hover:text-green-700 transition-colors duration-300"
           >
-            Our Collections
+            Wallpaper rolls
           </a>
         </li>
         <li>
@@ -33,7 +33,15 @@ const Navbar = () => {
             href="#"
             className="hover:text-green-700 transition-colors duration-300"
           >
-            Services
+            Blinds
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            className="hover:text-green-700 transition-colors duration-300"
+          >
+            Curtain
           </a>
         </li>
         <li>

@@ -29,7 +29,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <div className="py-16 bg-green-50 mt-10 rounded-lg shadow w-3/4 mx-auto">
+    <div className="py-16 bg-green-50 mt-10 rounded-lg shadow w-10/12 mx-auto">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-green-700">Why Choose Us?</h2>
         <p className="text-gray-700 mt-2">
@@ -40,7 +40,7 @@ const WhyChooseUs = () => {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="bg-white p-6 rounded-lg shadow-lg text-center flex flex-col items-center space-y-4"
+            className="bg-green-50 p-6 rounded-lg shadow-lg text-center flex flex-col items-center space-y-4"
           >
             <div className="flex justify-center items-center bg-green-100 p-4 rounded-full">
               {feature.icon}
