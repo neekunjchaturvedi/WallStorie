@@ -12,8 +12,7 @@ const Footer = () => {
       <div
         className=" h-screen w-screen max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/src/assets/wallpaperimages/footer.png')",
+          backgroundImage: " url('/src/assets/wallpaperimages/footer.png')",
         }}
       >
         <div>
