@@ -10,6 +10,8 @@ import Footer from "./components/Footer";
 import { Hheader } from "./components/header";
 import { Bottomfoot } from "./components/Bottomfoot";
 import Slider from "./components/Slider";
+import SchedulingSection from "./components/Schedule";
+import CommentSection from "./components/Comments";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,8 +23,10 @@ function App() {
       <Hero />
       <OurStorySection />
       <OurCollections />
-
+      <Slider />
       <WhyChooseUs />
+      <SchedulingSection />
+      <CommentSection />
       <Footer />
       <Bottomfoot />
     </>

@@ -1,67 +1,64 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-const Slider = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const sliderRef = useRef(null);
-
+const Carousel = () => {
   const images = [
-    {
-      src: "/src/assets/wallpaperimages/union1.png",
-      alt: "Living Room",
-      label: "Living Room",
-    },
-    {
-      src: "/src/assets/wallpaperimages/union1.png",
-      alt: "Kids Room",
-      label: "Kids Room",
-    },
-    {
-      src: "/src/assets/wallpaperimages/union1.png",
-      alt: "Bed Room",
-      label: "Bed Room",
-    },
-    {
-      src: "/src/assets/wallpaperimages/union1.png",
-      alt: "Pooja Room",
-      label: "Pooja Room",
-    },
+    { id: 1, src: "src/assets/slider/Kids room.png", title: "Kids room" },
+    { id: 2, src: "src/assets/slider/Bed room.png", title: "Living room" },
+    { id: 3, src: "src/assets/slider/Bathroom.png", title: "Dining room" },
+    { id: 4, src: "src/assets/slider/Kitchen.png", title: "Pooja room" },
+    { id: 5, src: "src/assets/slider/Living room.png", title: "Bed room" },
   ];
 
-  const handleNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % images.length);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Function to go to the next slide
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
-  const handlePrev = () => {
-    setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+  // Function to go to the previous slide
+  const goToPrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
   };
 
+  // Autoplay effect
   useEffect(() => {
-    if (sliderRef.current) {
-      const slideWidth = sliderRef.current.children[0].offsetWidth;
-      sliderRef.current.style.transform = `translateX(-${
-        currentSlide * slideWidth
-      }px)`;
-    }
-  }, [currentSlide]);
+    const interval = setInterval(goToNext, 3000); // Change slides every 3 seconds
+    return () => clearInterval(interval); // Cleanup the interval on unmount
+  }, []);
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto overflow-hidden">
-      {/* Slider Container */}
-      <div
-        className="flex transition-transform duration-700 ease-in-out"
-        ref={sliderRef}
-      >
+    <div className="relative flex items-center justify-center w-full overflow-hidden mt-8">
+      {/* Carousel Container */}
+      <div className="flex w-[90%] h-[400px] items-center justify-center relative">
+        {/* Slides */}
         {images.map((image, index) => (
-          <div key={index} className="flex-none w-full sm:w-1/2 md:w-1/3 px-4">
-            <div className="relative bg-gray-200 rounded-lg shadow-md overflow-hidden h-[400px]">
+          <div
+            key={image.id}
+            className={`transition-transform duration-1000   ease-in-out transform 
+              ${
+                index === currentIndex
+                  ? "scale-100 opacity-100 z-10"
+                  : "scale-90 opacity-50 z-0"
+              }
+              transition-all delay-600`} // Adding delay for smoother transition
+            style={{
+              position: "absolute",
+              left: `${50 + (index - currentIndex) * 30}%`, // Adjust positions dynamically
+              transform: "translateX(-50%)",
+            }}
+          >
+            <div className="relative w-[250px] h-[380px] bg-white rounded-t-full shadow-lg border-2 border-gray-200">
               <img
                 src={image.src}
-                alt={image.alt}
-                className="w-full h-full object-cover"
+                alt={image.title}
+                className="object-cover w-full h-[75%] rounded-t-full"
               />
-              <span className="absolute bottom-4 left-4 bg-white p-2 rounded-md text-green-600">
-                {image.label}
-              </span>
+              <div className="absolute bottom-0 w-full bg-white text-center rounded-b-lg">
+                <p className="font-semibold text-lg py-2">{image.title}</p>
+              </div>
             </div>
           </div>
         ))}
@@ -69,19 +66,19 @@ const Slider = () => {
 
       {/* Navigation Buttons */}
       <button
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-green-600 text-white p-2 rounded-full z-10"
-        onClick={handlePrev}
+        className="absolute left-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
+        onClick={goToPrev}
       >
-        &#10094;
+        &#8592;
       </button>
       <button
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-green-600 text-white p-2 rounded-full z-10"
-        onClick={handleNext}
+        className="absolute right-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
+        onClick={goToNext}
       >
-        &#10095;
+        &#8594;
       </button>
     </div>
   );
 };
 
-export default Slider;
+export default Carousel;
