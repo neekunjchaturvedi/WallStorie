@@ -29,10 +29,10 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <div className="py-16 bg-green-50 mt-10 rounded-lg shadow w-10/12 mx-auto">
+    <div className="py-16 bg-green-50 mt-10 rounded-lg shadow w-3/4 mx-auto">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-green-700">Why Choose Us?</h2>
-        <p className="text-gray-700 mt-2">
+        <p className="text-gray-700 mt-2 font-lato">
           Discover why we're trusted by homeowners and designers alike.
         </p>
       </div>
@@ -48,7 +48,9 @@ const WhyChooseUs = () => {
             <h3 className="text-xl font-semibold text-green-700">
               {feature.title}
             </h3>
-            <p className="text-gray-600 text-sm">{feature.description}</p>
+            <p className="text-gray-600 text-sm font-lato">
+              {feature.description}
+            </p>
           </div>
         ))}
       </div>

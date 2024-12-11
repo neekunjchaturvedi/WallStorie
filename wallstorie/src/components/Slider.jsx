@@ -30,54 +30,62 @@ const Carousel = () => {
   }, []);
 
   return (
-    <div className="relative flex items-center justify-center w-full overflow-hidden mt-8">
-      {/* Carousel Container */}
-      <div className="flex w-[90%] h-[400px] items-center justify-center relative">
-        {/* Slides */}
-        {images.map((image, index) => (
-          <div
-            key={image.id}
-            className={`transition-transform duration-1000   ease-in-out transform 
+    <>
+      <div>
+        <h2 className="text-3xl font-bold text-green-700">Shop By Category</h2>
+        <p className="text-gray-700 mt-2 font-lato">
+          Tailored Services to Elevate Your Space
+        </p>
+      </div>
+      <div className="relative flex items-center justify-center w-3/4 overflow-hidden mt-8 p-10 mx-auto">
+        {/* Carousel Container */}
+        <div className="flex w-[90%] h-[400px] items-center justify-center relative">
+          {/* Slides */}
+          {images.map((image, index) => (
+            <div
+              key={image.id}
+              className={`transition-transform duration-1000   ease-in-out transform 
               ${
                 index === currentIndex
                   ? "scale-100 opacity-100 z-10"
                   : "scale-90 opacity-50 z-0"
               }
               transition-all delay-600`} // Adding delay for smoother transition
-            style={{
-              position: "absolute",
-              left: `${50 + (index - currentIndex) * 30}%`, // Adjust positions dynamically
-              transform: "translateX(-50%)",
-            }}
-          >
-            <div className="relative w-[250px] h-[380px] bg-white rounded-t-full shadow-lg border-2 border-gray-200">
-              <img
-                src={image.src}
-                alt={image.title}
-                className="object-cover w-full h-[75%] rounded-t-full"
-              />
-              <div className="absolute bottom-0 w-full bg-white text-center rounded-b-lg">
-                <p className="font-semibold text-lg py-2">{image.title}</p>
+              style={{
+                position: "absolute",
+                left: `${50 + (index - currentIndex) * 30}%`, // Adjust positions dynamically
+                transform: "translateX(-50%)",
+              }}
+            >
+              <div className="relative w-[250px] h-[380px] bg-white rounded-t-full shadow-lg border-2 border-gray-200">
+                <img
+                  src={image.src}
+                  alt={image.title}
+                  className="object-cover w-full h-[75%] rounded-t-full"
+                />
+                <div className="absolute bottom-0 w-full bg-white text-center rounded-b-lg">
+                  <p className="font-semibold text-lg py-2">{image.title}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Navigation Buttons */}
-      <button
-        className="absolute left-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
-        onClick={goToPrev}
-      >
-        &#8592;
-      </button>
-      <button
-        className="absolute right-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
-        onClick={goToNext}
-      >
-        &#8594;
-      </button>
-    </div>
+        {/* Navigation Buttons */}
+        <button
+          className="absolute left-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
+          onClick={goToPrev}
+        >
+          &#8592;
+        </button>
+        <button
+          className="absolute right-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
+          onClick={goToNext}
+        >
+          &#8594;
+        </button>
+      </div>
+    </>
   );
 };
 

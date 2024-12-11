@@ -23,7 +23,7 @@ export const Hero = () => {
             </p>
             <a
               href="#"
-              class="inline-flex items-center px-6 py-3 text-white bg-green-600 hover:bg-green-700 rounded-lg"
+              class="inline-flex items-center px-6 py-3 text-white bg-green-700 hover:bg-green-800 rounded-lg"
             >
               Find your style
               <svg

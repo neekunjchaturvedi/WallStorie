@@ -15,7 +15,7 @@ const OurCollections = () => {
     <div className="py-16 bg-white">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-green-700">Our Collections</h2>
-        <p className="text-gray-700 mt-2">
+        <p className="text-gray-700 mt-2 font-lato">
           Tailored Services to Elevate Your Space
         </p>
       </div>
@@ -29,7 +29,7 @@ const OurCollections = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h3 className="text-lg font-medium text-green-700">
+            <h3 className="text-lg font-medium text-green-700 font-lato">
               {collection.name}
             </h3>
           </div>

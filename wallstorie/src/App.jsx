@@ -12,6 +12,7 @@ import { Bottomfoot } from "./components/Bottomfoot";
 import Slider from "./components/Slider";
 import SchedulingSection from "./components/Schedule";
 import CommentSection from "./components/Comments";
+import Makeyours from "./components/Makeyours";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -26,6 +27,7 @@ function App() {
       <Slider />
       <WhyChooseUs />
       <SchedulingSection />
+      <Makeyours />
       <CommentSection />
       <Footer />
       <Bottomfoot />

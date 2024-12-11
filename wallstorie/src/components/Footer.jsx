@@ -8,11 +8,12 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-green-50 text-white p-4 mt-10 px-10 ">
+    <footer className="bg-green-50 text-white p-4 mt-10 px-10 font-lato">
       <div
-        className=" h-screen max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10 bg-cover bg-end"
+        className=" h-screen w-screen max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/src/assets/wallpaperimages/footer.png')",
+          backgroundImage:
+            "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/src/assets/wallpaperimages/footer.png')",
         }}
       >
         <div>
@@ -21,7 +22,7 @@ const Footer = () => {
             alt="Wall Storie Logo"
             className="h-36 mb-4 sm:align-center"
           />
-          <p className="text-gray-700">
+          <p className="text-gray-700 text-left font-lato">
             Wall Storie offers custom wallpapers, curtains, and blinds to
             transform your space with style and quality.
           </p>
@@ -129,6 +130,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
+        <div className="w-fit h-[700px] bg-cover bg-center bg-no-repeat"></div>
       </div>
     </footer>
   );
