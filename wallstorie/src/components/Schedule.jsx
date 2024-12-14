@@ -3,14 +3,13 @@ import { FaRegPaperPlane, FaLightbulb, FaCheckCircle } from "react-icons/fa";
 
 const SchedulingSection = () => {
   return (
-    <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between w-3/4 bg-white  p-8 rounded-lg mt-20 mb-20 mx-auto">
-      {/* Text Section */}
+    <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between w-3/4 bg-white p-8 rounded-lg mt-20 mb-20 mx-auto">
       <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
         <h2 className="text-3xl font-bold text-green-700 mb-6 mb-14">
           Book Your Personalized Consultation
         </h2>
         <div className="flex items-start mb-6 font-lato">
-          <FaRegPaperPlane className="text-green-600 text-2xl mr-4" />
+          <FaRegPaperPlane className="text-green-600 text-3xl mr-4" />
           <div>
             <h3 className="text-xl font-semibold text-gray-800 text-start">
               Share Your Preferences
@@ -22,7 +21,7 @@ const SchedulingSection = () => {
           </div>
         </div>
         <div className="flex items-start mb-6 font-lato">
-          <FaLightbulb className="text-green-600 text-2xl mr-4" />
+          <FaLightbulb className="text-green-600 text-3xl mr-4" />
           <div>
             <h3 className="text-xl font-semibold text-gray-800 text-start">
               Get Expert Advice
@@ -34,7 +33,7 @@ const SchedulingSection = () => {
           </div>
         </div>
         <div className="flex items-start font-lato">
-          <FaCheckCircle className="text-green-600 text-2xl mr-4" />
+          <FaCheckCircle className="text-green-600 text-3xl mr-4" />
           <div>
             <h3 className="text-xl font-semibold text-gray-800 text-start">
               Confirm Your Booking
@@ -50,12 +49,11 @@ const SchedulingSection = () => {
         </button>
       </div>
 
-      {/* Image Section */}
-      <div className="w-full lg:w-1/2 mx-auto flex  justify-center ">
+      <div className="hidden md:flex w-full md:w-1/2 mx-auto justify-center">
         <img
-          src="src\assets\unsplash_pd64wheTdiQ.png" // Replace this with your image source
+          src="src/assets/unsplash_pd64wheTdiQ.png"
           alt="Consultation"
-          className="rounded-lg shadow-md w-[400px] h-[500px]"
+          className="rounded-lg shadow-md w-[400px] h-[400px]"
         />
       </div>
     </div>

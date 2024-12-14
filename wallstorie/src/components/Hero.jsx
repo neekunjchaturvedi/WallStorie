@@ -8,7 +8,7 @@ export const Hero = () => {
           <img
             src="/src/assets/wallpaperimages/group40.png"
             alt="union1"
-            class="h-[600px] w-[900px] bg-cover bg-center"
+            class="lg:h-[600px] lg:w-[900px]  bg-cover bg-center"
           />
         </div>
 

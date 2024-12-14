@@ -15,7 +15,6 @@ import CommentSection from "./components/Comments";
 import Makeyours from "./components/Makeyours";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <>

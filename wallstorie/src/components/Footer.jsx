@@ -9,17 +9,13 @@ import {
 const Footer = () => {
   return (
     <footer className="bg-green-50 text-white p-4 mt-10 px-10 font-lato">
-      <div
-        className=" h-screen w-screen max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: " url('/src/assets/wallpaperimages/footer.png')",
-        }}
-      >
+      <div className=" h-[800px] max-w-5xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10">
+        {" "}
         <div>
           <img
             src="\src\assets\logo.png"
             alt="Wall Storie Logo"
-            className="h-36 mb-4 sm:align-center"
+            className="h-36 mb-4 items-center"
           />
           <p className="text-gray-700 text-left font-lato">
             Wall Storie offers custom wallpapers, curtains, and blinds to
@@ -56,78 +52,89 @@ const Footer = () => {
             </a>
           </div>
         </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-64">
+          <div className="mb-10">
+            <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
+              Our Services
+            </h4>
 
-        <div>
-          <h4 className="text-lg font-semibold text-green-700 mb-4">
-            Our Services
-          </h4>
-          <ul className="space-y-2">
-            <li>
-              <a href="#" className="text-gray-600 hover:text-green-700">
-                Wallpaper
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-gray-600 hover:text-green-700">
-                Blinds
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-gray-600 hover:text-green-700">
-                Curtains
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-semibold text-green-700 mb-4">
-            Quick Links
-          </h4>
-          <ul className="space-y-2">
-            <li>
-              <a href="#" className="text-gray-600 hover:text-green-700">
-                Shipping & Returns
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-gray-600 hover:text-green-700">
-                Terms & Conditions
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-gray-600 hover:text-green-700">
-                Privacy
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-semibold text-green-700 mb-4">
-            Customer Care
-          </h4>
-          <ul className="space-y-2">
-            <li>
-              <a
-                href="mailto:care@wallstorie.com"
-                className="text-gray-600 hover:text-green-700"
-              >
-                care@wallstorie.com
-              </a>
-            </li>
-            <li>
-              <a
-                href="tel:+91798123006"
-                className="text-gray-600 hover:text-green-700"
-              >
-                +91 7981230006
-              </a>
-            </li>
-            <li>
-              <span className="text-gray-600">11:00 to 10:30 IST Mon-Sat</span>
-            </li>
-          </ul>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="text-gray-600 hover:text-green-700">
+                  Wallpaper
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-600 hover:text-green-700">
+                  Blinds
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-600 hover:text-green-700">
+                  Curtains
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="mb-10">
+            <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
+              Quick Links
+            </h4>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                >
+                  Shipping & Returns
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                >
+                  Terms & Conditions
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                >
+                  Privacy
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="mb-10">
+            <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
+              Customer Care
+            </h4>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="mailto:care@wallstorie.com"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                >
+                  care@wallstorie.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+91798123006"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                >
+                  +91 7981230006
+                </a>
+              </li>
+              <li>
+                <span className="text-gray-600 whitespace-nowrap">
+                  11:00 to 10:30 IST Mon-Sat
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
         <div className="w-fit h-[700px] bg-cover bg-center bg-no-repeat"></div>
       </div>

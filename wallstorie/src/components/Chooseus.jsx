@@ -36,11 +36,11 @@ const WhyChooseUs = () => {
           Discover why we're trusted by homeowners and designers alike.
         </p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4 lg:px-20 py-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4 lg:px-20">
         {features.map((feature, index) => (
           <div
             key={index}
-            className="bg-green-50 p-6 rounded-lg shadow-lg text-center flex flex-col items-center space-y-4"
+            className="bg-green-50 p-6 rounded-lg shadow-lg text-center flex flex-col items-center sm:space-y-4 "
           >
             <div className="flex justify-center items-center bg-green-100 p-4 rounded-full">
               {feature.icon}

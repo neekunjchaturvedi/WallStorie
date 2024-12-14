@@ -25,7 +25,7 @@ const Carousel = () => {
 
   // Autoplay effect
   useEffect(() => {
-    const interval = setInterval(goToNext, 3000); // Change slides every 3 seconds
+    const interval = setInterval(goToNext, 10000); // Change slides every 3 seconds
     return () => clearInterval(interval); // Cleanup the interval on unmount
   }, []);
 
@@ -39,7 +39,7 @@ const Carousel = () => {
       </div>
       <div className="relative flex items-center justify-center w-3/4 overflow-hidden mt-8 p-10 mx-auto">
         {/* Carousel Container */}
-        <div className="flex w-[90%] h-[400px] items-center justify-center relative">
+        <div className="flex w-[90%] h-[500px] items-center justify-center relative ">
           {/* Slides */}
           {images.map((image, index) => (
             <div
@@ -57,7 +57,7 @@ const Carousel = () => {
                 transform: "translateX(-50%)",
               }}
             >
-              <div className="relative w-[250px] h-[380px] bg-white rounded-t-full shadow-lg border-2 border-gray-200">
+              <div className="relative w-[250px] h-[500px] bg-white rounded-t-full shadow-lg border-2 border-gray-200">
                 <img
                   src={image.src}
                   alt={image.title}
@@ -73,13 +73,13 @@ const Carousel = () => {
 
         {/* Navigation Buttons */}
         <button
-          className="absolute left-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
+          className="absolute left-5 bg-green-100 p-3 shadow-md hover:bg-green-300 text-black z-50"
           onClick={goToPrev}
         >
           &#8592;
         </button>
         <button
-          className="absolute right-5 bg-gray-200 p-3 rounded-full shadow-md hover:bg-gray-300"
+          className="absolute right-5 bg-green-100 p-3 shadow-md text-black z-50"
           onClick={goToNext}
         >
           &#8594;
