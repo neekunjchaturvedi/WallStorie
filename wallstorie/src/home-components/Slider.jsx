@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 const Carousel = () => {
   const images = [
     { id: 1, src: "src/assets/slider/Kids room.png", title: "Kids room" },
-    { id: 2, src: "src/assets/slider/Bed room.png", title: "Living room" },
-    { id: 3, src: "src/assets/slider/Bathroom.png", title: "Dining room" },
-    { id: 4, src: "src/assets/slider/Kitchen.png", title: "Pooja room" },
-    { id: 5, src: "src/assets/slider/Living room.png", title: "Bed room" },
+    { id: 2, src: "src/assets/slider/Living room.png", title: "Living room" },
+    { id: 3, src: "src/assets/slider/Kitchen.png", title: "Kitchen" },
+    { id: 4, src: "src/assets/slider/Bathroom.png", title: "Pooja room" },
+    { id: 5, src: "src/assets/slider/Bed room.png", title: "Bed room" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -61,7 +61,7 @@ const Carousel = () => {
                 <img
                   src={image.src}
                   alt={image.title}
-                  className="object-cover w-full h-[75%] rounded-t-full"
+                  className="object-cover w-full h-[80%] rounded-t-full"
                 />
                 <div className="absolute bottom-0 w-full bg-white text-center rounded-b-lg">
                   <p className="font-semibold text-lg py-2">{image.title}</p>
