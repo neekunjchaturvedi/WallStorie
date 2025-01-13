@@ -4,7 +4,7 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate("/");
+    navigate("/storie/home");
   };
 
   return (
