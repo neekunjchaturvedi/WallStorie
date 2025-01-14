@@ -5,7 +5,7 @@ const SchedulingSection = () => {
   return (
     <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between w-3/4 bg-white p-8 rounded-lg mt-20 mb-20 mx-auto">
       <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
-        <h2 className="text-3xl font-bold text-green-700 mb-6 mb-14">
+        <h2 className="text-3xl font-bold text-green-700 mb-6 ">
           Book Your Personalized Consultation
         </h2>
         <div className="flex items-start mb-6 font-lato">
@@ -51,7 +51,7 @@ const SchedulingSection = () => {
 
       <div className="hidden md:flex w-full md:w-1/2 mx-auto justify-center">
         <img
-          src="src/assets/unsplash_pd64wheTdiQ.png"
+          src="/src/assets/unsplash_pd64wheTdiQ.png"
           alt="Consultation"
           className="rounded-lg shadow-md w-[400px] h-[400px]"
         />

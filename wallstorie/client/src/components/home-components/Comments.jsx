@@ -31,7 +31,7 @@ const CommentSection = () => {
       name: "Arjun Kapoor",
       location: "Mumbai, India",
       comment:
-        "Brilliant team and excellent execution! I’m thrilled with how my home turned out.",
+        "Brilliant team and excellent execution! I'm thrilled with how my home turned out.",
       imgSrc: "https://via.placeholder.com/50", // Replace with actual profile image
     },
   ];
@@ -54,7 +54,7 @@ const CommentSection = () => {
     <div className="w-full max-w-5xl mx-auto mt-12 px-4 h-[500px] relative my-10">
       <div className="relative h-full">
         <img
-          src="src/assets/image.png"
+          src="/src/assets/Image.png"
           alt="Background"
           className="absolute top-0 left-0 w-1/4 h-full object-cover rounded-lg shadow-lg"
         />

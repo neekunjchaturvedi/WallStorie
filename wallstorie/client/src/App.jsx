@@ -18,9 +18,10 @@ import Checkout from "./pages/Shopping/Checkout";
 import Checkauth from "./components/common/Checkauth";
 import Storie from "./components/storie";
 import { Outlet } from "react-router-dom";
+import Unauth from "./pages/unauth";
 
 function App() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   const user = {
     name: "Neekunj",
     role: "user",
@@ -75,6 +76,7 @@ function App() {
 
       {/* Fallback Route */}
       <Route path="*" element={<NotFound />} />
+      <Route path="/unauth" element={<Unauth />} />
     </Routes>
   );
 }
