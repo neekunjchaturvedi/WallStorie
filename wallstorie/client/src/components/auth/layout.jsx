@@ -9,7 +9,7 @@ export default function AuthLayout() {
           <h1 className="text-4xl font-extrabold tracking-tight">
             Welcome to Wall Storie
           </h1>
-          <p class="text-white mb-6">
+          <p className="text-white mb-6">
             Bring your walls to life with designs that echo your personality and
             create spaces you'll love coming home to.
           </p>

@@ -19,13 +19,10 @@ import Checkauth from "./components/common/Checkauth";
 import Storie from "./components/storie";
 import { Outlet } from "react-router-dom";
 import Unauth from "./pages/unauth";
+import { useSelector } from "react-redux";
 
 function App() {
-  const isAuthenticated = false;
-  const user = {
-    name: "Neekunj",
-    role: "user",
-  };
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <Routes>

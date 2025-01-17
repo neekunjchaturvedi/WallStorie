@@ -1,4 +1,8 @@
+import { useToast } from "@/hooks/use-toast";
+import { registeruser } from "@/store/auth-slice";
+
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -17,36 +21,36 @@ export default function Register() {
       ...prevData,
       [id]: value,
     }));
-    console.log(formData);
   };
+
+  const dispatch = useDispatch();
+  const { toast } = useToast();
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
-
-    // Add logic to send data to the backend (e.g., using fetch or axios)
-    // Example:
-    // fetch("/api/register", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(formData),
-    // });
-
-    // Redirect to login
-    nav("/auth/login");
-  };
+  function onSubmit(event) {
+    event.preventDefault();
+    dispatch(registeruser(formData)).then((data) => {
+      if (data?.payload?.success) {
+        toast({
+          title: data?.payload?.message,
+        });
+        nav("/auth/login");
+      } else {
+        toast({
+          title: data?.payload?.message,
+          variant: "destructive",
+        });
+      }
+    });
+  }
 
   return (
     <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-green-50 dark:text-gray-800">
       <h1 className="text-2xl font-bold text-center font-lato">Register</h1>
-      <form noValidate="" onSubmit={handleSubmit} className="space-y-6">
+      <form noValidate="" onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-1 text-sm">
-          <label
-            htmlFor="username"
-            className="dark:text-gray-600 flex font-lato"
-          >
-          Name
+          <label htmlFor="name" className="dark:text-gray-600 flex font-lato">
+            Name
           </label>
           <input
             type="text"
@@ -104,6 +108,7 @@ export default function Register() {
         </div>
         <button
           type="submit"
+          onSubmit={onSubmit}
           className="block w-full p-3 text-center rounded-sm dark:text-gray-50 dark:bg-green-600 font-lato"
         >
           Sign up
