@@ -17,12 +17,26 @@ import Accounts from "./pages/Shopping/Accounts";
 import Checkout from "./pages/Shopping/Checkout";
 import Checkauth from "./components/common/Checkauth";
 import Storie from "./components/storie";
-import { Outlet } from "react-router-dom";
 import Unauth from "./pages/unauth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./store/auth-slice";
+import { useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function App() {
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, isLoading } = useSelector(
+    (state) => state.auth
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  // if (isLoading) return <Skeleton className="w-[800] bg-green-100 h-[600px]" />;
+
+  console.log(isLoading, user);
 
   return (
     <Routes>
@@ -30,9 +44,9 @@ function App() {
       <Route
         path="/storie"
         element={
-          <Checkauth isAuthenticated={isAuthenticated} user={user}>
+          <checkAuth isAuthenticated={isAuthenticated} user={user}>
             <Storie />
-          </Checkauth>
+          </checkAuth>
         }
       >
         <Route path="home" element={<Home />} />

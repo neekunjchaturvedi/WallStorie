@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs");
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 
+//register
+
 const registeruser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -64,7 +66,7 @@ const loginuser = async (req, res) => {
         name: checkUser.name,
       },
       "CLIENT_SECRET_KEY",
-      { expiresIn: "60m" }
+      { expiresIn: "15m" }
     );
 
     res.cookie("token", token, { httpOnly: true, secure: false }).json({
@@ -86,35 +88,38 @@ const loginuser = async (req, res) => {
   }
 };
 
-// // Logout
-// const logout = (req, res) => {
-//   try {
-//     // Invalidate token (This is typically handled on the frontend by removing the token from storage)
-//     res.status(200).json({ message: "Logged out successfully." });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error." });
-//   }
-// };
+// Logout
+const logoutuser = (req, res) => {
+  res.clearCookie("token").json({
+    success: true,
+    message: "Logged out successfully!",
+  });
+};
 
-// // Middleware to protect routes
-// const authenticate = (req, res, next) => {
-//   const token = req.headers.authorization?.split(" ")[1];
+// Middleware to protect routes
+const authMiddleware = async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token)
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorised user!",
+    });
 
-//   if (!token) {
-//     return res
-//       .status(401)
-//       .json({ message: "Unauthorized: No token provided." });
-//   }
+  try {
+    const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Unauthorised user!",
+    });
+  }
+};
 
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded;
-//     next();
-//   } catch (err) {
-//     console.error(err);
-//     res.status(401).json({ message: "Unauthorized: Invalid token." });
-//   }
-// };
-
-module.exports = { registeruser, loginuser };
+module.exports = {
+  registeruser,
+  loginuser,
+  logoutuser,
+  authMiddleware,
+};
