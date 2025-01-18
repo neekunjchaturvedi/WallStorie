@@ -15,7 +15,6 @@ import Curtains from "./pages/Shopping/Curtains";
 import Blinds from "./pages/Shopping/Blinds";
 import Accounts from "./pages/Shopping/Accounts";
 import Checkout from "./pages/Shopping/Checkout";
-import Checkauth from "./components/common/Checkauth";
 import Storie from "./components/storie";
 import Unauth from "./pages/unauth";
 import { useDispatch, useSelector } from "react-redux";
