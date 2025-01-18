@@ -21,7 +21,7 @@ import Unauth from "./pages/unauth";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
 import { useEffect } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import CheckAuth from "./components/common/Checkauth";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -44,9 +44,9 @@ function App() {
       <Route
         path="/storie"
         element={
-          <checkAuth isAuthenticated={isAuthenticated} user={user}>
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <Storie />
-          </checkAuth>
+          </CheckAuth>
         }
       >
         <Route path="home" element={<Home />} />
@@ -62,9 +62,9 @@ function App() {
       <Route
         path="/auth"
         element={
-          <Checkauth isAuthenticated={isAuthenticated} user={user}>
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AuthLayout />
-          </Checkauth>
+          </CheckAuth>
         }
       >
         <Route path="login" element={<Login />} />
@@ -75,9 +75,9 @@ function App() {
       <Route
         path="/admin"
         element={
-          <Checkauth isAuthenticated={isAuthenticated} user={user}>
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AdminLayout />
-          </Checkauth>
+          </CheckAuth>
         }
       >
         <Route path="dashboard" element={<Dashboard />} />

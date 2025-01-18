@@ -31,20 +31,17 @@ export const registeruser = createAsyncThunk(
 // Login User
 export const loginuser = createAsyncThunk(
   "/auth/login",
-  async (formData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
-      return response.data;
-    } catch (err) {
-      console.error("Error in API call:", err.response?.data);
-      return rejectWithValue(err.response?.data || "Login failed");
-    }
+
+  async (formData) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
   }
 );
 
@@ -124,16 +121,18 @@ const authSlice = createSlice({
       // Login User
       .addCase(loginuser.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
       })
       .addCase(loginuser.fulfilled, (state, action) => {
+        console.log(action);
+
         state.isLoading = false;
-        state.user = action.payload.user || null;
-        state.isAuthenticated = true;
+        state.user = action.payload.success ? action.payload.user : null;
+        state.isAuthenticated = action.payload.success;
       })
       .addCase(loginuser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.user = null;
+        state.isAuthenticated = false;
       })
 
       // Logout User
