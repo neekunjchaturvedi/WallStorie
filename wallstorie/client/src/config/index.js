@@ -89,13 +89,4 @@ export const addProductFormElements = [
     type: "number",
     placeholder: "Enter stock quantity",
   },
-  {
-    label: "Upload Images",
-    name: "images",
-    componentType: "file",
-    type: "file",
-    multiple: true,
-    accept: "image/*",
-    placeholder: "Upload product images",
-  },
 ];

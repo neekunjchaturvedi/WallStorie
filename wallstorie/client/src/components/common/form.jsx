@@ -39,8 +39,8 @@ function CommonForm({
             }
           />
         );
-
         break;
+
       case "select":
         element = (
           <Select
@@ -56,24 +56,22 @@ function CommonForm({
               <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
             <SelectContent>
-              {getControlItem.options && getControlItem.options.length > 0
-                ? getControlItem.options.map((optionItem) => (
-                    <SelectItem key={optionItem.id} value={optionItem.id}>
-                      {optionItem.label}
-                    </SelectItem>
-                  ))
-                : null}
+              {getControlItem.options.map((optionItem) => (
+                <SelectItem key={optionItem.id} value={optionItem.id}>
+                  {optionItem.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         );
-
         break;
+
       case "textarea":
         element = (
           <Textarea
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
-            id={getControlItem.id}
+            id={getControlItem.name}
             value={value}
             onChange={(event) =>
               setFormData({
@@ -83,7 +81,6 @@ function CommonForm({
             }
           />
         );
-
         break;
 
       default:
@@ -109,16 +106,20 @@ function CommonForm({
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className="flex flex-col gap-3">
+    <form onSubmit={onSubmit} className="max-w-lg mx-auto">
+      <div className="flex flex-col gap-4">
         {formControls.map((controlItem) => (
-          <div className="grid w-full gap-1.5" key={controlItem.name}>
-            <Label className="mb-1">{controlItem.label}</Label>
+          <div className="grid gap-1.5" key={controlItem.name}>
+            <Label className="font-medium">{controlItem.label}</Label>
             {renderInputsByComponentType(controlItem)}
           </div>
         ))}
       </div>
-      <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full">
+      <Button
+        disabled={isBtnDisabled}
+        type="submit"
+        className="mt-6 w-full bg-green-500 text-white"
+      >
         {buttonText || "Submit"}
       </Button>
     </form>
