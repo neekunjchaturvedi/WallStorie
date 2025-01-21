@@ -27,7 +27,7 @@ const initialFormData = {
   description: "",
   productType: "",
   category: "",
-  collection: "",
+  collections: "",
   color: "",
   material: "",
   dimensions: "",
@@ -73,7 +73,6 @@ function Products() {
             id: currentEditedId,
             formData: {
               ...formData,
-              image: uploadedImageUrl || formData.image,
             },
           })
         ).unwrap();
@@ -154,15 +153,30 @@ function Products() {
   };
 
   const isFormValid = () => {
-    return Object.values(formData)
-      .filter((_, index) => index !== 0) // Exclude image from validation
-      .every((value) => value !== "");
-  };
+    // List of required fields (exclude optional fields if any)
+    const requiredFields = [
+      "productName",
+      "description",
+      "productType",
+      "category",
+      "price",
+      "stockQuantity",
+    ];
 
+    return requiredFields.every(
+      (field) =>
+        formData[field] !== undefined &&
+        formData[field] !== null &&
+        formData[field] !== ""
+    );
+  };
   return (
     <Fragment>
       <div className="mb-5 w-full flex justify-end">
-        <Button onClick={() => setOpenCreateProductsDialog(true)}>
+        <Button
+          onClick={() => setOpenCreateProductsDialog(true)}
+          className="bg-green-300 text-black hover:bg-green-200"
+        >
           Add New Product
         </Button>
       </div>

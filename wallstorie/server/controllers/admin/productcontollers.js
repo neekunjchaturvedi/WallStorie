@@ -29,7 +29,7 @@ const addProduct = async (req, res) => {
       description,
       productType,
       category,
-      collection,
+      collections,
       color,
       material,
       dimensions,
@@ -40,11 +40,11 @@ const addProduct = async (req, res) => {
 
     const newProduct = new Product({
       image,
-      ProductName: productName,
+      productName: productName,
       description,
       productType,
       category,
-      collection,
+      collections,
       color,
       material,
       dimensions,
@@ -94,7 +94,7 @@ const editProduct = async (req, res) => {
       description,
       productType,
       category,
-      collection,
+      collections,
       color,
       material,
       dimensions,
@@ -112,11 +112,11 @@ const editProduct = async (req, res) => {
     }
 
     product.image = image || product.image;
-    product.ProductName = productName || product.ProductName;
+    product.productName = productName || product.ProductName;
     product.description = description || product.description;
     product.productType = productType || product.productType;
     product.category = category || product.category;
-    product.collection = collection || product.collection;
+    product.collections = collections || product.collections;
     product.color = color || product.color;
     product.material = material || product.material;
     product.dimensions = dimensions || product.dimensions;
