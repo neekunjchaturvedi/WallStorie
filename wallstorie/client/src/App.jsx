@@ -15,7 +15,6 @@ import Curtains from "./pages/Shopping/Curtains";
 import Blinds from "./pages/Shopping/Blinds";
 import Accounts from "./pages/Shopping/Accounts";
 import Checkout from "./pages/Shopping/Checkout";
-import Storie from "./components/storie";
 import Unauth from "./pages/unauth";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
@@ -23,39 +22,39 @@ import { useEffect } from "react";
 import CheckAuth from "./components/common/Checkauth";
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useSelector(
-    (state) => state.auth
-  );
-
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
 
   // if (isLoading) return <Skeleton className="w-[800] bg-green-100 h-[600px]" />;
 
-  console.log(isLoading, user);
-
   return (
     <Routes>
-      {/* Storie Routes */}
+      <Route path="home" element={<Home />} />
+      <Route path="wallpapers" element={<WallPapers />} />
+      <Route path="wallpaperrolls" element={<Wallpaperrolls />} />
+      <Route path="curtain" element={<Curtains />} />
+      <Route path="blinds" element={<Blinds />} />
+
+      {/* Auth-Protected Routes */}
       <Route
-        path="/storie"
+        path="profile"
         element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <Storie />
+            <Accounts />
           </CheckAuth>
         }
-      >
-        <Route path="home" element={<Home />} />
-        <Route path="wallpapers" element={<WallPapers />} />
-        <Route path="wallpaperrolls" element={<Wallpaperrolls />} />
-        <Route path="curtain" element={<Curtains />} />
-        <Route path="blinds" element={<Blinds />} />
-        <Route path="profile" element={<Accounts />} />
-        <Route path="checkout" element={<Checkout />} />
-      </Route>
+      />
+      <Route
+        path="checkout"
+        element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+            <Checkout />
+          </CheckAuth>
+        }
+      />
 
       {/* Authentication Routes */}
       <Route

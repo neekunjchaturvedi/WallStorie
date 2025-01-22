@@ -31,7 +31,7 @@ const Carousel = () => {
 
   return (
     <>
-      <div>
+      <div className="flex flex-col justify-center items-center">
         <h2 className="text-3xl font-bold text-green-700">Shop By Category</h2>
         <p className="text-gray-700 mt-2 font-lato">
           Tailored Services to Elevate Your Space

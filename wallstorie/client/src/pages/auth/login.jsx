@@ -33,7 +33,6 @@ export default function Login() {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Redirect to the signup page
   const redirect = () => {
     nav("/auth/register");
   };

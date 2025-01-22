@@ -5,7 +5,8 @@ const initialState = {
   isAuthenticated: false,
   isLoading: false,
   user: null,
-  error: null, // To store error messages
+  error: null,
+  // To store error messages
 };
 
 // Register User

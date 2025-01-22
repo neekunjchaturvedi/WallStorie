@@ -12,7 +12,7 @@ function CheckAuth({ isAuthenticated, user, children }) {
       if (user?.role === "admin") {
         return <Navigate to="/admin/dashboard" />;
       } else {
-        return <Navigate to="/storie/home" />;
+        return <Navigate to="/home" />;
       }
     }
   }
@@ -35,7 +35,7 @@ function CheckAuth({ isAuthenticated, user, children }) {
     if (user?.role === "admin") {
       return <Navigate to="/admin/dashboard" />;
     } else {
-      return <Navigate to="/storie/home" />;
+      return <Navigate to="/home" />;
     }
   }
 
@@ -50,7 +50,13 @@ function CheckAuth({ isAuthenticated, user, children }) {
   if (
     isAuthenticated &&
     user?.role === "admin" &&
-    location.pathname.includes("storie")
+    (location.pathname.includes("home") ||
+      location.pathname.includes("wallpapers") ||
+      location.pathname.includes("wallpaperrolls") ||
+      location.pathname.includes("curtain") ||
+      location.pathname.includes("blinds") ||
+      location.pathname.includes("checkout") ||
+      location.pathname.includes("profile"))
   ) {
     return <Navigate to="/admin/dashboard" />;
   }

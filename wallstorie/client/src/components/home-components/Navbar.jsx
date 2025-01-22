@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const nav = useNavigate();
   return (
     <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10">
       {/* Hamburger Menu Button */}
@@ -15,8 +16,11 @@ const Navbar = () => {
         </button>
       </div>
       {/* Logo */}
-      <div className="flex items-center">
+      <div className="flex items-center cursor-pointer">
         <img
+          onClick={() => {
+            return nav("/home");
+          }}
           src="/src/assets/logo.png"
           alt="Wall Storie"
           className="h-16 w-auto mr-4"
@@ -27,40 +31,50 @@ const Navbar = () => {
       <ul className="hidden md:flex space-x-8 text-[#4a4a4a] font-medium text-lg">
         <li>
           <a
-            href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return nav("/wallpapers");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Wallpapers
           </a>
         </li>
         <li>
           <a
-            href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return nav("/wallpaperrolls");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Wallpaper rolls
           </a>
         </li>
         <li>
           <a
-            href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return nav("/blinds");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Blinds
           </a>
         </li>
         <li>
           <a
-            href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return nav("/curtain");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Curtain
           </a>
         </li>
         <li>
           <a
-            href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return nav("/contact");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Contact us
           </a>

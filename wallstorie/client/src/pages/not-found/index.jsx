@@ -9,7 +9,7 @@ export default function NotFound() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <h1 className="text-5xl p-5">404 Page Not Found</h1>
       <p className="p-3">Redirect to the home page</p>
       <Homebutton />

@@ -5,7 +5,7 @@ function Homebutton() {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate("/storie/home");
+    navigate("/home");
   };
   return (
     <button

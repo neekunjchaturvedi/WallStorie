@@ -1,9 +1,8 @@
-import React from 'react'
+import Navbar from "@/components/home-components/Navbar";
+import React from "react";
 
 function WallPapers() {
-  return (
-    <div>WallPapers</div>
-  )
+  return <div>wallpapers</div>;
 }
 
-export default WallPapers
+export default WallPapers;
