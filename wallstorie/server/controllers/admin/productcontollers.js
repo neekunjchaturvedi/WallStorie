@@ -163,7 +163,7 @@ const editProduct = async (req, res) => {
 
     await product.save();
 
-    console.log(`Product updated: ${id} by user 22951a3363`);
+    console.log(`Product updated: ${id} by admin`);
 
     res.status(200).json({
       success: true,
@@ -192,7 +192,7 @@ const deleteProduct = async (req, res) => {
     }
 
     // Log the product details before deletion
-    console.log(`Product being deleted: ${id} by user 22951a3363`);
+    console.log(`Product being deleted: ${id} by admin`);
 
     await Product.deleteOne({ _id: id });
 

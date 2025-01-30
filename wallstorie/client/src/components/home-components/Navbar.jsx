@@ -112,13 +112,17 @@ const Navbar = () => {
           </button>
 
           <a
-            href="#"
+            onClick={() => {
+              return nav("/wallpapers");
+            }}
             className="hover:text-green-700 transition-colors duration-300"
           >
             Wallpapers
           </a>
           <a
-            href="#"
+            onClick={() => {
+              return nav("/wallpaperrolls");
+            }}
             className="hover:text-green-700 transition-colors duration-300"
           >
             Wallpaper rolls
