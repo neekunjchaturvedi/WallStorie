@@ -3,9 +3,9 @@ import { ArrowRight } from "lucide-react";
 
 const Productgrid = ({ products }) => {
     return (
-      <div className="px-10 mb-6">
+      <div className="px-16 mb-6">
         {/* Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
           {products.map((product, index) => (
             <div
               key={index}
