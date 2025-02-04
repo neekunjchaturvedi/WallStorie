@@ -4,7 +4,7 @@ import { ActivityLogIcon } from "@radix-ui/react-icons";
 import React, { useEffect, useState } from "react";
 import FilterDropdown from "@/components/shopping/filterdropdown";
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getWallpaper } from "@/store/shop/productslice";
 
 function capitalizeFirstLetter(string) {
@@ -24,18 +24,18 @@ function Layout() {
   }, [dispatch]);
 
   console.log(productList);
-  //   const wallpapers = [
-  //     {
-  //       name: "Tropical",
-  //       image: "https://source.unsplash.com/300x300/?tropical",
-  //     },
-  //     {
-  //       name: "Heritage",
-  //       image: "https://source.unsplash.com/300x300/?heritage",
-  //     },
-  //     { name: "Divine", image: "https://source.unsplash.com/300x300/?ganesha" },
-  //     { name: "Kids series", image: "https://source.unsplash.com/300x300/?kids" },
-  //   ];
+  const wallpapers = [
+    {
+      name: "Tropical",
+      image: "https://source.unsplash.com/300x300/?tropical",
+    },
+    {
+      name: "Heritage",
+      image: "https://source.unsplash.com/300x300/?heritage",
+    },
+    { name: "Divine", image: "https://source.unsplash.com/300x300/?ganesha" },
+    { name: "Kids series", image: "https://source.unsplash.com/300x300/?kids" },
+  ];
   return (
     <div>
       <UserLayout />

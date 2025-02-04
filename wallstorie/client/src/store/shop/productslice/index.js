@@ -1,20 +1,17 @@
 import axios from "axios";
-
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
-  productlist: [],
+  productList: [],
 };
 
 export const getWallpaper = createAsyncThunk(
-  "/products/fetchAllProducts",
-  async () => {
-    const result = await axios.get(
-      "http://localhost:5000/api/shop/products/get"
-    );
+  "/products/getWallpaper",
 
-    return result?.data;
+  async () => {
+    const res = await axios.get("http://localhost:5000/api/admin/products/get");
+    return res?.data;
   }
 );
 
@@ -24,14 +21,16 @@ const shopProductSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getWallpaper.pending, (state, action) => {
+      .addCase(getWallpaper.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getWallpaper.fulfilled, (state, action) => {
-        (state.isLoading = false), (state.productlist = action.payload);
+        state.isLoading = false;
+        state.productList = action.payload.data;
       })
-      .addCase(getWallpaper.rejected, (state, action) => {
-        (state.isLoading = false), (state.productlist = []);
+      .addCase(getWallpaper.rejected, (state) => {
+        state.isLoading = false;
+        state.productList = [];
       });
   },
 });
