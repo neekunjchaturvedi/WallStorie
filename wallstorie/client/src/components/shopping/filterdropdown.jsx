@@ -31,7 +31,7 @@ function FilterDropdown() {
   };
 
   return (
-    <div className="w-72 bg-white shadow-lg rounded-lg p-4 border">
+    <div>
       <h2 className="text-lg font-semibold text-green-700 mb-3">Filter</h2>
 
       {/* Price Range */}

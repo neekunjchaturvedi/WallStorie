@@ -5,22 +5,32 @@ import React, { useEffect, useState } from "react";
 import FilterDropdown from "@/components/shopping/filterdropdown";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getWallpaper } from "@/store/shop/productslice";
+import {
+  getblinds,
+  getWallpaper,
+  getWallpaperrolls,
+} from "@/store/shop/productslice";
 
 function capitalizeFirstLetter(string) {
   if (!string) return "";
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 function Layout() {
-  const location = useLocation(); // Get the current location
-  const pathSegments = location.pathname.split("/"); // Split the pathname into segments
+  const location = useLocation();
+  const pathSegments = location.pathname.split("/");
   const name = pathSegments[pathSegments.length - 1];
   const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.shopProducts);
   useEffect(() => {
-    dispatch(getWallpaper());
+    if (name == "wallpapers") {
+      dispatch(getWallpaper());
+    } else if (name == "wallpaperrolls") {
+      dispatch(getWallpaperrolls());
+    } else if (name == "blinds") {
+      dispatch(getblinds());
+    }
   }, [dispatch]);
 
   console.log(productList);
@@ -66,7 +76,6 @@ function Layout() {
                   Filters <ActivityLogIcon />
                 </div>
 
-                {/* Dropdown */}
                 {isOpen && (
                   <div className="absolute mt-2 left-0 z-50 bg-white shadow-lg rounded-lg border p-4 w-72">
                     <FilterDropdown />
@@ -105,7 +114,9 @@ function Layout() {
           ))}
         </div>
       </div>
-      {/* <Productgrid products={sampleProducts} /> */}
+      <div className="p-7">
+        <Productgrid products={productList} />
+      </div>
     </div>
   );
 }

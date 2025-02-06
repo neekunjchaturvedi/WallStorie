@@ -1,9 +1,12 @@
-import React from 'react'
+import Layout from "@/components/shopping/layout";
+import React from "react";
 
 function Wallpaperrolls() {
   return (
-    <div>Wallpaperrolls</div>
-  )
+    <div>
+      <Layout />
+    </div>
+  );
 }
 
-export default Wallpaperrolls
+export default Wallpaperrolls;
