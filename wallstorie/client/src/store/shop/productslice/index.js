@@ -8,23 +8,43 @@ const initialState = {
 
 export const getWallpaper = createAsyncThunk(
   "products/getWallpaper",
-  async () => {
-    const res = await axios.get("http://localhost:5000/api/shop/products/get");
+  async (sortOption) => {
+    const res = await axios.get(
+      `http://localhost:5000/api/shop/products/get?sort=${sortOption}`
+    );
     return res?.data;
   }
 );
 
 export const getWallpaperrolls = createAsyncThunk(
   "products/getWallpaperrolls",
-  async () => {
-    const res = await axios.get("http://localhost:5000/api/shop/products/getr");
+  async (sortOption) => {
+    const res = await axios.get(
+      `http://localhost:5000/api/shop/products/getr?sort=${sortOption}`
+    );
     return res?.data;
   }
 );
-export const getblinds = createAsyncThunk("products/getblinds", async () => {
-  const res = await axios.get("http://localhost:5000/api/shop/products/getb");
-  return res?.data;
-});
+
+export const getblinds = createAsyncThunk(
+  "products/getblinds",
+  async (sortOption) => {
+    const res = await axios.get(
+      `http://localhost:5000/api/shop/products/getb?sort=${sortOption}`
+    );
+    return res?.data;
+  }
+);
+
+export const getcur = createAsyncThunk(
+  "products/getcurtains",
+  async (sortOption) => {
+    const res = await axios.get(
+      `http://localhost:5000/api/shop/products/getc?sort=${sortOption}`
+    );
+    return res?.data;
+  }
+);
 
 const shopProductSlice = createSlice({
   name: "Shopproducts",
@@ -62,6 +82,17 @@ const shopProductSlice = createSlice({
         state.productList = action.payload.data;
       })
       .addCase(getblinds.rejected, (state) => {
+        state.isLoading = false;
+        state.productList = [];
+      })
+      .addCase(getcur.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getcur.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.productList = action.payload.data;
+      })
+      .addCase(getcur.rejected, (state) => {
         state.isLoading = false;
         state.productList = [];
       });

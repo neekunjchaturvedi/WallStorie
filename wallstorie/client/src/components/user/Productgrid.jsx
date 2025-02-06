@@ -26,11 +26,11 @@ const Productgrid = ({ products }) => {
             </div>
 
             {/* Product Info */}
-            <div className="p-4">
-              <h3 className="text-lg font-semibold text-green-800">
+            <div className="p-4 flex flex-col justify-end">
+              <h3 className="text-lg font-semibold text-green-800 font-lato">
                 {product?.productName || "Unnamed Product"}
               </h3>
-              <p className="text-gray-600 mt-1">
+              <p className="text-gray-600 mt-1 font-lato">
                 ₹ {product?.salePrice || product?.price || "N/A"}/sq.ft.
               </p>
 

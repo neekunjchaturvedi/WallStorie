@@ -82,7 +82,7 @@ const Navbar = () => {
       </ul>
 
       {/* Right Icons on Larger Screens */}
-      <div className="hidden md:flex items-center space-x-4 text-[#4a4a4a] text-xl">
+      <div className="hidden md:flex items-center space-x-4 text-[#4a4a4a] text-xl w-28 justify-between">
         <button className="hover:text-green-700 transition-colors duration-300">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -115,7 +115,7 @@ const Navbar = () => {
             onClick={() => {
               return nav("/wallpapers");
             }}
-            className="hover:text-green-700 transition-colors duration-300"
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Wallpapers
           </a>
@@ -123,29 +123,33 @@ const Navbar = () => {
             onClick={() => {
               return nav("/wallpaperrolls");
             }}
-            className="hover:text-green-700 transition-colors duration-300"
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Wallpaper rolls
           </a>
           <a
-            href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return nav("/blinds");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Blinds
           </a>
           <a
-            href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return nav("/curtain");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Curtain
           </a>
           <a
             href="#"
-            className="hover:text-green-700 transition-colors duration-300"
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Contact us
           </a>
-          <div className="items-center space-x-6 text-[#4a4a4a] text-xl">
+          <div className="items-center space-x-6 text-[#4a4a4a] text-xl ">
             <button className="hover:text-green-700 transition-colors duration-300">
               <i className="fa-solid fa-magnifying-glass"></i>
             </button>
