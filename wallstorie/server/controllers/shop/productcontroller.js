@@ -1,24 +1,40 @@
 const Product = require("../../models/Product");
 
-const getWallpaper = async (req, res) => {
+const getProductsByType = async (req, res, productType) => {
   try {
-    const sortOption = req.query.sort || "popularity";
-    let sortCriteria;
+    const { sort, price, colors, spaces, trends } = req.query;
+    let sortCriteria = { popularity: -1 }; // Default sorting by popularity
+    let filterCriteria = { productType };
 
-    switch (sortOption) {
-      case "latest":
-        sortCriteria = { createdAt: -1 };
-        break;
-      case "price":
-        sortCriteria = { price: 1 };
-        break;
-      default:
-        sortCriteria = { popularity: -1 };
+    // Sorting criteria
+    if (sort) {
+      switch (sort) {
+        case "latest":
+          sortCriteria = { createdAt: -1 };
+          break;
+        case "price":
+          sortCriteria = { price: 1 };
+          break;
+        default:
+          sortCriteria = { popularity: -1 };
+      }
     }
 
-    const products = await Product.find({ productType: "wallpapers" }).sort(
-      sortCriteria
-    );
+    // Filtering criteria
+    if (price) {
+      filterCriteria.price = { $lte: price };
+    }
+    if (colors) {
+      filterCriteria.color = { $in: colors.split(",") };
+    }
+    if (spaces) {
+      filterCriteria.category = { $in: spaces.split(",") };
+    }
+    if (trends) {
+      filterCriteria.trends = { $in: trends.split(",") };
+    }
+
+    const products = await Product.find(filterCriteria).sort(sortCriteria);
     res.status(200).json({
       success: true,
       data: products,
@@ -30,102 +46,22 @@ const getWallpaper = async (req, res) => {
       message: "Error occurred",
     });
   }
+};
+
+const getWallpaper = async (req, res) => {
+  await getProductsByType(req, res, "wallpapers");
 };
 
 const getWallpaperrolls = async (req, res) => {
-  try {
-    const sortOption = req.query.sort || "popularity";
-    let sortCriteria;
-
-    switch (sortOption) {
-      case "latest":
-        sortCriteria = { createdAt: -1 };
-        break;
-      case "price":
-        sortCriteria = { price: 1 };
-        break;
-      default:
-        sortCriteria = { popularity: -1 };
-    }
-
-    const products = await Product.find({ productType: "wallpaperRolls" }).sort(
-      sortCriteria
-    );
-    res.status(200).json({
-      success: true,
-      data: products,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({
-      success: false,
-      message: "Error occurred",
-    });
-  }
+  await getProductsByType(req, res, "wallpaperRolls");
 };
 
 const getblinds = async (req, res) => {
-  try {
-    const sortOption = req.query.sort || "popularity";
-    let sortCriteria;
-
-    switch (sortOption) {
-      case "latest":
-        sortCriteria = { createdAt: -1 };
-        break;
-      case "price":
-        sortCriteria = { price: 1 };
-        break;
-      default:
-        sortCriteria = { popularity: -1 };
-    }
-
-    const products = await Product.find({ productType: "blinds" }).sort(
-      sortCriteria
-    );
-    res.status(200).json({
-      success: true,
-      data: products,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({
-      success: false,
-      message: "Error occurred",
-    });
-  }
+  await getProductsByType(req, res, "blinds");
 };
 
 const getcur = async (req, res) => {
-  try {
-    const sortOption = req.query.sort || "popularity";
-    let sortCriteria;
-
-    switch (sortOption) {
-      case "latest":
-        sortCriteria = { createdAt: -1 };
-        break;
-      case "price":
-        sortCriteria = { price: 1 };
-        break;
-      default:
-        sortCriteria = { popularity: -1 };
-    }
-
-    const products = await Product.find({ productType: "curtains" }).sort(
-      sortCriteria
-    );
-    res.status(200).json({
-      success: true,
-      data: products,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({
-      success: false,
-      message: "Error occurred",
-    });
-  }
+  await getProductsByType(req, res, "curtains");
 };
 
 module.exports = { getWallpaper, getWallpaperrolls, getblinds, getcur };

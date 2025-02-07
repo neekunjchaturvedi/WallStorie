@@ -6,11 +6,27 @@ const initialState = {
   productList: [],
 };
 
+const generateQueryString = (sortOption, filters) => {
+  const queryParams = new URLSearchParams();
+  if (sortOption) queryParams.append("sort", sortOption);
+  if (filters) {
+    for (const [key, value] of Object.entries(filters)) {
+      if (Array.isArray(value) && value.length) {
+        queryParams.append(key, value.join(","));
+      } else if (value) {
+        queryParams.append(key, value);
+      }
+    }
+  }
+  return queryParams.toString();
+};
+
 export const getWallpaper = createAsyncThunk(
   "products/getWallpaper",
-  async (sortOption) => {
+  async ({ sortOption = "popularity", filters = {} }) => {
+    const query = generateQueryString(sortOption, filters);
     const res = await axios.get(
-      `http://localhost:5000/api/shop/products/get?sort=${sortOption}`
+      `http://localhost:5000/api/shop/products/get?${query}`
     );
     return res?.data;
   }
@@ -18,9 +34,10 @@ export const getWallpaper = createAsyncThunk(
 
 export const getWallpaperrolls = createAsyncThunk(
   "products/getWallpaperrolls",
-  async (sortOption) => {
+  async ({ sortOption = "popularity", filters = {} }) => {
+    const query = generateQueryString(sortOption, filters);
     const res = await axios.get(
-      `http://localhost:5000/api/shop/products/getr?sort=${sortOption}`
+      `http://localhost:5000/api/shop/products/getr?${query}`
     );
     return res?.data;
   }
@@ -28,9 +45,10 @@ export const getWallpaperrolls = createAsyncThunk(
 
 export const getblinds = createAsyncThunk(
   "products/getblinds",
-  async (sortOption) => {
+  async ({ sortOption = "popularity", filters = {} }) => {
+    const query = generateQueryString(sortOption, filters);
     const res = await axios.get(
-      `http://localhost:5000/api/shop/products/getb?sort=${sortOption}`
+      `http://localhost:5000/api/shop/products/getb?${query}`
     );
     return res?.data;
   }
@@ -38,9 +56,10 @@ export const getblinds = createAsyncThunk(
 
 export const getcur = createAsyncThunk(
   "products/getcurtains",
-  async (sortOption) => {
+  async ({ sortOption = "popularity", filters = {} }) => {
+    const query = generateQueryString(sortOption, filters);
     const res = await axios.get(
-      `http://localhost:5000/api/shop/products/getc?sort=${sortOption}`
+      `http://localhost:5000/api/shop/products/getc?${query}`
     );
     return res?.data;
   }
