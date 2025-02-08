@@ -20,7 +20,6 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
   const [openSections, setOpenSections] = useState({
     price: true,
     colors: true,
-    themes: true,
     spaces: true,
     trends: true,
   });
@@ -129,11 +128,13 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
         {openSections.spaces && (
           <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
             {[
-              "Living room",
-              "Bedroom",
-              "Office room",
-              "Pooja room",
-              "Kids room",
+              "Living Room",
+              "Bed Room",
+              "Kids Room",
+              "Office Room",
+              "Pooja Room",
+              "Dining Room",
+              "Balcony",
             ].map((space, index) => (
               <label key={space} className="flex items-center space-x-2">
                 <input
@@ -150,7 +151,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
       </div>
 
       {/* Trends */}
-      <div className="border-b pb-3 mb-3">
+      <div className="border-b pb-3 mb-3 ">
         <div
           className="flex justify-between items-center cursor-pointer"
           onClick={() => toggleSection("trends")}
@@ -163,8 +164,14 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
           )}
         </div>
         {openSections.trends && (
-          <div className="mt-2 space-y-1">
-            {["Bestseller", "New Arrival", "Seasonal Special"].map((trend) => (
+          <div className="mt-2 space-y-1 grid grid-cols-2 gap-x-4 gap-y-2">
+            {[
+              "Bestseller",
+              "Trending",
+              "Popular",
+              "New Arrival",
+              "Seasonal",
+            ].map((trend) => (
               <label key={trend} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
@@ -192,10 +199,9 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
           onClick={() =>
             setFilters({
               price: 0,
-              themes: [],
+              colors: [],
               spaces: [],
               trends: [],
-              colors: [],
             })
           }
         >

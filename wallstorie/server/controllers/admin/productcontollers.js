@@ -46,8 +46,8 @@ const addProduct = async (req, res) => {
       description,
       productType,
       category,
-      collections,
       color,
+      trend,
       material,
       dimensions,
       price,
@@ -60,7 +60,7 @@ const addProduct = async (req, res) => {
       !productName ||
       !description ||
       !productType ||
-      !category ||
+      (productType !== "wallpaperRolls" && !category) ||
       !price ||
       !stockQuantity
     ) {
@@ -87,15 +87,16 @@ const addProduct = async (req, res) => {
       description,
       productType,
       category,
-      collections,
+
       color,
+      trend,
       material,
       dimensions,
       price,
       salePrice,
       stockQuantity,
       createdAt: new Date().toISOString(),
-      createdBy: "22951a3363",
+      createdBy: "admin",
     });
 
     await newProduct.save();
@@ -159,7 +160,7 @@ const editProduct = async (req, res) => {
 
     // Add audit fields
     product.updatedAt = new Date().toISOString();
-    product.updatedBy = "22951a3363";
+    product.updatedBy = "admin";
 
     await product.save();
 
