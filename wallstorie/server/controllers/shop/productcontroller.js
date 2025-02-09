@@ -1,41 +1,49 @@
-const Product = require("../../models/Product");
+const Product = require("../../models/Product"); // Adjust the path according to your project structure
 
+// Utility function for error handling
+const handleError = (res, error) => {
+  console.error("Error:", error);
+  return res.status(500).json({
+    success: false,
+    message: "Error occurred while processing request",
+    error: error.message,
+  });
+};
+
+// Main function to get products by type
 const getProductsByType = async (req, res, productType) => {
   try {
-    const { sort = "popularity", price, colors, spaces, trends } = req.query;
-    let sortCriteria = {};
+    const { sort, price, spaces, trends } = req.query;
+    let sortCriteria = { popularity: -1 }; // Default sorting by popularity
     let filterCriteria = { productType };
 
     // Sorting criteria
-    switch (sort) {
-      case "latest":
-        sortCriteria = { createdAt: -1 };
-        break;
-      case "price":
-        sortCriteria = { price: 1 };
-        break;
-      case "popularity":
-      default:
-        sortCriteria = { popularity: -1 };
-        break;
+    if (sort) {
+      switch (sort) {
+        case "latest":
+          sortCriteria = { createdAt: -1 };
+          break;
+        case "price":
+          sortCriteria = { price: 1 };
+          break;
+        default:
+          sortCriteria = { popularity: -1 };
+      }
     }
 
     // Filtering criteria
-    if (price && parseInt(price) > 0) {
-      filterCriteria.price = { $lte: parseInt(price) };
+    if (price && parseFloat(price) > 0) {
+      filterCriteria.price = { $lte: parseFloat(price) };
     }
 
-    if (colors && colors.length) {
-      const colorArray = colors.split(",");
-      filterCriteria.color = { $in: colorArray };
-    }
-
-    if (spaces && spaces.length) {
+    // Space filtering
+    if (spaces) {
       const spaceArray = spaces.split(",");
       filterCriteria.space = { $in: spaceArray };
     }
 
-    if (trends && trends.length) {
+    // Trend filtering
+    if (trends) {
       const trendArray = trends.split(",");
       filterCriteria.trend = { $in: trendArray };
     }
@@ -45,22 +53,17 @@ const getProductsByType = async (req, res, productType) => {
 
     const products = await Product.find(filterCriteria).sort(sortCriteria);
 
-    console.log(`Found ${products.length} products`);
-
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: products,
+      count: products.length,
     });
-  } catch (e) {
-    console.error("Error in getProductsByType:", e);
-    res.status(500).json({
-      success: false,
-      message: "Error occurred while fetching products",
-      error: e.message,
-    });
+  } catch (error) {
+    return handleError(res, error);
   }
 };
 
+// Controller functions for specific product types
 const getWallpaper = async (req, res) => {
   await getProductsByType(req, res, "wallpapers");
 };
@@ -77,4 +80,10 @@ const getcur = async (req, res) => {
   await getProductsByType(req, res, "curtains");
 };
 
-module.exports = { getWallpaper, getWallpaperrolls, getblinds, getcur };
+// Export all controller functions
+module.exports = {
+  getWallpaper,
+  getWallpaperrolls,
+  getblinds,
+  getcur,
+};

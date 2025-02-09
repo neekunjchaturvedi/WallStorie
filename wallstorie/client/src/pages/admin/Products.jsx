@@ -30,13 +30,18 @@ const initialFormData = {
   description: "",
   productType: "",
   category: "",
-  collections: "",
   color: "",
-  material: "",
-  dimensions: "",
+  trend: "",
+  space: "",
   price: "",
   salePrice: "",
+  discount: "",
   stockQuantity: "",
+  popularity: 0,
+  createdAt: "",
+  updatedAt: "",
+  createdBy: "",
+  updatedBy: "",
 };
 
 function Products() {
@@ -58,6 +63,13 @@ function Products() {
     false,
   ]);
   const [currentEditedId, setCurrentEditedId] = useState(null);
+
+  const currentUser = "22951a3363"; // Current user's login
+
+  const getCurrentUTCDateTime = () => {
+    const now = new Date();
+    return now.toISOString().slice(0, 19).replace("T", " ");
+  };
 
   useEffect(() => {
     dispatch(fetchAllProducts());
@@ -83,6 +95,25 @@ function Products() {
     setImageLoadingStates([false, false, false, false]);
   };
 
+  const isFormValid = () => {
+    const requiredFields = [
+      "productName",
+      "description",
+      "productType",
+      "price",
+      "stockQuantity",
+      "image1",
+    ];
+
+    return requiredFields.every((field) => {
+      const value = formData[field];
+      if (typeof value === "number") {
+        return value !== null && !isNaN(value);
+      }
+      return value !== undefined && value !== null && value !== "";
+    });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -104,16 +135,32 @@ function Products() {
       return;
     }
 
+    const currentDateTime = getCurrentUTCDateTime();
+
+    const processedFormData = {
+      ...formData,
+      price: Number(formData.price),
+      salePrice: formData.salePrice ? Number(formData.salePrice) : undefined,
+      discount: formData.discount ? Number(formData.discount) : undefined,
+      stockQuantity: Number(formData.stockQuantity),
+      popularity: Number(formData.popularity || 0),
+      updatedAt: currentDateTime,
+      updatedBy: currentUser,
+    };
+
+    if (!currentEditedId) {
+      processedFormData.createdAt = currentDateTime;
+      processedFormData.createdBy = currentUser;
+    }
+
     try {
       const response = await dispatch(
         currentEditedId
           ? editProduct({
               id: currentEditedId,
-              formData: {
-                ...formData,
-              },
+              formData: processedFormData,
             })
-          : addNewProduct(formData)
+          : addNewProduct(processedFormData)
       ).unwrap();
 
       if (response.success) {
@@ -153,24 +200,6 @@ function Products() {
         description: "Failed to delete product",
       });
     }
-  };
-
-  const isFormValid = () => {
-    const requiredFields = [
-      "productName",
-      "description",
-      "productType",
-      "category",
-      "price",
-      "stockQuantity",
-    ];
-
-    return requiredFields.every(
-      (field) =>
-        formData[field] !== undefined &&
-        formData[field] !== null &&
-        formData[field] !== ""
-    );
   };
 
   return (

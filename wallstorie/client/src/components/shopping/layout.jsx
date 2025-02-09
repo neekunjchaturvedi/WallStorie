@@ -31,7 +31,6 @@ function Layout() {
   const [sortOption, setSortOption] = useState("popularity");
   const [filters, setFilters] = useState({
     price: "0",
-    colors: [],
     spaces: [],
     trends: [],
   });
@@ -39,28 +38,28 @@ function Layout() {
   const { productList, isLoading } = useSelector((state) => state.shopProducts);
 
   const fetchProducts = () => {
-    const queryParams = {
+    console.log("Fetching products with filters:", filters);
+    const options = {
       sortOption,
       filters: {
         price: filters.price,
-        colors: filters.colors.join(","),
-        spaces: filters.spaces.join(","),
-        trends: filters.trends.join(","),
+        spaces: filters.spaces,
+        trends: filters.trends,
       },
     };
 
     switch (name) {
       case "wallpapers":
-        dispatch(getWallpaper(queryParams));
+        dispatch(getWallpaper(options));
         break;
       case "wallpaperrolls":
-        dispatch(getWallpaperrolls(queryParams));
+        dispatch(getWallpaperrolls(options));
         break;
       case "blinds":
-        dispatch(getblinds(queryParams));
+        dispatch(getblinds(options));
         break;
       default:
-        dispatch(getcur(queryParams));
+        dispatch(getcur(options));
         break;
     }
   };
@@ -74,6 +73,7 @@ function Layout() {
   };
 
   const applyFilters = () => {
+    console.log("Applying filters:", filters);
     fetchProducts();
   };
 
@@ -107,7 +107,7 @@ function Layout() {
         image: "https://source.unsplash.com/300x300/?roman_blinds",
       },
     ],
-    curtains: [
+    curtain: [
       {
         name: "Drape",
         image: "https://source.unsplash.com/300x300/?drape_curtains",
@@ -122,6 +122,8 @@ function Layout() {
   return (
     <div>
       <UserLayout />
+
+      {/* Header Section */}
       <div className="flex flex-col justify-center items-center">
         <h2 className="text-3xl font-bold text-green-700 mb-3">
           {capitalizeFirstLetter(name)}
@@ -131,12 +133,16 @@ function Layout() {
         </p>
       </div>
 
+      {/* Main Content Section */}
       <div className="px-4 sm:px-6 lg:px-24">
+        {/* Breadcrumb and Filters */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12">
           <div className="text-gray-500 mb-4 sm:mb-0 flex font-lato">
             Home / {name}
           </div>
+
           <div className="flex gap-4">
+            {/* Filter Sheet */}
             <Sheet>
               <SheetTrigger asChild>
                 <button className="flex items-center gap-2 border px-4 py-2 rounded-lg text-green-700 hover:bg-green-50">
@@ -153,6 +159,7 @@ function Layout() {
               </SheetContent>
             </Sheet>
 
+            {/* Sort Dropdown */}
             <select
               className="border px-4 py-2 rounded-lg text-black hover:bg-green-50 bg-white outline-none"
               value={sortOption}
@@ -165,6 +172,7 @@ function Layout() {
           </div>
         </div>
 
+        {/* Category Images Grid */}
         {categoryImages[name] && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
             {categoryImages[name].map((item, index) => (
@@ -183,14 +191,22 @@ function Layout() {
         )}
       </div>
 
+      {/* Products Grid */}
       <div className="px-4 sm:px-6 lg:px-7">
         {isLoading ? (
-          <div>Loading products...</div>
-        ) : (
+          <div className="flex justify-center items-center min-h-[200px]">
+            <p>Loading products...</p>
+          </div>
+        ) : productList && productList.length > 0 ? (
           <Productgrid products={productList} />
+        ) : (
+          <div className="flex justify-center items-center min-h-[200px]">
+            <p>No products found</p>
+          </div>
         )}
       </div>
 
+      {/* Footer */}
       <Footer />
       <Bottomfoot />
     </div>

@@ -1,10 +1,14 @@
 const { imageUploadUtil } = require("../../helpers/cloudinary");
 const Product = require("../../models/Product");
 
+// Utility function for current UTC datetime
+const getCurrentUTCDateTime = () => {
+  return new Date().toISOString().slice(0, 19).replace("T", " ");
+};
+
 // Handle image upload with tracking
 const handleImageUpload = async (req, res) => {
   try {
-    // Check for file
     if (!req.file) {
       return res.status(400).json({
         success: false,
@@ -12,7 +16,6 @@ const handleImageUpload = async (req, res) => {
       });
     }
 
-    // Convert file to base64
     const b64 = Buffer.from(req.file.buffer).toString("base64");
     const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
@@ -48,19 +51,20 @@ const addProduct = async (req, res) => {
       category,
       color,
       trend,
-      material,
-      dimensions,
+      space,
       price,
       salePrice,
+      discount,
       stockQuantity,
+      popularity,
     } = req.body;
 
     // Validate required fields
     if (
+      !image1 ||
       !productName ||
       !description ||
       !productType ||
-      (productType !== "wallpaperRolls" && !category) ||
       !price ||
       !stockQuantity
     ) {
@@ -70,33 +74,28 @@ const addProduct = async (req, res) => {
       });
     }
 
-    // Validate at least one image
-    if (!image1) {
-      return res.status(400).json({
-        success: false,
-        message: "Primary image is required",
-      });
-    }
-
+    // Create new product with all schema fields
     const newProduct = new Product({
       image1,
-      image2,
-      image3,
-      image4,
+      image2: image2 || "",
+      image3: image3 || "",
+      image4: image4 || "",
       productName,
       description,
       productType,
-      category,
-
-      color,
-      trend,
-      material,
-      dimensions,
-      price,
-      salePrice,
-      stockQuantity,
-      createdAt: new Date().toISOString(),
-      createdBy: "admin",
+      category: category || "",
+      color: color || "",
+      trend: trend || "",
+      space: space || "",
+      price: Number(price),
+      salePrice: salePrice ? Number(salePrice) : undefined,
+      discount: discount ? Number(discount) : undefined,
+      stockQuantity: Number(stockQuantity),
+      popularity: Number(popularity || 0),
+      createdAt: getCurrentUTCDateTime(),
+      createdBy: "22951a3363",
+      updatedAt: getCurrentUTCDateTime(),
+      updatedBy: "22951a3363",
     });
 
     await newProduct.save();
@@ -120,8 +119,8 @@ const addProduct = async (req, res) => {
 const fetchAllProducts = async (req, res) => {
   try {
     const products = await Product.find({})
-      .sort({ createdAt: -1 }) // Sort by newest first
-      .select("-__v"); // Exclude version key
+      .sort({ createdAt: -1 })
+      .select("-__v");
 
     res.status(200).json({
       success: true,
@@ -151,20 +150,43 @@ const editProduct = async (req, res) => {
       });
     }
 
-    // Update only provided fields
+    // Validate required fields if they're being updated
+    if (
+      updates.productName === "" ||
+      updates.description === "" ||
+      updates.productType === "" ||
+      updates.price === "" ||
+      updates.stockQuantity === "" ||
+      updates.image1 === ""
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Required fields cannot be empty",
+      });
+    }
+
+    // Process numeric fields
+    if (updates.price) updates.price = Number(updates.price);
+    if (updates.salePrice) updates.salePrice = Number(updates.salePrice);
+    if (updates.discount) updates.discount = Number(updates.discount);
+    if (updates.stockQuantity)
+      updates.stockQuantity = Number(updates.stockQuantity);
+    if (updates.popularity) updates.popularity = Number(updates.popularity);
+
+    // Update fields
     Object.keys(updates).forEach((key) => {
       if (updates[key] !== undefined) {
         product[key] = updates[key];
       }
     });
 
-    // Add audit fields
-    product.updatedAt = new Date().toISOString();
-    product.updatedBy = "admin";
+    // Update audit fields
+    product.updatedAt = getCurrentUTCDateTime();
+    product.updatedBy = "22951a3363";
 
     await product.save();
 
-    console.log(`Product updated: ${id} by admin`);
+    console.log(`Product updated: ${id} by 22951a3363`);
 
     res.status(200).json({
       success: true,
@@ -192,8 +214,7 @@ const deleteProduct = async (req, res) => {
       });
     }
 
-    // Log the product details before deletion
-    console.log(`Product being deleted: ${id} by admin`);
+    console.log(`Product being deleted: ${id} by 22951a3363`);
 
     await Product.deleteOne({ _id: id });
 

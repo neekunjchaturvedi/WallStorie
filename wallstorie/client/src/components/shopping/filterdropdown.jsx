@@ -2,24 +2,27 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
-  const colors = [
-    "#C0C0C0", // Silver
-    "#000000", // Black
-    "#FF6B6B", // Light Red
-    "#FFD700", // Gold
-    "#4169E1", // Royal Blue
-    "#6A0572", // Purple
-    "#008080", // Teal
-    "#F5DEB3", // Wheat
-    "#DC143C", // Crimson
-    "#87CEEB", // Sky Blue
-    "#964B00", // Brown
-    "#FFB6C1", // Light Pink
+  // Matching exact values from your database schema
+  const spaces = [
+    "LivingRoom",
+    "BedRoom",
+    "KidsRoom",
+    "OfficeRoom",
+    "PoojaRoom",
+    "DiningRoom",
+    "Balcony",
+  ];
+
+  const trends = [
+    "bestseller",
+    "trending",
+    "popular",
+    "newarrival",
+    "seasonal",
   ];
 
   const [openSections, setOpenSections] = useState({
     price: true,
-    colors: true,
     spaces: true,
     trends: true,
   });
@@ -60,54 +63,17 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
               max="17500"
               value={filters.price}
               onChange={(e) =>
-                setFilters({ ...filters, price: e.target.value })
+                setFilters((prev) => ({ ...prev, price: e.target.value }))
               }
               className="w-full appearance-none h-2 rounded-full"
               style={{
                 background: `linear-gradient(to right, #22c55e ${
                   (filters.price / 17500) * 100
                 }%, #E5E7EB ${(filters.price / 17500) * 100}%)`,
-                border: "1px solid #E5E7EB", // Light gray border to make it visible
+                border: "1px solid #E5E7EB",
               }}
             />
             <p className="text-sm text-green-400">₹0 - ₹{filters.price}</p>
-          </div>
-        )}
-      </div>
-
-      {/* Colors */}
-      <div className="border-b pb-3 mb-3">
-        <div
-          className="flex justify-between items-center cursor-pointer"
-          onClick={() => toggleSection("colors")}
-        >
-          <span className="font-medium text-green-800 text-lg">Colors</span>
-          {openSections.colors ? (
-            <ChevronUp size={18} />
-          ) : (
-            <ChevronDown size={18} />
-          )}
-        </div>
-
-        {openSections.colors && (
-          <div className="grid grid-cols-3 gap-4 mt-3">
-            {colors.map((color, index) => (
-              <label
-                key={index}
-                className="flex items-center space-x-2 cursor-pointer"
-              >
-                <input
-                  type="checkbox"
-                  checked={filters.colors.includes(color)}
-                  onChange={() => handleCheckboxChange("colors", color)}
-                  className="appearance-none w-4 h-4 border border-black checked:bg-green-400"
-                />
-                <div
-                  className="w-5 h-5 rounded-full border border-gray-400 bg-white"
-                  style={{ backgroundColor: color }}
-                ></div>
-              </label>
-            ))}
           </div>
         )}
       </div>
@@ -127,15 +93,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
         </div>
         {openSections.spaces && (
           <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
-            {[
-              "Living Room",
-              "Bed Room",
-              "Kids Room",
-              "Office Room",
-              "Pooja Room",
-              "Dining Room",
-              "Balcony",
-            ].map((space, index) => (
+            {spaces.map((space) => (
               <label key={space} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
@@ -151,7 +109,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
       </div>
 
       {/* Trends */}
-      <div className="border-b pb-3 mb-3 ">
+      <div className="border-b pb-3 mb-3">
         <div
           className="flex justify-between items-center cursor-pointer"
           onClick={() => toggleSection("trends")}
@@ -164,14 +122,8 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
           )}
         </div>
         {openSections.trends && (
-          <div className="mt-2 space-y-1 grid grid-cols-2 gap-x-4 gap-y-2">
-            {[
-              "Bestseller",
-              "Trending",
-              "Popular",
-              "New Arrival",
-              "Seasonal",
-            ].map((trend) => (
+          <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
+            {trends.map((trend) => (
               <label key={trend} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
@@ -198,8 +150,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
           className="w-1/2 py-2 border border-gray-400 text-gray-600 font-medium rounded-sm"
           onClick={() =>
             setFilters({
-              price: 0,
-              colors: [],
+              price: "0",
               spaces: [],
               trends: [],
             })

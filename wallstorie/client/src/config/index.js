@@ -100,4 +100,11 @@ export const addProductFormElements = [
     type: "number",
     placeholder: "Enter stock quantity",
   },
+  {
+    label: "Popularity",
+    name: "popularity",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter popularity",
+  },
 ];
