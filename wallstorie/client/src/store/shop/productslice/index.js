@@ -24,8 +24,8 @@ const generateQueryString = (sortOption, filters) => {
     }
 
     // Spaces filter
-    if (filters.spaces && filters.spaces.length > 0) {
-      queryParams.append("spaces", filters.spaces.join(","));
+    if (filters.space && filters.space.length > 0) {
+      queryParams.append("spaces", filters.space.join(","));
     }
 
     // Trends filter
@@ -98,6 +98,31 @@ export const getcur = createAsyncThunk(
   }
 );
 
+export const getProductsByCategory = createAsyncThunk(
+  "products/getByCategory",
+  async ({ category, productType }, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/shop/products/category?category=${category}&productType=${productType}`
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(
+          res.data.message || "Failed to fetch products by category"
+        );
+      }
+
+      return res.data;
+    } catch (error) {
+      console.error("Error in getProductsByCategory:", error);
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "An error occurred while fetching products by category"
+      );
+    }
+  }
+);
+
 const shopProductSlice = createSlice({
   name: "Shopproducts",
   initialState,
@@ -166,6 +191,20 @@ const shopProductSlice = createSlice({
         state.isLoading = false;
         state.productList = [];
         state.error = action.error.message;
+      })
+      .addCase(getProductsByCategory.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getProductsByCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.productList = action.payload.data;
+        state.error = null;
+      })
+      .addCase(getProductsByCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.productList = [];
+        state.error = action.payload || "Failed to fetch products by category";
       });
   },
 });

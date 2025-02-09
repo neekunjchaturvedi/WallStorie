@@ -1,6 +1,5 @@
-const Product = require("../../models/Product"); // Adjust the path according to your project structure
+const Product = require("../../models/Product");
 
-// Utility function for error handling
 const handleError = (res, error) => {
   console.error("Error:", error);
   return res.status(500).json({
@@ -10,14 +9,13 @@ const handleError = (res, error) => {
   });
 };
 
-// Main function to get products by type
 const getProductsByType = async (req, res, productType) => {
   try {
-    const { sort, price, spaces, trends } = req.query;
-    let sortCriteria = { popularity: -1 }; // Default sorting by popularity
+    const { sort, price, space, trends } = req.query;
+    let sortCriteria = { popularity: -1 };
     let filterCriteria = { productType };
 
-    // Sorting criteria
+    // Sorting logic
     if (sort) {
       switch (sort) {
         case "latest":
@@ -31,21 +29,24 @@ const getProductsByType = async (req, res, productType) => {
       }
     }
 
-    // Filtering criteria
+    // Price filter
     if (price && parseFloat(price) > 0) {
       filterCriteria.price = { $lte: parseFloat(price) };
     }
 
-    // Space filtering
-    if (spaces) {
-      const spaceArray = spaces.split(",");
+    // Space filter - Fixed to handle array properly
+    if (space && space.length > 0) {
+      // Check if space is already an array or needs to be split
+      const spaceArray = Array.isArray(space) ? space : space.split(",");
       filterCriteria.space = { $in: spaceArray };
+      console.log("Space filter array:", spaceArray);
     }
 
-    // Trend filtering
-    if (trends) {
-      const trendArray = trends.split(",");
+    // Trends filter
+    if (trends && trends.length > 0) {
+      const trendArray = Array.isArray(trends) ? trends : trends.split(",");
       filterCriteria.trend = { $in: trendArray };
+      console.log("Trends filter array:", trendArray);
     }
 
     console.log("Filter Criteria:", filterCriteria);
@@ -63,7 +64,6 @@ const getProductsByType = async (req, res, productType) => {
   }
 };
 
-// Controller functions for specific product types
 const getWallpaper = async (req, res) => {
   await getProductsByType(req, res, "wallpapers");
 };
@@ -80,10 +80,82 @@ const getcur = async (req, res) => {
   await getProductsByType(req, res, "curtains");
 };
 
-// Export all controller functions
+const getbycategory = async (req, res) => {
+  try {
+    const { category, productType, sortOption, price, space, trends } =
+      req.query;
+
+    if (!category || !productType) {
+      return res.status(400).json({
+        success: false,
+        message: "Category and product type are required",
+      });
+    }
+
+    let filterCriteria = {
+      category: category,
+      productType: productType,
+    };
+
+    // Price filter
+    if (price && price !== "0") {
+      filterCriteria.price = { $lte: parseFloat(price) };
+    }
+
+    // Space filter - Fixed to handle array properly
+    if (space && space.length > 0) {
+      // Check if space is already an array or needs to be split
+      const spaceArray = Array.isArray(space) ? space : space.split(",");
+      filterCriteria.space = { $in: spaceArray };
+      console.log("Space filter array:", spaceArray);
+    }
+
+    // Trends filter
+    if (trends && trends.length > 0) {
+      const trendArray = Array.isArray(trends) ? trends : trends.split(",");
+      filterCriteria.trend = { $in: trendArray };
+      console.log("Trends filter array:", trendArray);
+    }
+
+    let sortCriteria = {};
+    switch (sortOption) {
+      case "latest":
+        sortCriteria = { createdAt: -1 };
+        break;
+      case "price":
+        sortCriteria = { price: 1 };
+        break;
+      default:
+        sortCriteria = { popularity: -1 };
+    }
+
+    console.log("Filter Criteria:", filterCriteria);
+    console.log("Sort Criteria:", sortCriteria);
+
+    const products = await Product.find(filterCriteria)
+      .sort(sortCriteria)
+      .select("-__v");
+
+    console.log(`Found ${products.length} products for category ${category}`);
+
+    res.status(200).json({
+      success: true,
+      count: products.length,
+      data: products,
+    });
+  } catch (error) {
+    console.error("Get by category error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Error fetching products by category",
+    });
+  }
+};
+
 module.exports = {
   getWallpaper,
   getWallpaperrolls,
   getblinds,
   getcur,
+  getbycategory,
 };

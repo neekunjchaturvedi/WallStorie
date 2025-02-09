@@ -13,6 +13,7 @@ import { Bottomfoot } from "../home-components/Bottomfoot";
 import {
   getblinds,
   getcur,
+  getProductsByCategory,
   getWallpaper,
   getWallpaperrolls,
 } from "@/store/shop/productslice";
@@ -31,7 +32,7 @@ function Layout() {
   const [sortOption, setSortOption] = useState("popularity");
   const [filters, setFilters] = useState({
     price: "0",
-    spaces: [],
+    space: [],
     trends: [],
   });
 
@@ -43,7 +44,7 @@ function Layout() {
       sortOption,
       filters: {
         price: filters.price,
-        spaces: filters.spaces,
+        space: filters.space,
         trends: filters.trends,
       },
     };
@@ -63,6 +64,14 @@ function Layout() {
         break;
     }
   };
+  const handleCategoryClick = (categoryName) => {
+    const options = {
+      category: categoryName,
+      productType: name,
+    };
+    dispatch(getProductsByCategory(options));
+  };
+  console.log(productList);
 
   useEffect(() => {
     fetchProducts();
@@ -176,7 +185,11 @@ function Layout() {
         {categoryImages[name] && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
             {categoryImages[name].map((item, index) => (
-              <div key={index} className="text-center">
+              <div
+                key={index}
+                className="text-center cursor-pointer"
+                onClick={() => handleCategoryClick(item.name)}
+              >
                 <div className="border-2 border-yellow-500 rounded-lg overflow-hidden">
                   <img
                     src={item.image}
