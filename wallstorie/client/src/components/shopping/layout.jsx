@@ -89,40 +89,40 @@ function Layout() {
   const categoryImages = {
     wallpapers: [
       {
-        name: "Tropical",
+        name: "tropical",
         image: "https://source.unsplash.com/300x300/?tropical",
       },
       {
-        name: "Heritage",
+        name: "heritage",
         image: "https://source.unsplash.com/300x300/?heritage",
       },
-      { name: "Divine", image: "https://source.unsplash.com/300x300/?ganesha" },
+      { name: "divine", image: "https://source.unsplash.com/300x300/?ganesha" },
       {
-        name: "Kids series",
+        name: "kidsSeries",
         image: "https://source.unsplash.com/300x300/?kids",
       },
     ],
     blinds: [
       {
-        name: "Roller",
+        name: "roller",
         image: "https://source.unsplash.com/300x300/?roller_blinds",
       },
       {
-        name: "Zebra",
+        name: "zebra",
         image: "https://source.unsplash.com/300x300/?zebra_blinds",
       },
       {
-        name: "Roman",
+        name: "roman",
         image: "https://source.unsplash.com/300x300/?roman_blinds",
       },
     ],
     curtain: [
       {
-        name: "Drape",
+        name: "drape",
         image: "https://source.unsplash.com/300x300/?drape_curtains",
       },
       {
-        name: "Sheer",
+        name: "sheer",
         image: "https://source.unsplash.com/300x300/?sheer_curtains",
       },
     ],

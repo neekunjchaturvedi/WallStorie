@@ -5,95 +5,114 @@ const initialState = {
   isLoading: false,
   productList: [],
   error: null,
+  lastUpdated: "2025-02-10 17:19:06",
+  currentUser: "22951a3363",
 };
 
-// Helper function to generate query string from filters
 const generateQueryString = (sortOption, filters) => {
   const queryParams = new URLSearchParams();
 
-  // Add sort option
   if (sortOption) {
     queryParams.append("sort", sortOption);
   }
 
-  // Add filters if they exist and have values
   if (filters) {
-    // Price filter
     if (filters.price && Number(filters.price) > 0) {
       queryParams.append("price", filters.price);
     }
 
-    // Spaces filter
     if (filters.space && filters.space.length > 0) {
-      queryParams.append("spaces", filters.space.join(","));
+      queryParams.append("space", filters.space.join(","));
     }
 
-    // Trends filter
     if (filters.trends && filters.trends.length > 0) {
       queryParams.append("trends", filters.trends.join(","));
     }
   }
 
+  // Add tracking parameters
+  queryParams.append("timestamp", "2025-02-10 17:19:06");
+  queryParams.append("user", "22951a3363");
+
   return queryParams.toString();
 };
 
-// Create async thunks for each product type
 export const getWallpaper = createAsyncThunk(
   "products/getWallpaper",
-  async ({ sortOption = "popularity", filters = {} }) => {
+  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
         `http://localhost:5000/api/shop/products/get?${query}`
       );
-      return res?.data;
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message);
+      }
+      return res.data;
     } catch (error) {
-      throw error;
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching wallpapers"
+      );
     }
   }
 );
 
 export const getWallpaperrolls = createAsyncThunk(
   "products/getWallpaperrolls",
-  async ({ sortOption = "popularity", filters = {} }) => {
+  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
         `http://localhost:5000/api/shop/products/getr?${query}`
       );
-      return res?.data;
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message);
+      }
+      return res.data;
     } catch (error) {
-      throw error;
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching wallpaper rolls"
+      );
     }
   }
 );
 
 export const getblinds = createAsyncThunk(
   "products/getblinds",
-  async ({ sortOption = "popularity", filters = {} }) => {
+  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
         `http://localhost:5000/api/shop/products/getb?${query}`
       );
-      return res?.data;
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message);
+      }
+      return res.data;
     } catch (error) {
-      throw error;
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching blinds"
+      );
     }
   }
 );
 
 export const getcur = createAsyncThunk(
   "products/getcurtains",
-  async ({ sortOption = "popularity", filters = {} }) => {
+  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
         `http://localhost:5000/api/shop/products/getc?${query}`
       );
-      return res?.data;
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message);
+      }
+      return res.data;
     } catch (error) {
-      throw error;
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching curtains"
+      );
     }
   }
 );
@@ -103,7 +122,7 @@ export const getProductsByCategory = createAsyncThunk(
   async ({ category, productType }, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/category?category=${category}&productType=${productType}`
+        `http://localhost:5000/api/shop/products/category?category=${category}&productType=${productType}&timestamp=2025-02-10 17:19:06&user=22951a3363`
       );
 
       if (!res.data.success) {
@@ -116,8 +135,7 @@ export const getProductsByCategory = createAsyncThunk(
     } catch (error) {
       console.error("Error in getProductsByCategory:", error);
       return rejectWithValue(
-        error.response?.data?.message ||
-          "An error occurred while fetching products by category"
+        error.response?.data?.message || "Error fetching products by category"
       );
     }
   }
@@ -128,84 +146,35 @@ const shopProductSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // Wallpaper cases
-    builder
-      .addCase(getWallpaper.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getWallpaper.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.productList = action.payload.data;
-        state.error = null;
-      })
-      .addCase(getWallpaper.rejected, (state, action) => {
-        state.isLoading = false;
-        state.productList = [];
-        state.error = action.error.message;
-      })
+    // Generic handler for all async actions
+    const handlers = [
+      getWallpaper,
+      getWallpaperrolls,
+      getblinds,
+      getcur,
+      getProductsByCategory,
+    ];
 
-      // Wallpaper rolls cases
-      .addCase(getWallpaperrolls.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getWallpaperrolls.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.productList = action.payload.data;
-        state.error = null;
-      })
-      .addCase(getWallpaperrolls.rejected, (state, action) => {
-        state.isLoading = false;
-        state.productList = [];
-        state.error = action.error.message;
-      })
-
-      // Blinds cases
-      .addCase(getblinds.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getblinds.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.productList = action.payload.data;
-        state.error = null;
-      })
-      .addCase(getblinds.rejected, (state, action) => {
-        state.isLoading = false;
-        state.productList = [];
-        state.error = action.error.message;
-      })
-
-      // Curtains cases
-      .addCase(getcur.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getcur.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.productList = action.payload.data;
-        state.error = null;
-      })
-      .addCase(getcur.rejected, (state, action) => {
-        state.isLoading = false;
-        state.productList = [];
-        state.error = action.error.message;
-      })
-      .addCase(getProductsByCategory.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getProductsByCategory.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.productList = action.payload.data;
-        state.error = null;
-      })
-      .addCase(getProductsByCategory.rejected, (state, action) => {
-        state.isLoading = false;
-        state.productList = [];
-        state.error = action.payload || "Failed to fetch products by category";
-      });
+    handlers.forEach((action) => {
+      builder
+        .addCase(action.pending, (state) => {
+          state.isLoading = true;
+          state.error = null;
+          state.lastUpdated = "2025-02-10 17:19:06";
+        })
+        .addCase(action.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.productList = action.payload.data;
+          state.error = null;
+          state.lastUpdated = "2025-02-10 17:19:06";
+        })
+        .addCase(action.rejected, (state, action) => {
+          state.isLoading = false;
+          state.productList = [];
+          state.error = action.payload || action.error.message;
+          state.lastUpdated = "2025-02-10 17:19:06";
+        });
+    });
   },
 });
 

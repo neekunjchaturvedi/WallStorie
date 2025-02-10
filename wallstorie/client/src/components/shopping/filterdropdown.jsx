@@ -2,8 +2,8 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
-  // Spaces exactly matching database values
-  const spaces = [
+  // Constants for database values
+  const space = [
     "LivingRoom",
     "BedRoom",
     "KidsRoom",
@@ -13,7 +13,6 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
     "Balcony",
   ];
 
-  // Trends exactly matching database values
   const trends = [
     "bestseller",
     "trending",
@@ -22,10 +21,14 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
     "seasonal",
   ];
 
+  const colors = ["Red", "Blue", "Green", "Yellow", "White", "Black"];
+
+  // State for section visibility
   const [openSections, setOpenSections] = useState({
     price: true,
     space: true,
     trends: true,
+    colors: true,
   });
 
   const toggleSection = (section) => {
@@ -33,17 +36,30 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
   };
 
   const handleCheckboxChange = (category, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [category]: prev[category].includes(value)
-        ? prev[category].filter((item) => item !== value)
-        : [...prev[category], value],
-    }));
+    setFilters((prev) => {
+      // Ensure the category array exists
+      const currentValues = prev[category] || [];
+
+      return {
+        ...prev,
+        [category]: currentValues.includes(value)
+          ? currentValues.filter((item) => item !== value)
+          : [...currentValues, value],
+      };
+    });
   };
 
   const formatDisplayName = (name) => {
-    // Convert database names to display names
     return name.replace(/([A-Z])/g, " $1").trim();
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      price: "0",
+      space: [],
+      trends: [],
+      colors: [],
+    });
   };
 
   return (
@@ -69,7 +85,12 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
               max="17500"
               value={filters.price}
               onChange={(e) =>
-                setFilters((prev) => ({ ...prev, price: e.target.value }))
+                setFilters((prev) => ({
+                  ...prev,
+                  price: e.target.value,
+                  timestamp,
+                  userLogin,
+                }))
               }
               className="w-full appearance-none h-2 rounded-full"
               style={{
@@ -83,6 +104,36 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
               <span className="text-sm text-gray-600">₹0</span>
               <span className="text-sm text-green-600">₹{filters.price}</span>
             </div>
+          </div>
+        )}
+      </div>
+
+      {/* Colors Section */}
+      <div className="border-b border-gray-300 pb-3 mb-3">
+        <div
+          className="flex justify-between items-center cursor-pointer"
+          onClick={() => toggleSection("colors")}
+        >
+          <span className="font-medium">Colors</span>
+          {openSections.colors ? (
+            <ChevronUp size={18} />
+          ) : (
+            <ChevronDown size={18} />
+          )}
+        </div>
+        {openSections.colors && (
+          <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
+            {colors.map((color) => (
+              <label key={color} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={filters.colors?.includes(color)}
+                  onChange={() => handleCheckboxChange("colors", color)}
+                  className="appearance-none w-4 h-4 border border-black checked:bg-green-400 rounded"
+                />
+                <span className="text-sm capitalize">{color}</span>
+              </label>
+            ))}
           </div>
         )}
       </div>
@@ -102,7 +153,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
         </div>
         {openSections.space && (
           <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
-            {spaces.map((space) => (
+            {space.map((space) => (
               <label key={space} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
@@ -150,19 +201,17 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
       {/* Action Buttons */}
       <div className="flex space-x-3 mt-6">
         <button
-          onClick={applyFilters}
+          onClick={() => {
+            applyFilters({
+              ...filters,
+            });
+          }}
           className="w-1/2 py-2 bg-green-50 border border-green-600 text-green-700 font-medium rounded-sm hover:bg-green-100 transition-colors"
         >
           Apply Filters
         </button>
         <button
-          onClick={() =>
-            setFilters({
-              price: "0",
-              space: [],
-              trends: [],
-            })
-          }
+          onClick={handleClearFilters}
           className="w-1/2 py-2 border border-gray-400 text-gray-600 font-medium rounded-sm hover:bg-gray-50 transition-colors"
         >
           Clear All

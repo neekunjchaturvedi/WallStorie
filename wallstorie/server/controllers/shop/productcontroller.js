@@ -6,16 +6,17 @@ const handleError = (res, error) => {
     success: false,
     message: "Error occurred while processing request",
     error: error.message,
+    timestamp: "2025-02-10 17:52:31",
+    user: "22951a3363",
   });
 };
 
 const getProductsByType = async (req, res, productType) => {
   try {
-    const { sort, price, space, trends } = req.query;
+    const { sort, price, space, trends, colors } = req.query;
     let sortCriteria = { popularity: -1 };
     let filterCriteria = { productType };
 
-    // Sorting logic
     if (sort) {
       switch (sort) {
         case "latest":
@@ -29,24 +30,23 @@ const getProductsByType = async (req, res, productType) => {
       }
     }
 
-    // Price filter
     if (price && parseFloat(price) > 0) {
       filterCriteria.price = { $lte: parseFloat(price) };
     }
 
-    // Space filter - Fixed to handle array properly
     if (space && space.length > 0) {
-      // Check if space is already an array or needs to be split
-      const spaceArray = Array.isArray(space) ? space : space.split(",");
+      const spaceArray = space.split(",");
       filterCriteria.space = { $in: spaceArray };
-      console.log("Space filter array:", spaceArray);
     }
 
-    // Trends filter
     if (trends && trends.length > 0) {
-      const trendArray = Array.isArray(trends) ? trends : trends.split(",");
+      const trendArray = trends.split(",");
       filterCriteria.trend = { $in: trendArray };
-      console.log("Trends filter array:", trendArray);
+    }
+
+    if (colors && colors.length > 0) {
+      const colorArray = colors.split(",");
+      filterCriteria.color = { $in: colorArray };
     }
 
     console.log("Filter Criteria:", filterCriteria);
@@ -58,63 +58,58 @@ const getProductsByType = async (req, res, productType) => {
       success: true,
       data: products,
       count: products.length,
+      timestamp: "2025-02-10 17:52:31",
+      user: "22951a3363",
     });
   } catch (error) {
     return handleError(res, error);
   }
 };
 
-const getWallpaper = async (req, res) => {
-  await getProductsByType(req, res, "wallpapers");
-};
-
-const getWallpaperrolls = async (req, res) => {
-  await getProductsByType(req, res, "wallpaperRolls");
-};
-
-const getblinds = async (req, res) => {
-  await getProductsByType(req, res, "blinds");
-};
-
-const getcur = async (req, res) => {
-  await getProductsByType(req, res, "curtains");
-};
+// Export the controller functions
+const getWallpaper = async (req, res) =>
+  getProductsByType(req, res, "wallpapers");
+const getWallpaperrolls = async (req, res) =>
+  getProductsByType(req, res, "wallpaperRolls");
+const getblinds = async (req, res) => getProductsByType(req, res, "blinds");
+const getcur = async (req, res) => getProductsByType(req, res, "curtains");
 
 const getbycategory = async (req, res) => {
   try {
-    const { category, productType, sortOption, price, space, trends } =
+    const { category, productType, sortOption, price, space, trends, colors } =
       req.query;
 
     if (!category || !productType) {
       return res.status(400).json({
         success: false,
         message: "Category and product type are required",
+        timestamp: "2025-02-10 17:52:31",
+        user: "22951a3363",
       });
     }
 
     let filterCriteria = {
-      category: category,
-      productType: productType,
+      category,
+      productType,
     };
 
-    // Price filter
     if (price && price !== "0") {
       filterCriteria.price = { $lte: parseFloat(price) };
     }
 
-    // Space filter - Fixed to handle array properly
     if (space && space.length > 0) {
-      // Check if space is already an array or needs to be split
-      const spaceArray = Array.isArray(space) ? space : space.split(",");
+      const spaceArray = space.split(",");
       filterCriteria.space = { $in: spaceArray };
-      console.log("Space filter array:", spaceArray);
     }
 
-    // Trends filter
     if (trends && trends.length > 0) {
-      const trendArray = Array.isArray(trends) ? trends : trends.split(",");
+      const trendArray = trends.split(",");
       filterCriteria.trend = { $in: trendArray };
-      console.log("Trends filter array:", trendArray);
+    }
+
+    if (colors && colors.length > 0) {
+      const colorArray = colors.split(",");
+      filterCriteria.color = { $in: colorArray };
     }
 
     let sortCriteria = {};
@@ -136,19 +131,16 @@ const getbycategory = async (req, res) => {
       .sort(sortCriteria)
       .select("-__v");
 
-    console.log(`Found ${products.length} products for category ${category}`);
-
     res.status(200).json({
       success: true,
       count: products.length,
       data: products,
+      timestamp: "2025-02-10 17:52:31",
+      user: "22951a3363",
     });
   } catch (error) {
     console.error("Get by category error:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message || "Error fetching products by category",
-    });
+    return handleError(res, error);
   }
 };
 
