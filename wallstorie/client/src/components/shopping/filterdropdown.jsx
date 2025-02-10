@@ -28,7 +28,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
     price: true,
     space: true,
     trends: true,
-    colors: true,
+    color: true,
   });
 
   const toggleSection = (section) => {
@@ -37,7 +37,6 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
 
   const handleCheckboxChange = (category, value) => {
     setFilters((prev) => {
-      // Ensure the category array exists
       const currentValues = prev[category] || [];
 
       return {
@@ -58,7 +57,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
       price: "0",
       space: [],
       trends: [],
-      colors: [],
+      color: [],
     });
   };
 
@@ -88,8 +87,6 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
                 setFilters((prev) => ({
                   ...prev,
                   price: e.target.value,
-                  timestamp,
-                  userLogin,
                 }))
               }
               className="w-full appearance-none h-2 rounded-full"
@@ -112,23 +109,23 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
       <div className="border-b border-gray-300 pb-3 mb-3">
         <div
           className="flex justify-between items-center cursor-pointer"
-          onClick={() => toggleSection("colors")}
+          onClick={() => toggleSection("color")}
         >
           <span className="font-medium">Colors</span>
-          {openSections.colors ? (
+          {openSections.color ? (
             <ChevronUp size={18} />
           ) : (
             <ChevronDown size={18} />
           )}
         </div>
-        {openSections.colors && (
+        {openSections.color && (
           <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
             {colors.map((color) => (
               <label key={color} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
-                  checked={filters.colors?.includes(color)}
-                  onChange={() => handleCheckboxChange("colors", color)}
+                  checked={filters.color?.includes(color)}
+                  onChange={() => handleCheckboxChange("color", color)}
                   className="appearance-none w-4 h-4 border border-black checked:bg-green-400 rounded"
                 />
                 <span className="text-sm capitalize">{color}</span>

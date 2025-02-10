@@ -55,7 +55,7 @@ export const addProductFormElements = [
   },
   {
     label: "Color",
-    name: "colors",
+    name: "color",
     componentType: "input",
     type: "text",
     placeholder:

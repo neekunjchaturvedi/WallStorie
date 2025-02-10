@@ -6,14 +6,12 @@ const handleError = (res, error) => {
     success: false,
     message: "Error occurred while processing request",
     error: error.message,
-    timestamp: "2025-02-10 17:52:31",
-    user: "22951a3363",
   });
 };
 
 const getProductsByType = async (req, res, productType) => {
   try {
-    const { sort, price, space, trends, colors } = req.query;
+    const { sort, price, space, trends, color } = req.query; // Changed from colors to color
     let sortCriteria = { popularity: -1 };
     let filterCriteria = { productType };
 
@@ -44,9 +42,14 @@ const getProductsByType = async (req, res, productType) => {
       filterCriteria.trend = { $in: trendArray };
     }
 
-    if (colors && colors.length > 0) {
-      const colorArray = colors.split(",");
-      filterCriteria.color = { $in: colorArray };
+    // Multiple color filtering
+    if (color && color.length > 0) {
+      const colorArray = color.split(",");
+      filterCriteria.color = {
+        // Changed from colors to color
+        $regex: new RegExp(colorArray.join("|"), "i"),
+      };
+      console.log("Color filter array:", colorArray);
     }
 
     console.log("Filter Criteria:", filterCriteria);
@@ -58,15 +61,13 @@ const getProductsByType = async (req, res, productType) => {
       success: true,
       data: products,
       count: products.length,
-      timestamp: "2025-02-10 17:52:31",
-      user: "22951a3363",
     });
   } catch (error) {
     return handleError(res, error);
   }
 };
 
-// Export the controller functions
+// Export functions remain the same
 const getWallpaper = async (req, res) =>
   getProductsByType(req, res, "wallpapers");
 const getWallpaperrolls = async (req, res) =>
@@ -76,15 +77,13 @@ const getcur = async (req, res) => getProductsByType(req, res, "curtains");
 
 const getbycategory = async (req, res) => {
   try {
-    const { category, productType, sortOption, price, space, trends, colors } =
-      req.query;
+    const { category, productType, sortOption, price, space, trends, color } =
+      req.query; // Changed from colors to color
 
     if (!category || !productType) {
       return res.status(400).json({
         success: false,
         message: "Category and product type are required",
-        timestamp: "2025-02-10 17:52:31",
-        user: "22951a3363",
       });
     }
 
@@ -107,9 +106,13 @@ const getbycategory = async (req, res) => {
       filterCriteria.trend = { $in: trendArray };
     }
 
-    if (colors && colors.length > 0) {
-      const colorArray = colors.split(",");
-      filterCriteria.color = { $in: colorArray };
+    // Multiple color filtering
+    if (color && color.length > 0) {
+      const colorArray = color.split(",");
+      filterCriteria.color = {
+        // Changed from colors to color
+        $regex: new RegExp(colorArray.join("|"), "i"),
+      };
     }
 
     let sortCriteria = {};
@@ -124,9 +127,6 @@ const getbycategory = async (req, res) => {
         sortCriteria = { popularity: -1 };
     }
 
-    console.log("Filter Criteria:", filterCriteria);
-    console.log("Sort Criteria:", sortCriteria);
-
     const products = await Product.find(filterCriteria)
       .sort(sortCriteria)
       .select("-__v");
@@ -135,11 +135,8 @@ const getbycategory = async (req, res) => {
       success: true,
       count: products.length,
       data: products,
-      timestamp: "2025-02-10 17:52:31",
-      user: "22951a3363",
     });
   } catch (error) {
-    console.error("Get by category error:", error);
     return handleError(res, error);
   }
 };

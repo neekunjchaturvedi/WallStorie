@@ -5,8 +5,6 @@ const initialState = {
   isLoading: false,
   productList: [],
   error: null,
-  lastUpdated: "2025-02-10 17:19:06",
-  currentUser: "22951a3363",
 };
 
 const generateQueryString = (sortOption, filters) => {
@@ -28,11 +26,13 @@ const generateQueryString = (sortOption, filters) => {
     if (filters.trends && filters.trends.length > 0) {
       queryParams.append("trends", filters.trends.join(","));
     }
-  }
 
-  // Add tracking parameters
-  queryParams.append("timestamp", "2025-02-10 17:19:06");
-  queryParams.append("user", "22951a3363");
+    // Handle multiple colors
+    if (filters.color && filters.color.length > 0) {
+      // Changed from colors to color
+      queryParams.append("color", filters.color.join(",")); // Changed from colors to color
+    }
+  }
 
   return queryParams.toString();
 };
@@ -119,10 +119,14 @@ export const getcur = createAsyncThunk(
 
 export const getProductsByCategory = createAsyncThunk(
   "products/getByCategory",
-  async ({ category, productType }, { rejectWithValue }) => {
+  async (
+    { category, productType, sortOption, filters = {} },
+    { rejectWithValue }
+  ) => {
     try {
+      const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/category?category=${category}&productType=${productType}&timestamp=2025-02-10 17:19:06&user=22951a3363`
+        `http://localhost:5000/api/shop/products/category?category=${category}&productType=${productType}&${query}`
       );
 
       if (!res.data.success) {
@@ -146,7 +150,6 @@ const shopProductSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // Generic handler for all async actions
     const handlers = [
       getWallpaper,
       getWallpaperrolls,
@@ -160,19 +163,16 @@ const shopProductSlice = createSlice({
         .addCase(action.pending, (state) => {
           state.isLoading = true;
           state.error = null;
-          state.lastUpdated = "2025-02-10 17:19:06";
         })
         .addCase(action.fulfilled, (state, action) => {
           state.isLoading = false;
           state.productList = action.payload.data;
           state.error = null;
-          state.lastUpdated = "2025-02-10 17:19:06";
         })
         .addCase(action.rejected, (state, action) => {
           state.isLoading = false;
           state.productList = [];
           state.error = action.payload || action.error.message;
-          state.lastUpdated = "2025-02-10 17:19:06";
         });
     });
   },
