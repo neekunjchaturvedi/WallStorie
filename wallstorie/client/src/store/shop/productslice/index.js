@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
   isLoading: false,
   productList: [],
+  productdetails: {},
   error: null,
 };
 
@@ -144,6 +145,20 @@ export const getProductsByCategory = createAsyncThunk(
   }
 );
 
+export const getproductinfo = createAsyncThunk(
+  "products/getproductinfo",
+  async (id) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/shop/products/get/${id}`
+      );
+      return res.data;
+    } catch (error) {
+      return error.response?.data?.message || "Error fetching product details";
+    }
+  }
+);
+
 const shopProductSlice = createSlice({
   name: "Shopproducts",
   initialState,
@@ -174,6 +189,21 @@ const shopProductSlice = createSlice({
           state.error = action.payload || action.error.message;
         });
     });
+    builder
+      .addCase(getproductinfo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getproductinfo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.productdetails = action.payload.data; // Ensure the correct path
+        state.error = null;
+      })
+      .addCase(getproductinfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.productdetails = {};
+        state.error = action.payload || action.error.message;
+      });
   },
 });
 

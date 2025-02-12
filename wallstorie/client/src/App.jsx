@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
 import { useEffect } from "react";
 import CheckAuth from "./components/common/Checkauth";
+import ProductDetails from "./components/shopping/productdetails";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -27,8 +28,6 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-
-  // if (isLoading) return <Skeleton className="w-[800] bg-green-100 h-[600px]" />;
 
   return (
     <Routes>
@@ -38,6 +37,8 @@ function App() {
       <Route path="wallpaperrolls" element={<Wallpaperrolls />} />
       <Route path="curtain" element={<Curtains />} />
       <Route path="blinds" element={<Blinds />} />
+      {/* Changed from component to element */}
+      <Route path="/products/:id" element={<ProductDetails />} />
 
       {/* Auth-Protected Routes */}
       <Route

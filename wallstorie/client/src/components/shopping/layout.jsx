@@ -13,6 +13,7 @@ import { Bottomfoot } from "../home-components/Bottomfoot";
 import {
   getblinds,
   getcur,
+  getproductinfo,
   getProductsByCategory,
   getWallpaper,
   getWallpaperrolls,
@@ -37,7 +38,9 @@ function Layout() {
     color: [],
   });
 
-  const { productList, isLoading } = useSelector((state) => state.shopProducts);
+  const { productList, isLoading, productdetails } = useSelector(
+    (state) => state.shopProducts
+  );
 
   const fetchProducts = () => {
     console.log("Fetching products with filters:", filters);
@@ -75,6 +78,11 @@ function Layout() {
   };
   console.log(productList);
 
+  function handlegetdetails(getcurrentid) {
+    console.log(getcurrentid);
+    dispatch(getproductinfo(getcurrentid));
+  }
+
   useEffect(() => {
     fetchProducts();
   }, [dispatch, name, sortOption]);
@@ -87,44 +95,57 @@ function Layout() {
     console.log("Applying filters:", filters);
     fetchProducts();
   };
+  console.log(productdetails);
 
   const categoryImages = {
     wallpapers: [
       {
         name: "tropical",
+        label: "Tropical",
         image: "https://source.unsplash.com/300x300/?tropical",
       },
       {
         name: "heritage",
+        label: "Heritage",
         image: "https://source.unsplash.com/300x300/?heritage",
       },
-      { name: "divine", image: "https://source.unsplash.com/300x300/?ganesha" },
+      {
+        name: "divine",
+        label: "Divine",
+        image: "https://source.unsplash.com/300x300/?ganesha",
+      },
       {
         name: "kidsSeries",
+        label: "Kids Series",
         image: "https://source.unsplash.com/300x300/?kids",
       },
     ],
     blinds: [
       {
         name: "roller",
+        label: "Roller",
         image: "https://source.unsplash.com/300x300/?roller_blinds",
       },
       {
         name: "zebra",
+        label: "Zebra",
         image: "https://source.unsplash.com/300x300/?zebra_blinds",
       },
       {
         name: "roman",
+        label: "Roman",
         image: "https://source.unsplash.com/300x300/?roman_blinds",
       },
     ],
     curtain: [
       {
         name: "drape",
+        label: "Drape",
         image: "https://source.unsplash.com/300x300/?drape_curtains",
       },
       {
         name: "sheer",
+        label: "Sheer",
         image: "https://source.unsplash.com/300x300/?sheer_curtains",
       },
     ],
@@ -199,7 +220,7 @@ function Layout() {
                     className="w-full h-56 object-cover hover:scale-105 transition-transform"
                   />
                 </div>
-                <p className="mt-2 text-lg text-green-800">{item.name}</p>
+                <p className="mt-2 text-lg text-green-800">{item.label}</p>
               </div>
             ))}
           </div>
@@ -213,7 +234,10 @@ function Layout() {
             <p>Loading products...</p>
           </div>
         ) : productList && productList.length > 0 ? (
-          <Productgrid products={productList} />
+          <Productgrid
+            products={productList}
+            handlegetdetails={handlegetdetails}
+          />
         ) : (
           <div className="flex justify-center items-center min-h-[200px]">
             <p>No products found</p>

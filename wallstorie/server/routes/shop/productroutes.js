@@ -5,6 +5,7 @@ const {
   getblinds,
   getcur,
   getbycategory,
+  getproductbyid,
 } = require("../../controllers/shop/productcontroller");
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.get("/getr", getWallpaperrolls);
 router.get("/getb", getblinds);
 router.get("/getc", getcur);
 router.get("/category", getbycategory);
+router.get("/get/:id", getproductbyid);
 
 module.exports = router;
