@@ -56,10 +56,15 @@ export const addProductFormElements = [
   {
     label: "Color",
     name: "color",
-    componentType: "input",
-    type: "text",
-    placeholder:
-      "Enter primary color (only one of: Red, Blue, Green, Yellow, White, Black)",
+    componentType: "select",
+    options: [
+      { id: "red", label: "Red" },
+      { id: "blue", label: "Blue" },
+      { id: "green", label: "Green" },
+      { id: "black", label: "Black" },
+      { id: "white", label: "White" },
+      { id: "yellow", label: "Yellow" },
+    ],
   },
   {
     label: "Trend",

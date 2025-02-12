@@ -47,7 +47,7 @@ const getProductsByType = async (req, res, productType) => {
       const colorArray = color.split(",");
       filterCriteria.color = {
         // Changed from colors to color
-        $regex: new RegExp(colorArray.join("|"), "i"),
+        $in: colorArray,
       };
       console.log("Color filter array:", colorArray);
     }
@@ -111,7 +111,7 @@ const getbycategory = async (req, res) => {
       const colorArray = color.split(",");
       filterCriteria.color = {
         // Changed from colors to color
-        $regex: new RegExp(colorArray.join("|"), "i"),
+        $in: colorArray,
       };
     }
 

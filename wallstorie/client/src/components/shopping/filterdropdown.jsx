@@ -21,7 +21,14 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
     "seasonal",
   ];
 
-  const colors = ["Red", "Blue", "Green", "Yellow", "White", "Black"];
+  const colors = [
+    { id: "red", label: "Red" },
+    { id: "blue", label: "Blue" },
+    { id: "green", label: "Green" },
+    { id: "black", label: "Black" },
+    { id: "white", label: "White" },
+    { id: "yellow", label: "Yellow" },
+  ];
 
   // State for section visibility
   const [openSections, setOpenSections] = useState({
@@ -121,14 +128,14 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
         {openSections.color && (
           <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
             {colors.map((color) => (
-              <label key={color} className="flex items-center space-x-2">
+              <label key={color.id} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
-                  checked={filters.color?.includes(color)}
-                  onChange={() => handleCheckboxChange("color", color)}
+                  checked={filters.color?.includes(color.id)}
+                  onChange={() => handleCheckboxChange("color", color.id)}
                   className="appearance-none w-4 h-4 border border-black checked:bg-green-400 rounded"
                 />
-                <span className="text-sm capitalize">{color}</span>
+                <span className="text-sm capitalize">{color.label}</span>
               </label>
             ))}
           </div>
@@ -198,11 +205,7 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
       {/* Action Buttons */}
       <div className="flex space-x-3 mt-6">
         <button
-          onClick={() => {
-            applyFilters({
-              ...filters,
-            });
-          }}
+          onClick={applyFilters}
           className="w-1/2 py-2 bg-green-50 border border-green-600 text-green-700 font-medium rounded-sm hover:bg-green-100 transition-colors"
         >
           Apply Filters

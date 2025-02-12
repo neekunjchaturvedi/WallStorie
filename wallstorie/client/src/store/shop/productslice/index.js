@@ -29,8 +29,7 @@ const generateQueryString = (sortOption, filters) => {
 
     // Handle multiple colors
     if (filters.color && filters.color.length > 0) {
-      // Changed from colors to color
-      queryParams.append("color", filters.color.join(",")); // Changed from colors to color
+      queryParams.append("color", filters.color.join(","));
     }
   }
 

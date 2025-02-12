@@ -34,6 +34,7 @@ function Layout() {
     price: "0",
     space: [],
     trends: [],
+    color: [],
   });
 
   const { productList, isLoading } = useSelector((state) => state.shopProducts);
@@ -44,6 +45,7 @@ function Layout() {
       sortOption,
       filters: {
         price: filters.price,
+        color: filters.color,
         space: filters.space,
         trends: filters.trends,
       },

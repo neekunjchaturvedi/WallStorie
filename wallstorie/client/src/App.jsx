@@ -32,6 +32,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="home" element={<Home />} />
       <Route path="wallpapers" element={<WallPapers />} />
       <Route path="wallpaperrolls" element={<Wallpaperrolls />} />
