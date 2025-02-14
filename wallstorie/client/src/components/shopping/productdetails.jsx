@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getproductinfo } from "@/store/shop/productslice";
 import UserLayout from "../user/layout";
 import { X } from "lucide-react";
+import ProductDetailsextra from "./prodextradetails";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -82,15 +83,15 @@ const ProductDetails = () => {
   return (
     <>
       <UserLayout />
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="flex flex-col lg:flex-row gap-8 mb-12">
           {/* Images Section */}
-          <div className="w-full lg:w-1/3">
+          <div className="w-full lg:w-1/2">
             <div className="overflow-hidden cursor-pointer">
               <img
                 src={productdetails.image1 || "https://via.placeholder.com/500"}
                 alt={productdetails.productName}
-                className="w-full h-[400px] object-contain hover:scale-105 transition-transform duration-300"
+                className="w-full h-[500px] object-contain hover:scale-105 transition-transform duration-300"
                 onClick={() => openModal(productdetails.image1)}
               />
             </div>
@@ -105,7 +106,7 @@ const ProductDetails = () => {
                     <img
                       src={img}
                       alt={`${productdetails.productName} view ${index + 1}`}
-                      className="w-full h-24 object-cover hover:opacity-75 transition"
+                      className="w-full h-36 object-cover hover:opacity-75 transition"
                     />
                   </div>
                 ))}
@@ -143,12 +144,12 @@ const ProductDetails = () => {
                   </span>
                 </>
               ) : (
-                <div className="space-y-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
+                <div className="space-y-6 font-lato">
+                  <div className=" p-6 rounded-lg">
                     <div className="text-lg font-semibold mb-4">
                       Custom Size
                     </div>
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-6 ">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Height (inches)
@@ -157,7 +158,7 @@ const ProductDetails = () => {
                           type="number"
                           value={height}
                           onChange={(e) => setHeight(e.target.value)}
-                          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+                          className="w-1/3 p-3 border rounded-lg bg-white outline-none"
                           min="1"
                           placeholder="Enter height"
                         />
@@ -170,7 +171,7 @@ const ProductDetails = () => {
                           type="number"
                           value={width}
                           onChange={(e) => setWidth(e.target.value)}
-                          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+                          className="w-1/3 p-3 border rounded-lg bg-white outline-none"
                           min="1"
                           placeholder="Enter width"
                         />
@@ -206,17 +207,17 @@ const ProductDetails = () => {
             </div>
 
             {/* Product Details */}
-            {productdetails.description && (
+            {/* {productdetails.description && (
               <div className="mb-6 bg-gray-50 p-6 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Product Details</h3>
                 <p className="text-gray-600 leading-relaxed">
                   {productdetails.description}
                 </p>
               </div>
-            )}
+            )} */}
           </div>
         </div>
-
+        <ProductDetailsextra />
         {/* Image Modal */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
