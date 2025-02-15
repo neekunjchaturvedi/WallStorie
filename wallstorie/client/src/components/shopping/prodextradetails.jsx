@@ -11,7 +11,7 @@ const Section = ({ title, children, className }) => {
         className={`flex justify-between items-center cursor-pointer py-2 border-b ${className}`}
         onClick={() => setOpen(!open)}
       >
-        <h3 className={`text-xl font-semibold text-green-800`}>{title}</h3>
+        <h3 className={`text-xl font-semibold text-green-800 mb-4`}>{title}</h3>
         {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
       </div>
       {open && <div className="mt-2 text-gray-700">{children}</div>}
@@ -27,7 +27,7 @@ const ProductDetailsextra = () => {
           <Section title="Product Details" className="text-green-500">
             <div className="mb-4 flex flex-col text-left">
               <h4 className="font-semibold mb-4">Quantity:</h4>
-              <ul className="list-disc pl-10 flex flex-col">
+              <ul className="list-disc pl-10 flex flex-col mb-6">
                 <li>Standard coverage: Custom</li>
                 <li>Panels are customized based on wall dimensions.</li>
                 <li>Wallpaper is delivered in multiple sections.</li>
@@ -35,14 +35,14 @@ const ProductDetailsextra = () => {
             </div>
             <div className="mb-4 flex flex-col text-left">
               <h4 className="font-semibold mb-4">Print:</h4>
-              <ul className="list-disc pl-10 flex flex-col">
+              <ul className="list-disc pl-10 flex flex-col mb-6">
                 <li>Color tones may vary depending on the chosen finish.</li>
                 <li>High-quality digital printing ensures vibrant details.</li>
               </ul>
             </div>
-            <div className="mb-4 flex flex-col text-left">
+            <div className="mb-8 flex flex-col text-left">
               <h4 className="font-semibold mb-4">Installation:</h4>
-              <ul className="list-disc pl-10">
+              <ul className="list-disc pl-10 ">
                 <li>Requires professional installation for best results.</li>
                 <li>
                   Walls should be primed at least 10 days before application.
@@ -62,19 +62,21 @@ const ProductDetailsextra = () => {
             </div>
           </Section>
 
-          <Section title="Shipping & Delivery" className="text-green-500">
-            <div className="flex items-center gap-4 mb-2">
-              <Truck size={24} className="text-green-600" />
-              <div>
-                <strong>Low-cost shipping:</strong> Delivery in 2-3 business
-                days across India.
+          <Section title="Shipping & Delivery">
+            <div className="gap-8 lg:flex justify-center">
+              <div className="flex items-center gap-4 mb-2 ">
+                <Truck size={24} className="text-green-600" />
+                <div className="flex flex-col text-left">
+                  <strong>Low-cost shipping:</strong> Delivery in 2-3 business
+                  days across India.
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <ShieldCheck size={24} className="text-green-600" />
-              <div>
-                <strong>Secure delivery:</strong> Orders with timely updates via
-                email or SMS.
+              <div className="flex items-center gap-4">
+                <ShieldCheck size={24} className="text-green-600" />
+                <div className="flex flex-col text-left">
+                  <strong>Secure delivery:</strong> Orders with timely updates
+                  via email or SMS.
+                </div>
               </div>
             </div>
           </Section>

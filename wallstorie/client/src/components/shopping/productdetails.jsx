@@ -5,6 +5,8 @@ import { getproductinfo } from "@/store/shop/productslice";
 import UserLayout from "../user/layout";
 import { X } from "lucide-react";
 import ProductDetailsextra from "./prodextradetails";
+import Footer from "../home-components/Footer";
+import { Bottomfoot } from "../home-components/Bottomfoot";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -139,19 +141,38 @@ const ProductDetails = () => {
                       </span>
                     )}
                   </div>
-                  <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg flex">
-                    Size: Standard roll
-                  </span>
+                  <div className="flex">
+                    <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left playfair">
+                      Size: Standard roll
+                    </span>
+                  </div>
                 </>
               ) : (
                 <div className="space-y-6 font-lato">
+                  <div className="flex items-center gap-4 font-lato">
+                    <span className="text-2xl font-bold text-green-600">
+                      ₹{productdetails.price}
+                    </span>
+                    {productdetails.salePrice && (
+                      <span className="text-xl text-gray-500 line-through">
+                        ₹{productdetails.salePrice}
+                      </span>
+                    )}
+                    {productdetails.discount && (
+                      <span className="text-xl text-green-600">
+                        {productdetails.discount}% off
+                      </span>
+                    )}
+                  </div>
                   <div className=" p-6 rounded-lg">
-                    <div className="text-lg font-semibold mb-4">
-                      Custom Size
+                    <div className="mb-4 flex ">
+                      <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left">
+                        Size: Custom roll
+                      </span>
                     </div>
                     <div className="flex flex-col gap-6 ">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <div className="flex flex-col">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
                           Height (inches)
                         </label>
                         <input
@@ -163,8 +184,8 @@ const ProductDetails = () => {
                           placeholder="Enter height"
                         />
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <div className="flex flex-col">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
                           Width (inches)
                         </label>
                         <input
@@ -197,11 +218,11 @@ const ProductDetails = () => {
             </p>
 
             {/* Action Buttons */}
-            <div className="flex gap-4 mb-8">
-              <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-xl hover:bg-green-700 transition duration-200 text-lg font-semibold">
+            <div className="flex gap-4 lg:mb-8 lg:max-w-xl">
+              <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-3xl hover:bg-green-700 transition duration-200 text-lg font-semibold">
                 Add to Cart
               </button>
-              <button className="flex-1 bg-green-100 text-green-700 py-3 px-6 rounded-xl hover:bg-green-200 transition duration-200 text-lg font-semibold">
+              <button className="flex-1 bg-white text-green-700 py-3 px-6 border-2 border-green-500 transition duration-200 text-lg font-semibold">
                 Buy Now
               </button>
             </div>
@@ -218,6 +239,7 @@ const ProductDetails = () => {
           </div>
         </div>
         <ProductDetailsextra />
+
         {/* Image Modal */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
@@ -239,6 +261,10 @@ const ProductDetails = () => {
           </div>
         )}
       </div>
+      <div className="max-w-7xl mx-auto">
+        <Footer />
+      </div>
+      <Bottomfoot/>
     </>
   );
 };

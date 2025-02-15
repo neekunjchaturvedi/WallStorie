@@ -8,7 +8,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-green-50 text-white p-4 mt-10 px-10 font-lato">
+    <footer className="bg-green-50 text-white p-4 mt-10 px-10 font-lato w-full">
       <div className=" h-[800px] max-w-5xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10">
         {" "}
         <div>

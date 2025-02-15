@@ -102,51 +102,51 @@ function Layout() {
       {
         name: "tropical",
         label: "Tropical",
-        image: "https://source.unsplash.com/300x300/?tropical",
+        image: "/src/assets/productcategories/tropical.png",
       },
       {
         name: "heritage",
         label: "Heritage",
-        image: "https://source.unsplash.com/300x300/?heritage",
+        image: "/src/assets/productcategories/heritage.png",
       },
       {
         name: "divine",
         label: "Divine",
-        image: "https://source.unsplash.com/300x300/?ganesha",
+        image: "/src/assets/productcategories/divine.png",
       },
       {
         name: "kidsSeries",
         label: "Kids Series",
-        image: "https://source.unsplash.com/300x300/?kids",
+        image: "/src/assets/productcategories/kids.png",
       },
     ],
     blinds: [
       {
         name: "roller",
         label: "Roller",
-        image: "https://source.unsplash.com/300x300/?roller_blinds",
+        image: "/src/assets/productcategories/roller.png",
       },
       {
         name: "zebra",
         label: "Zebra",
-        image: "https://source.unsplash.com/300x300/?zebra_blinds",
+        image: "/src/assets/productcategories/zebra.png",
       },
       {
         name: "roman",
         label: "Roman",
-        image: "https://source.unsplash.com/300x300/?roman_blinds",
+        image: "/src/assets/productcategories/roman.png",
       },
     ],
     curtain: [
       {
         name: "drape",
         label: "Drape",
-        image: "https://source.unsplash.com/300x300/?drape_curtains",
+        image: "/src/assets/productcategories/drape.png",
       },
       {
         name: "sheer",
         label: "Sheer",
-        image: "https://source.unsplash.com/300x300/?sheer_curtains",
+        image: "/src/assets/productcategories/sheer.png",
       },
     ],
   };
@@ -160,7 +160,7 @@ function Layout() {
         <h2 className="text-3xl font-bold text-green-700 mb-3">
           {capitalizeFirstLetter(name)}
         </h2>
-        <p className="text-gray-700 mt-2 font-lato">
+        <p className="text-gray-700 mt-2 font-lato mb-3">
           Find Your Perfect {capitalizeFirstLetter(name)}
         </p>
       </div>
@@ -169,11 +169,11 @@ function Layout() {
       <div className="px-4 sm:px-6 lg:px-24">
         {/* Breadcrumb and Filters */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12">
-          <div className="text-gray-500 mb-4 sm:mb-0 flex font-lato">
+          <div className="text-gray-500 mb-6 sm:mb-4 flex font-lato">
             Home / {name}
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex justify-between items-center w-full mx-auto">
             {/* Filter Sheet */}
             <Sheet>
               <SheetTrigger asChild>
@@ -206,18 +206,18 @@ function Layout() {
 
         {/* Category Images Grid */}
         {categoryImages[name] && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 items-center">
             {categoryImages[name].map((item, index) => (
               <div
                 key={index}
-                className="text-center cursor-pointer"
+                className="text-center cursor-pointer flex flex-col justify-center items-center "
                 onClick={() => handleCategoryClick(item.name)}
               >
-                <div className="border-2 border-yellow-500 rounded-lg overflow-hidden">
+                <div className="rounded-lg overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-56 object-cover hover:scale-105 transition-transform"
+                    className="w-full h-64 object-contain hover:scale-105 transition-transform"
                   />
                 </div>
                 <p className="mt-2 text-lg text-green-800">{item.label}</p>
