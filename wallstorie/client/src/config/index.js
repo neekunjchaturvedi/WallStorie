@@ -35,8 +35,8 @@ export const addProductFormElements = [
       { id: "roller", label: "Roller", productType: "blinds" },
       { id: "zebra", label: "Zebra", productType: "blinds" },
       { id: "roman", label: "Roman", productType: "blinds" },
-      { id: "drape", label: "Drape", productType: "curtains" },
-      { id: "sheer", label: "Sheer", productType: "curtains" },
+      { id: "drape", label: "Drape", productType: "curtain" },
+      { id: "sheer", label: "Sheer", productType: "curtain" },
     ],
   },
   {

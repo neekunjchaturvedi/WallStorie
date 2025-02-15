@@ -64,7 +64,7 @@ function Layout() {
       case "blinds":
         dispatch(getblinds(options));
         break;
-      default:
+      case "curtain":
         dispatch(getcur(options));
         break;
     }
@@ -72,8 +72,9 @@ function Layout() {
   const handleCategoryClick = (categoryName) => {
     const options = {
       category: categoryName,
-      productType: name,
+      productType: name + "s",
     };
+
     dispatch(getProductsByCategory(options));
   };
   console.log(productList);
@@ -168,12 +169,12 @@ function Layout() {
       {/* Main Content Section */}
       <div className="px-4 sm:px-6 lg:px-24">
         {/* Breadcrumb and Filters */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12">
-          <div className="text-gray-500 mb-6 sm:mb-4 flex font-lato">
-            Home / {name}
+        <div className="flex flex-col  sm:flex-row justify-between items-start sm:items-center mb-12">
+          <div className="text-gray-500 mb-6 sm:mb-4 font-lato w-full text-left">
+            Home / {capitalizeFirstLetter(name)}
           </div>
 
-          <div className="flex justify-between items-center w-full mx-auto">
+          <div className="flex  items-center justify-between lg:justify-end gap-4 w-full mx-auto">
             {/* Filter Sheet */}
             <Sheet>
               <SheetTrigger asChild>
