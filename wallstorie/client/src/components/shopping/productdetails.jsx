@@ -20,6 +20,23 @@ const ProductDetails = () => {
   const [width, setWidth] = useState("");
   const [area, setArea] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedMaterial, setSelectedMaterial] = useState("Non woven");
+  const [materialPrice, setMaterialPrice] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+
+  const materials = [
+    { id: 1, name: "Non woven", price: 99 },
+    { id: 2, name: "Premium canvas", price: 139 },
+  ];
+  const materialsblinds = [
+    { id: 1, name: "Normal Lining", price: 150 },
+    { id: 2, name: "Blackout Lining", price: 220 },
+  ];
+
+  const materialscurtains = [
+    { id: 1, name: "Non woven", price: 99 },
+    { id: 2, name: "Premium canvas", price: 139 },
+  ];
 
   useEffect(() => {
     if (id) {
@@ -36,10 +53,16 @@ const ProductDetails = () => {
       const calculatedArea = (height * width) / 144; // Convert to square feet
       setArea(calculatedArea.toFixed(2));
       if (productdetails?.price) {
-        setTotalPrice((calculatedArea * productdetails.price).toFixed(2));
+        setTotalPrice(
+          (
+            calculatedArea *
+            (productdetails.price + materialPrice) *
+            quantity
+          ).toFixed(2)
+        );
       }
     }
-  }, [height, width, productdetails?.price]);
+  }, [height, width, productdetails?.price, materialPrice, quantity]);
 
   const openModal = (image) => {
     setSelectedImage(image);
@@ -51,6 +74,21 @@ const ProductDetails = () => {
     setShowModal(false);
     setSelectedImage(null);
     document.body.style.overflow = "unset";
+  };
+
+  const handleMaterialChange = (material) => {
+    setSelectedMaterial(material.name);
+    setMaterialPrice(material.price);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
   };
 
   if (isLoading) {
@@ -146,6 +184,27 @@ const ProductDetails = () => {
                       Size: Standard roll
                     </span>
                   </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={handleDecrease}
+                      disabled={quantity <= 1}
+                      className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      -
+                    </button>
+
+                    <span className="w-6 text-center font-medium">
+                      {quantity}
+                    </span>
+
+                    <button
+                      onClick={handleIncrease}
+                      className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
                 </>
               ) : (
                 <div className="space-y-6 font-lato">
@@ -209,6 +268,84 @@ const ProductDetails = () => {
                       </div>
                     )}
                   </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={handleDecrease}
+                      disabled={quantity <= 1}
+                      className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      -
+                    </button>
+
+                    <span className="w-6 text-center font-medium">
+                      {quantity}
+                    </span>
+
+                    <button
+                      onClick={handleIncrease}
+                      className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-green-700 font-medium mb-3 text-left">
+                      Material :{" "}
+                      <span className="text-black">{selectedMaterial}</span>
+                    </h3>
+
+                    <div className="flex gap-4">
+                      {productdetails.productType === "wallpapers"
+                        ? materials.map((material) => (
+                            <button
+                              key={material.id}
+                              onClick={() => handleMaterialChange(material)}
+                              className={`
+              relative w-32 h-32 border rounded-lg p-4 
+              flex flex-col items-center justify-center
+              transition-all duration-200
+              ${
+                selectedMaterial === material.name
+                  ? "border-green-600 border-2"
+                  : "border-gray-200 hover:border-green-200"
+              }
+            `}
+                            >
+                              <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg ">
+                                +₹{material.price}
+                              </div>
+
+                              <span className="text-center mt-4">
+                                {material.name}
+                              </span>
+                            </button>
+                          ))
+                        : materialsblinds.map((material) => (
+                            <button
+                              key={material.id}
+                              onClick={() => handleMaterialChange(material)}
+                              className={`
+              relative w-32 h-32 border rounded-lg p-4 
+              flex flex-col items-center justify-center
+              transition-all duration-200
+              ${
+                selectedMaterial === material.name
+                  ? "border-green-600 border-2"
+                  : "border-gray-200 hover:border-green-200"
+              }
+            `}
+                            >
+                              <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg rounded-bl-lg">
+                                +₹{material.price}
+                              </div>
+
+                              <span className="text-center mt-4">
+                                {material.name}
+                              </span>
+                            </button>
+                          ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -264,7 +401,7 @@ const ProductDetails = () => {
       <div className="max-w-7xl mx-auto">
         <Footer />
       </div>
-      <Bottomfoot/>
+      <Bottomfoot />
     </>
   );
 };

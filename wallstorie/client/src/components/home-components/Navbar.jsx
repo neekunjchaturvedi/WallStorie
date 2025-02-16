@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const nav = useNavigate();
+
   return (
     <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10">
       {/* Hamburger Menu Button */}
@@ -87,7 +88,12 @@ const Navbar = () => {
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
         <button className="hover:text-green-700 transition-colors duration-300">
-          <i className="fa-solid fa-bag-shopping"></i>
+          <i
+            className="fa-solid fa-bag-shopping"
+            onClick={() => {
+              return nav("/cart");
+            }}
+          ></i>
         </button>
         <button className="hover:text-green-700 transition-colors duration-300">
           <i className="fa-solid fa-user"></i>

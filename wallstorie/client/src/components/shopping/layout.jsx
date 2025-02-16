@@ -28,6 +28,7 @@ function Layout() {
   const location = useLocation();
   const dispatch = useDispatch();
   const pathSegments = location.pathname.split("/");
+
   const name = pathSegments[pathSegments.length - 1];
 
   const [sortOption, setSortOption] = useState("popularity");
@@ -72,8 +73,10 @@ function Layout() {
   const handleCategoryClick = (categoryName) => {
     const options = {
       category: categoryName,
-      productType: name + "s",
+      productType: name === "curtain" ? name + "s" : name,
     };
+
+    console.log(options);
 
     dispatch(getProductsByCategory(options));
   };

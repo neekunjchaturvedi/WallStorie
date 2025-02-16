@@ -21,6 +21,7 @@ import { checkAuth } from "./store/auth-slice";
 import { useEffect } from "react";
 import CheckAuth from "./components/common/Checkauth";
 import ProductDetails from "./components/shopping/productdetails";
+import Cart from "./pages/Shopping/cart";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -37,6 +38,7 @@ function App() {
       <Route path="wallpaperrolls" element={<Wallpaperrolls />} />
       <Route path="curtain" element={<Curtains />} />
       <Route path="blinds" element={<Blinds />} />
+      <Route path="cart" element={<Cart />} />
       {/* Changed from component to element */}
       <Route path="/products/:id" element={<ProductDetails />} />
 
