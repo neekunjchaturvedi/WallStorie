@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getproductinfo } from "@/store/shop/productslice";
+import { addToCart } from "@/store/shop/cartslice"; // Import the addToCart action
 import UserLayout from "../user/layout";
 import { X } from "lucide-react";
 import ProductDetailsextra from "./prodextradetails";
 import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
+import { checkAuth } from "@/store/auth-slice"; // Import checkAuth action
 
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { productdetails, isLoading } = useSelector(
     (state) => state.shopProducts
   );
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [height, setHeight] = useState("");
@@ -41,10 +46,7 @@ const ProductDetails = () => {
   useEffect(() => {
     if (id) {
       dispatch(getproductinfo(id));
-      console.log("Navigation State:", {
-        timestamp: "2025-02-12 17:02:28",
-        userLogin: "22951a3363",
-      });
+      dispatch(checkAuth()); // Check if the user is authenticated
     }
   }, [dispatch, id]);
 
@@ -89,6 +91,23 @@ const ProductDetails = () => {
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
+  };
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate("/auth/login"); // Redirect to login page if not authenticated
+    } else {
+      const cartItem = {
+        userId: user.id, // Use the user ID from the authentication state
+        productId: productdetails._id,
+        quantity,
+        height,
+        width,
+        selectedMaterial,
+        materialPrice,
+      };
+      dispatch(addToCart(cartItem));
+    }
   };
 
   if (isLoading) {
@@ -223,13 +242,13 @@ const ProductDetails = () => {
                       </span>
                     )}
                   </div>
-                  <div className=" p-6 rounded-lg">
-                    <div className="mb-4 flex ">
+                  <div className="p-6 rounded-lg">
+                    <div className="mb-4 flex">
                       <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left">
                         Size: Custom roll
                       </span>
                     </div>
-                    <div className="flex flex-col gap-6 ">
+                    <div className="flex flex-col gap-6">
                       <div className="flex flex-col">
                         <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
                           Height (inches)
@@ -293,7 +312,6 @@ const ProductDetails = () => {
                       Material :{" "}
                       <span className="text-black">{selectedMaterial}</span>
                     </h3>
-
                     <div className="flex gap-4">
                       {productdetails.productType === "wallpapers"
                         ? materials.map((material) => (
@@ -301,20 +319,19 @@ const ProductDetails = () => {
                               key={material.id}
                               onClick={() => handleMaterialChange(material)}
                               className={`
-              relative w-32 h-32 border rounded-lg p-4 
-              flex flex-col items-center justify-center
-              transition-all duration-200
-              ${
-                selectedMaterial === material.name
-                  ? "border-green-600 border-2"
-                  : "border-gray-200 hover:border-green-200"
-              }
-            `}
+                                relative w-32 h-32 border rounded-lg p-4 
+                                flex flex-col items-center justify-center
+                                transition-all duration-200
+                                ${
+                                  selectedMaterial === material.name
+                                    ? "border-green-600 border-2"
+                                    : "border-gray-200 hover:border-green-200"
+                                }
+                              `}
                             >
-                              <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg ">
+                              <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg">
                                 +₹{material.price}
                               </div>
-
                               <span className="text-center mt-4">
                                 {material.name}
                               </span>
@@ -325,20 +342,19 @@ const ProductDetails = () => {
                               key={material.id}
                               onClick={() => handleMaterialChange(material)}
                               className={`
-              relative w-32 h-32 border rounded-lg p-4 
-              flex flex-col items-center justify-center
-              transition-all duration-200
-              ${
-                selectedMaterial === material.name
-                  ? "border-green-600 border-2"
-                  : "border-gray-200 hover:border-green-200"
-              }
-            `}
+                                relative w-32 h-32 border rounded-lg p-4 
+                                flex flex-col items-center justify-center
+                                transition-all duration-200
+                                ${
+                                  selectedMaterial === material.name
+                                    ? "border-green-600 border-2"
+                                    : "border-gray-200 hover:border-green-200"
+                                }
+                              `}
                             >
                               <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg rounded-bl-lg">
                                 +₹{material.price}
                               </div>
-
                               <span className="text-center mt-4">
                                 {material.name}
                               </span>
@@ -356,7 +372,10 @@ const ProductDetails = () => {
 
             {/* Action Buttons */}
             <div className="flex gap-4 lg:mb-8 lg:max-w-xl">
-              <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-3xl hover:bg-green-700 transition duration-200 text-lg font-semibold">
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 bg-green-600 text-white py-3 px-6 rounded-3xl hover:bg-green-700 transition duration-200 text-lg font-semibold"
+              >
                 Add to Cart
               </button>
               <button className="flex-1 bg-white text-green-700 py-3 px-6 border-2 border-green-500 transition duration-200 text-lg font-semibold">

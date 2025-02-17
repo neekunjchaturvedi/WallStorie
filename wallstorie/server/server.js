@@ -4,6 +4,7 @@ const cors = require("cors");
 const authrouter = require("./routes/auth/auth-rotes");
 const adminProductsRouter = require("./routes/admin/product-routes");
 const shopProductRouter = require("./routes/shop/productroutes");
+const shopcartRouter = require("./routes/shop/cartroutes");
 const mongoose = require("mongoose");
 
 mongoose
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use("/api/auth", authrouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shop/products", shopProductRouter);
+app.use("/api/shop/cart", shopcartRouter);
 app.listen(PORT, () => {
   console.log(`Server running at port ${PORT}`);
 });
