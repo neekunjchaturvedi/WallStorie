@@ -6,7 +6,7 @@ const Navbar = () => {
   const nav = useNavigate();
 
   return (
-    <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10">
+    <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10 fixed">
       {/* Hamburger Menu Button */}
       <div className="flex items-center md:hidden">
         <button

@@ -136,7 +136,9 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        {/* <div className="w-fit h-[700px] bg-cover bg-center bg-no-repeat"></div> */}
+        {/* <div className="w-fit h-[700px] bg-cover bg-center bg-no-repeat">
+          <img src="\src\assets\wallpaperimages\footer.png" alt="" />
+        </div> */}
       </div>
     </footer>
   );

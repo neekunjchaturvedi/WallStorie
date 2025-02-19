@@ -25,13 +25,14 @@ const ProductDetails = () => {
   const [width, setWidth] = useState("");
   const [area, setArea] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [selectedMaterial, setSelectedMaterial] = useState("Non woven");
+  const [selectedMaterial, setSelectedMaterial] = useState("");
   const [materialPrice, setMaterialPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
   const materials = [
     { id: 1, name: "Non woven", price: 99 },
-    { id: 2, name: "Premium canvas", price: 139 },
+    { id: 2, name: "Premium Texture", price: 139 },
+    { id: 2, name: "Canvas", price: 249 }
   ];
   const materialsblinds = [
     { id: 1, name: "Normal Lining", price: 150 },
@@ -39,20 +40,20 @@ const ProductDetails = () => {
   ];
 
   const materialscurtains = [
-    { id: 1, name: "Non woven", price: 99 },
-    { id: 2, name: "Premium canvas", price: 139 },
+    { id: 1, name: "Normal Lining", price: 150 },
+    { id: 2, name: "Blackout Lining", price: 220 },
   ];
 
   useEffect(() => {
     if (id) {
       dispatch(getproductinfo(id));
-      dispatch(checkAuth()); // Check if the user is authenticated
+      dispatch(checkAuth());
     }
   }, [dispatch, id]);
 
   useEffect(() => {
     if (height && width) {
-      const calculatedArea = (height * width) / 144; // Convert to square feet
+      const calculatedArea = (height * width) / 144;
       setArea(calculatedArea.toFixed(2));
       if (productdetails?.price) {
         setTotalPrice(
@@ -95,10 +96,10 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
-      navigate("/auth/login"); // Redirect to login page if not authenticated
+      navigate("/auth/login");
     } else {
       const cartItem = {
-        userId: user.id, // Use the user ID from the authentication state
+        userId: user.id,
         productId: productdetails._id,
         quantity,
         height,
@@ -185,11 +186,11 @@ const ProductDetails = () => {
                 <>
                   <div className="flex items-center gap-4 font-lato">
                     <span className="text-2xl font-bold text-green-600">
-                      ₹{productdetails.price}
+                      ₹{productdetails.salePrice}
                     </span>
                     {productdetails.salePrice && (
                       <span className="text-xl text-gray-500 line-through">
-                        ₹{productdetails.salePrice}
+                        ₹{productdetails.price}
                       </span>
                     )}
                     {productdetails.discount && (
@@ -229,11 +230,11 @@ const ProductDetails = () => {
                 <div className="space-y-6 font-lato">
                   <div className="flex items-center gap-4 font-lato">
                     <span className="text-2xl font-bold text-green-600">
-                      ₹{productdetails.price}
+                      ₹{productdetails.salePrice}
                     </span>
                     {productdetails.salePrice && (
                       <span className="text-xl text-gray-500 line-through">
-                        ₹{productdetails.salePrice}
+                        ₹{productdetails.price}
                       </span>
                     )}
                     {productdetails.discount && (
@@ -307,6 +308,8 @@ const ProductDetails = () => {
                       +
                     </button>
                   </div>
+
+                  {productdetails.category == ""}
                   <div className="p-4">
                     <h3 className="text-green-700 font-medium mb-3 text-left">
                       Material :{" "}

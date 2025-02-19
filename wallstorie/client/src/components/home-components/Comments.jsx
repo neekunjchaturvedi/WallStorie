@@ -115,4 +115,16 @@ const CommentSection = () => {
   );
 };
 
+// function CommentSection() {
+//   return (
+//     <div>
+//       <img
+//         src="\src\assets\testimonial.png"
+//         alt="testimonial"
+//         className="flex justify-center items-center w-2/3 object-cover mx-auto"
+//       />
+//     </div>
+//   );
+// }
+
 export default CommentSection;
