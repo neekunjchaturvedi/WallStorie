@@ -8,7 +8,8 @@ import { X } from "lucide-react";
 import ProductDetailsextra from "./prodextradetails";
 import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
-import { checkAuth } from "@/store/auth-slice"; // Import checkAuth action
+import { checkAuth } from "@/store/auth-slice";
+import { useToast } from "@/hooks/use-toast";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -28,18 +29,13 @@ const ProductDetails = () => {
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [materialPrice, setMaterialPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
-
+  const { toast } = useToast();
   const materials = [
     { id: 1, name: "Non woven", price: 99 },
     { id: 2, name: "Premium Texture", price: 139 },
-    { id: 2, name: "Canvas", price: 249 }
+    { id: 3, name: "Canvas", price: 249 },
   ];
   const materialsblinds = [
-    { id: 1, name: "Normal Lining", price: 150 },
-    { id: 2, name: "Blackout Lining", price: 220 },
-  ];
-
-  const materialscurtains = [
     { id: 1, name: "Normal Lining", price: 150 },
     { id: 2, name: "Blackout Lining", price: 220 },
   ];
@@ -48,6 +44,10 @@ const ProductDetails = () => {
     if (id) {
       dispatch(getproductinfo(id));
       dispatch(checkAuth());
+      console.log("Navigation State:", {
+        timestamp: "2025-02-20 14:34:13",
+        userLogin: "22951a3363",
+      });
     }
   }, [dispatch, id]);
 
@@ -94,33 +94,59 @@ const ProductDetails = () => {
     setQuantity(quantity + 1);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!isAuthenticated) {
       navigate("/auth/login");
-    } else {
-      const cartItem = {
-        userId: user.id,
-        productId: productdetails._id,
-        quantity,
-        height,
-        width,
-        selectedMaterial,
-        materialPrice,
-      };
-      dispatch(addToCart(cartItem));
+      return;
+    }
+
+    // Validate inputs for custom size products
+    if (productdetails.productType !== "wallpaperRolls") {
+      if (!height || !width) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please enter both height and width",
+        });
+        return;
+      }
+    }
+    if (isLoading) {
+      return (
+        <>
+          <UserLayout />
+          <div className="flex justify-center items-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+          </div>
+        </>
+      );
+    }
+    const cartItem = {
+      userId: user.id,
+      productId: productdetails._id,
+      quantity,
+      height: height || null,
+      width: width || null,
+      selectedMaterial,
+      materialPrice,
+      productType: productdetails.productType,
+      productName: productdetails.title || productdetails.productName, // Use title as fallback
+    };
+
+    try {
+      await dispatch(addToCart(cartItem)).unwrap();
+      toast({
+        title: "Success",
+        description: "Product added to cart successfully",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to add to cart",
+      });
     }
   };
-
-  if (isLoading) {
-    return (
-      <>
-        <UserLayout />
-        <div className="flex justify-center items-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
-        </div>
-      </>
-    );
-  }
 
   if (!productdetails) {
     return (

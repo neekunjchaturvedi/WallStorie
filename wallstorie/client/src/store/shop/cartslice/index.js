@@ -4,7 +4,9 @@ import axios from "axios";
 export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
   async (userId) => {
-    const response = await axios.get(`/api/shop/cart/${userId}`);
+    const response = await axios.get(
+      `http://localhost:5000/api/shop/cart/${userId}`
+    );
     return response.data.data;
   }
 );
@@ -12,15 +14,25 @@ export const fetchCartItems = createAsyncThunk(
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (cartItem) => {
-    const response = await axios.post("/api/shop/cart/add", cartItem);
+    const response = await axios.post(
+      "http://localhost:5000/api/shop/cart/add",
+      cartItem
+    );
     return response.data.data;
   }
 );
 
 export const updateCartItemQty = createAsyncThunk(
   "cart/updateCartItemQty",
-  async (cartItem) => {
-    const response = await axios.put("/api/shop/cart/update", cartItem);
+  async ({ userId, productId, quantity }) => {
+    const response = await axios.put(
+      "http://localhost:5000/api/shop/cart/update",
+      {
+        userId,
+        productId,
+        quantity,
+      }
+    );
     return response.data.data;
   }
 );
@@ -29,7 +41,7 @@ export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",
   async ({ userId, productId }) => {
     const response = await axios.delete(
-      `/api/shop/cart/delete/${userId}/${productId}`
+      `http://localhost:5000/api/shop/cart/delete/${userId}/${productId}`
     );
     return response.data.data;
   }
@@ -45,10 +57,12 @@ const cartSlice = createSlice({
     error: null,
   },
   reducers: {},
+  // cartslice.js (only showing the modified extraReducers)
   extraReducers: (builder) => {
     builder
       .addCase(fetchCartItems.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchCartItems.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -60,6 +74,7 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -71,10 +86,11 @@ const cartSlice = createSlice({
       })
       .addCase(updateCartItemQty.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(updateCartItemQty.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cart = action.payload;
+        state.cart = action.payload; // Update the entire cart state
       })
       .addCase(updateCartItemQty.rejected, (state, action) => {
         state.isLoading = false;
@@ -82,10 +98,11 @@ const cartSlice = createSlice({
       })
       .addCase(deleteCartItem.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(deleteCartItem.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cart = action.payload;
+        state.cart = action.payload; // Update the entire cart state
       })
       .addCase(deleteCartItem.rejected, (state, action) => {
         state.isLoading = false;
