@@ -102,7 +102,8 @@ const cartSlice = createSlice({
       })
       .addCase(deleteCartItem.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cart = action.payload; // Update the entire cart state
+        state.cart = action.payload;
+        state.error = null;
       })
       .addCase(deleteCartItem.rejected, (state, action) => {
         state.isLoading = false;

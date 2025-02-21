@@ -34,77 +34,21 @@ const CartPage = () => {
     }
   }, [dispatch, user, isAuthenticated, navigate]);
 
-  // cartpage.jsx (only showing the modified functions)
-  const handleDecrease = async (productId, quantity) => {
-    if (quantity <= 1) return;
-
-    try {
-      console.log("Decreasing quantity for product:", { productId, quantity });
-      const result = await dispatch(
-        updateCartItemQty({
-          userId: user.id,
-          productId,
-          quantity: quantity - 1,
-        })
-      ).unwrap();
-
-      console.log("Update result:", result);
-
-      if (result) {
-        toast({
-          description: "Quantity decreased",
-        });
-      }
-    } catch (error) {
-      console.error("Decrease error:", error);
-      toast({
-        variant: "destructive",
-        description: "Failed to decrease quantity",
-      });
-    }
-  };
-
-  const handleIncrease = async (productId, quantity) => {
-    try {
-      console.log("Increasing quantity for product:", { productId, quantity });
-      const result = await dispatch(
-        updateCartItemQty({
-          userId: user.id,
-          productId,
-          quantity: quantity + 1,
-        })
-      ).unwrap();
-
-      console.log("Update result:", result);
-
-      if (result) {
-        toast({
-          description: "Quantity increased",
-        });
-      }
-    } catch (error) {
-      console.error("Increase error:", error);
-      toast({
-        variant: "destructive",
-        description: "Failed to increase quantity",
-      });
-    }
-  };
-
   const handleRemoveItem = async (productId) => {
     try {
-      const result = await dispatch(
+      dispatch(
         deleteCartItem({
           userId: user.id,
-          productId: productId,
+          productId,
         })
-      ).unwrap();
+      );
 
-      if (result) {
-        toast({
-          description: "Item removed from cart",
-        });
-      }
+      // Refresh cart after successful deletion
+      // await dispatch(fetchCartItems(user.id));
+
+      toast({
+        description: "Item removed from cart",
+      });
     } catch (error) {
       console.error("Delete error:", error);
       toast({
@@ -115,7 +59,7 @@ const CartPage = () => {
   };
 
   const handleContinueShopping = () => {
-    navigate("/shop");
+    navigate("/wallpapers");
   };
 
   const handleCheckout = () => {
@@ -195,25 +139,7 @@ const CartPage = () => {
                   )}
                   <div className="mt-4 flex justify-between items-center">
                     <div className="flex items-center gap-2">
-                      <button
-                        onClick={() =>
-                          handleDecrease(item.productId, item.quantity)
-                        }
-                        disabled={item.quantity <= 1 || isLoading}
-                        className="w-6 h-6 rounded-full bg-green-100 text-green-800 flex items-center justify-center hover:bg-green-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        -
-                      </button>
-                      <span className="w-8 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() =>
-                          handleIncrease(item.productId, item.quantity)
-                        }
-                        disabled={isLoading}
-                        className="w-6 h-6 rounded-full bg-green-100 text-green-800 flex items-center justify-center hover:bg-green-200 transition-colors"
-                      >
-                        +
-                      </button>
+                      <span>Quantity:{item.quantity}</span>
                     </div>
                     <button
                       onClick={() => handleRemoveItem(item.productId)}
