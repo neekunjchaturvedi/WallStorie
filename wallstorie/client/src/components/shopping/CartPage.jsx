@@ -142,7 +142,7 @@ const CartPage = () => {
           <ShoppingBag className="mx-auto h-16 w-16 text-gray-400 mb-4" />
           <p className="text-gray-600 mb-4">Your cart is empty</p>
           <button
-            onClick={() => navigate("/shop")}
+            onClick={() => navigate("/wallpapers")}
             className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Start Shopping
@@ -190,12 +190,13 @@ const CartPage = () => {
 
                   <p className="text-sm text-gray-600 mt-1">
                     Size:{" "}
-                    {item.productType === "wallpaperRolls"
+                    {item.productType === "wallpaperRolls" ||
+                    item.productType === "curtains"
                       ? "Standard Roll"
                       : "Custom Size"}
                   </p>
 
-                  {item.productType !== "wallpaperRolls" && (
+                  {item.productType == "wallpapers" && (
                     <>
                       <p className="text-sm text-gray-600">
                         Height: {item.height} inches

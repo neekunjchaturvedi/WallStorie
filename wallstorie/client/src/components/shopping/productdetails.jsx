@@ -60,8 +60,8 @@ const ProductDetails = () => {
         const basePrice = productdetails.salePrice;
         const totalPriceCalc = (
           calculatedArea *
-          (basePrice + materialPrice) *
-          quantity
+          (basePrice ) *
+          quantity+ materialPrice
         ).toFixed(2);
         setTotalPrice(totalPriceCalc);
       }

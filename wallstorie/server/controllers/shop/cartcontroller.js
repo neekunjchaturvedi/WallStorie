@@ -191,9 +191,8 @@ exports.updateCartItemQuantity = async (req, res) => {
 
     if (cartItem.area) {
       cartItem.totalPrice =
-        cartItem.area *
-        (cartItem.price + (cartItem.materialPrice || 0)) *
-        quantity;
+        cartItem.area * cartItem.price * quantity +
+        (cartItem.materialPrice || 0);
     }
 
     await cartItem.save();
