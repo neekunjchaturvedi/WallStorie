@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp, Truck, ShieldCheck } from "lucide-react";
+import productDetails from "@/config/proddetails";
 
 const Section = ({ title, children, className }) => {
   const [open, setOpen] = useState(true);
@@ -19,7 +20,16 @@ const Section = ({ title, children, className }) => {
   );
 };
 
-const ProductDetailsextra = () => {
+const ProductDetailsextra = ({ producttype, category }) => {
+  const details =
+    producttype === "blinds" || producttype === "curtains"
+      ? productDetails[producttype][category]
+      : productDetails[producttype];
+
+  if (!details) {
+    return <div>Product details not available.</div>;
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-4 font-lato">
       <Card>
@@ -28,26 +38,29 @@ const ProductDetailsextra = () => {
             <div className="mb-4 flex flex-col text-left">
               <h4 className="font-semibold mb-4">Quantity:</h4>
               <ul className="list-disc pl-10 flex flex-col mb-6">
-                <li>Standard coverage: Custom</li>
-                <li>Panels are customized based on wall dimensions.</li>
-                <li>Wallpaper is delivered in multiple sections.</li>
+                {details.details.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
             </div>
             <div className="mb-4 flex flex-col text-left">
               <h4 className="font-semibold mb-4">Print:</h4>
               <ul className="list-disc pl-10 flex flex-col mb-6">
-                <li>Color tones may vary depending on the chosen finish.</li>
-                <li>High-quality digital printing ensures vibrant details.</li>
+                {details.print
+                  ? details.print.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))
+                  : details.material.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
               </ul>
             </div>
             <div className="mb-8 flex flex-col text-left">
               <h4 className="font-semibold mb-4">Installation:</h4>
               <ul className="list-disc pl-10 ">
-                <li>Requires professional installation for best results.</li>
-                <li>
-                  Walls should be primed at least 10 days before application.
-                </li>
-                <li>Ensures seamless alignment and a flawless finish.</li>
+                {details.installation.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
             </div>
             <div>
@@ -55,60 +68,47 @@ const ProductDetailsextra = () => {
                 Care:
               </h4>
               <ul className="list-disc pl-10 text-left">
-                <li>Clean with a soft, damp cloth only.</li>
-                <li>Avoid harsh chemicals and abrasives.</li>
-                <li>Preserves the wallpaper's texture and color.</li>
+                {details.care.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
             </div>
           </Section>
 
           <Section title="Shipping & Delivery">
             <div className="gap-8 lg:flex justify-center">
-              <div className="flex items-center gap-4 mb-2 ">
-                <Truck size={24} className="text-green-600" />
-                <div className="flex flex-col text-left">
-                  <strong>Low-cost shipping:</strong> Delivery in 2-3 business
-                  days across India.
+              {details.shipping.map((item, index) => (
+                <div className="flex items-center gap-4 mb-2" key={index}>
+                  {item.icon === "Truck" && (
+                    <Truck size={24} className="  text-green-600" />
+                  )}
+                  {item.icon === "ShieldCheck" && (
+                    <ShieldCheck size={24} className="text-green-600" />
+                  )}
+                  <div className="flex flex-col text-left">
+                    <strong>{item.title}</strong> {item.description}
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <ShieldCheck size={24} className="text-green-600" />
-                <div className="flex flex-col text-left">
-                  <strong>Secure delivery:</strong> Orders with timely updates
-                  via email or SMS.
-                </div>
-              </div>
+              ))}
             </div>
           </Section>
 
           <Section title="Sustainability Insights" className="text-green-500">
             <ul className="list-disc pl-10 text-left">
-              <li>
-                <strong>Eco-Materials:</strong> Made from sustainable fabrics.
-              </li>
-              <li>
-                <strong>Energy-Saving:</strong> Improves insulation, cuts energy
-                use.
-              </li>
-              <li>
-                <strong>Low VOCs:</strong> Ensures healthier air quality.
-              </li>
-              <li>
-                <strong>Green Packaging:</strong> Delivered in biodegradable
-                packs.
-              </li>
+              {details.sustainability.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
             </ul>
           </Section>
 
           <Section title="More Information" className="text-green-500">
             <p className="text-left">
-              <strong>Get in Touch:</strong> wallstorie.com | +XXXXX
-              <br />
-              <strong>Sold By:</strong> Wallstorie Pvt. Ltd.
-              <br />
-              <strong>Reach Us At:</strong> Wall Vibes (HDVPL), 45 Green Acres,
-              Sunset Avenue, Harmony Complex, Maple Street, Andheri East,
-              Mumbai, 400059
+              {details.moreInfo.map((item, index) => (
+                <span key={index}>
+                  <strong>{item.split(":")[0]}:</strong> {item.split(":")[1]}
+                  <br />
+                </span>
+              ))}
             </p>
           </Section>
         </CardContent>

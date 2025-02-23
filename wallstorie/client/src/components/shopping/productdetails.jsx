@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { getproductinfo } from "@/store/shop/productslice";
-import { addToCart } from "@/store/shop/cartslice"; // Import the addToCart action
+import { addToCart } from "@/store/shop/cartslice";
 import UserLayout from "../user/layout";
 import { X } from "lucide-react";
 import ProductDetailsextra from "./prodextradetails";
@@ -30,6 +30,7 @@ const ProductDetails = () => {
   const [materialPrice, setMaterialPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
+
   const materials = [
     { id: 1, name: "Non woven", price: 99 },
     { id: 2, name: "Premium Texture", price: 139 },
@@ -45,7 +46,7 @@ const ProductDetails = () => {
       dispatch(getproductinfo(id));
       dispatch(checkAuth());
       console.log("Navigation State:", {
-        timestamp: "2025-02-20 14:34:13",
+        timestamp: "2025-02-23 10:54:15",
         userLogin: "22951a3363",
       });
     }
@@ -55,17 +56,20 @@ const ProductDetails = () => {
     if (height && width) {
       const calculatedArea = (height * width) / 144;
       setArea(calculatedArea.toFixed(2));
-      if (productdetails?.price) {
-        setTotalPrice(
-          (
-            calculatedArea *
-            (productdetails.price + materialPrice) *
-            quantity
-          ).toFixed(2)
-        );
+      if (productdetails?.salePrice) {
+        const basePrice = productdetails.salePrice;
+        const totalPriceCalc = (
+          calculatedArea *
+          (basePrice + materialPrice) *
+          quantity
+        ).toFixed(2);
+        setTotalPrice(totalPriceCalc);
       }
+    } else if (productdetails?.salePrice) {
+      // For standard products without custom dimensions
+      setTotalPrice((productdetails.salePrice * quantity).toFixed(2));
     }
-  }, [height, width, productdetails?.price, materialPrice, quantity]);
+  }, [height, width, productdetails?.salePrice, materialPrice, quantity]);
 
   const openModal = (image) => {
     setSelectedImage(image);
@@ -101,7 +105,11 @@ const ProductDetails = () => {
     }
 
     // Validate inputs for custom size products
-    if (productdetails.productType !== "wallpaperRolls") {
+    if (
+      productdetails.productType !== "wallpaperRolls" &&
+      productdetails.productType !== "curtains" &&
+      productdetails.category !== "sheer"
+    ) {
       if (!height || !width) {
         toast({
           variant: "destructive",
@@ -110,35 +118,56 @@ const ProductDetails = () => {
         });
         return;
       }
+
+      if (!selectedMaterial) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please select a material",
+        });
+        return;
+      }
     }
-    if (isLoading) {
-      return (
-        <>
-          <UserLayout />
-          <div className="flex justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
-          </div>
-        </>
-      );
+
+    // For curtains, validate material selection
+    if (
+      (productdetails.productType === "curtains" ||
+        productdetails.productType === "blinds") &&
+      !selectedMaterial
+    ) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please select a material type",
+      });
+      return;
     }
-    const cartItem = {
-      userId: user.id,
-      productId: productdetails._id,
-      quantity,
-      height: height || null,
-      width: width || null,
-      selectedMaterial,
-      materialPrice,
-      productType: productdetails.productType,
-      productName: productdetails.title || productdetails.productName, // Use title as fallback
-    };
 
     try {
-      await dispatch(addToCart(cartItem)).unwrap();
-      toast({
-        title: "Success",
-        description: "Product added to cart successfully",
-      });
+      const cartItem = {
+        userId: user.id,
+        productId: productdetails._id,
+        quantity,
+        price: productdetails.salePrice,
+        totalPrice: parseFloat(totalPrice),
+        height: height || null,
+        width: width || null,
+        area: area || null,
+        selectedMaterial,
+        materialPrice,
+        productType: productdetails.productType,
+        productName: productdetails.title || productdetails.productName,
+        image: productdetails.image1,
+      };
+
+      const result = await dispatch(addToCart(cartItem)).unwrap();
+
+      if (result.success) {
+        toast({
+          title: "Success",
+          description: "Product added to cart successfully",
+        });
+      }
     } catch (error) {
       toast({
         variant: "destructive",
@@ -208,7 +237,8 @@ const ProductDetails = () => {
 
             {/* Price and Size Section */}
             <div className="space-y-6 mb-6">
-              {productdetails.productType === "wallpaperRolls" ? (
+              {productdetails.productType === "wallpaperRolls" ||
+              productdetails.productType === "curtains" ? (
                 <>
                   <div className="flex items-center gap-4 font-lato">
                     <span className="text-2xl font-bold text-green-600">
@@ -226,9 +256,15 @@ const ProductDetails = () => {
                     )}
                   </div>
                   <div className="flex">
-                    <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left playfair">
-                      Size: Standard roll
-                    </span>
+                    {productdetails.productType === "wallpaperRolls" ? (
+                      <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left playfair">
+                        Size: Standard roll
+                      </span>
+                    ) : (
+                      <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left playfair">
+                        Size: In meters
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3">
@@ -334,65 +370,63 @@ const ProductDetails = () => {
                       +
                     </button>
                   </div>
-
-                  {productdetails.category == ""}
-                  <div className="p-4">
-                    <h3 className="text-green-700 font-medium mb-3 text-left">
-                      Material :{" "}
-                      <span className="text-black">{selectedMaterial}</span>
-                    </h3>
-                    <div className="flex gap-4">
-                      {productdetails.productType === "wallpapers"
-                        ? materials.map((material) => (
-                            <button
-                              key={material.id}
-                              onClick={() => handleMaterialChange(material)}
-                              className={`
-                                relative w-32 h-32 border rounded-lg p-4 
-                                flex flex-col items-center justify-center
-                                transition-all duration-200
-                                ${
-                                  selectedMaterial === material.name
-                                    ? "border-green-600 border-2"
-                                    : "border-gray-200 hover:border-green-200"
-                                }
-                              `}
-                            >
-                              <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg">
-                                +₹{material.price}
-                              </div>
-                              <span className="text-center mt-4">
-                                {material.name}
-                              </span>
-                            </button>
-                          ))
-                        : materialsblinds.map((material) => (
-                            <button
-                              key={material.id}
-                              onClick={() => handleMaterialChange(material)}
-                              className={`
-                                relative w-32 h-32 border rounded-lg p-4 
-                                flex flex-col items-center justify-center
-                                transition-all duration-200
-                                ${
-                                  selectedMaterial === material.name
-                                    ? "border-green-600 border-2"
-                                    : "border-gray-200 hover:border-green-200"
-                                }
-                              `}
-                            >
-                              <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg rounded-bl-lg">
-                                +₹{material.price}
-                              </div>
-                              <span className="text-center mt-4">
-                                {material.name}
-                              </span>
-                            </button>
-                          ))}
-                    </div>
-                  </div>
                 </div>
               )}
+              <div className="p-4">
+                <h3 className="text-green-700 font-medium mb-3 text-left">
+                  Material :{" "}
+                  <span className="text-black">{selectedMaterial}</span>
+                </h3>
+                <div className="flex gap-4">
+                  {productdetails.productType === "wallpapers"
+                    ? materials.map((material) => (
+                        <button
+                          key={material.id}
+                          onClick={() => handleMaterialChange(material)}
+                          className={`
+                                relative w-32 h-32 border rounded-lg p-4 
+                                flex flex-col items-center justify-center
+                                transition-all duration-200
+                                ${
+                                  selectedMaterial === material.name
+                                    ? "border-green-600 border-2"
+                                    : "border-gray-200 hover:border-green-200"
+                                }
+                              `}
+                        >
+                          <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg">
+                            +₹{material.price}
+                          </div>
+                          <span className="text-center mt-4">
+                            {material.name}
+                          </span>
+                        </button>
+                      ))
+                    : materialsblinds.map((material) => (
+                        <button
+                          key={material.id}
+                          onClick={() => handleMaterialChange(material)}
+                          className={`
+                                relative w-32 h-32 border rounded-lg p-4 
+                                flex flex-col items-center justify-center
+                                transition-all duration-200
+                                ${
+                                  selectedMaterial === material.name
+                                    ? "border-green-600 border-2"
+                                    : "border-gray-200 hover:border-green-200"
+                                }
+                              `}
+                        >
+                          <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg rounded-bl-lg">
+                            +₹{material.price}
+                          </div>
+                          <span className="text-center mt-4">
+                            {material.name}
+                          </span>
+                        </button>
+                      ))}
+                </div>
+              </div>
             </div>
 
             <p className="font-extralight text-xs text-gray-800 mb-6">
@@ -423,7 +457,10 @@ const ProductDetails = () => {
             )} */}
           </div>
         </div>
-        <ProductDetailsextra />
+        <ProductDetailsextra
+          producttype={productdetails.productType}
+          category={productdetails.category}
+        />
 
         {/* Image Modal */}
         {showModal && (
