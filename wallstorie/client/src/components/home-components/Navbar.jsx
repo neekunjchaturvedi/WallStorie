@@ -2,6 +2,32 @@ import { fetchCartItemCount } from "@/store/shop/cartslice";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const StyledWrapper = styled.div`
+  .animated-button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    font-size: 14px;
+    background-color: #43a047;
+    border-radius: 20px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .animated-button:hover {
+    background-color: #558b6e;
+  }
+
+  .animated-button:active {
+    transform: scale(0.95);
+  }
+`;
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -105,7 +131,7 @@ const Navbar = () => {
       </ul>
 
       {/* Right Icons on Larger Screens */}
-      <div className="hidden md:flex items-center space-x-4 text-[#4a4a4a] text-xl w-28 justify-between">
+      <div className="hidden md:flex items-center space-x-4 text-[#4a4a4a] text-xl w-32 justify-between">
         <button className="hover:text-green-700 transition-colors duration-300">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -124,16 +150,52 @@ const Navbar = () => {
             </span>
           )}
         </div>
-        <button className="hover:text-green-700 transition-colors duration-300">
-          <i className="fa-solid fa-user"></i>
-        </button>
+        {isAuthenticated ? (
+          <button
+            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return navigate("/profile");
+            }}
+          >
+            <i className="fa-solid fa-user"></i>
+          </button>
+        ) : (
+          <StyledWrapper>
+            <button
+              className="animated-button"
+              onClick={() => {
+                navigate("/auth/login");
+              }}
+            >
+              Login
+            </button>
+          </StyledWrapper>
+        )}
       </div>
 
       {/* Left Icons on Small Screens */}
       <div className="flex items-center md:hidden space-x-4 text-[#4a4a4a] text-xl">
-        <button className="hover:text-green-700 transition-colors duration-300">
-          <i className="fa-solid fa-user"></i>
-        </button>
+        {isAuthenticated ? (
+          <button
+            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return navigate("/profile");
+            }}
+          >
+            <i className="fa-solid fa-user"></i>
+          </button>
+        ) : (
+          <StyledWrapper>
+            <button
+              className="animated-button"
+              onClick={() => {
+                navigate("/auth/login");
+              }}
+            >
+              Login
+            </button>
+          </StyledWrapper>
+        )}
         <div className="relative">
           <button
             className="hover:text-green-700 transition-colors duration-300"
@@ -228,9 +290,27 @@ const Navbar = () => {
                 </span>
               )}
             </div>
-            <button className="hover:text-green-700 transition-colors duration-300">
-              <i className="fa-solid fa-user"></i>
-            </button>
+            {isAuthenticated ? (
+              <button
+                className="hover:text-green-700 transition-colors duration-300"
+                onClick={() => {
+                  return navigate("/cart");
+                }}
+              >
+                <i className="fa-solid fa-user"></i>
+              </button>
+            ) : (
+              <StyledWrapper>
+                <button
+                  className="animated-button"
+                  onClick={() => {
+                    navigate("/auth/login");
+                  }}
+                >
+                  Login
+                </button>
+              </StyledWrapper>
+            )}
           </div>
         </div>
       )}
