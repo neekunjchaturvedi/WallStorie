@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import CheckAuth from "./components/common/Checkauth";
 import ProductDetails from "./components/shopping/productdetails";
 import Cart from "./pages/Shopping/cart";
+import Artist from "./pages/Shopping/Artist";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -39,6 +40,7 @@ function App() {
       <Route path="curtain" element={<Curtains />} />
       <Route path="blinds" element={<Blinds />} />
       <Route path="cart" element={<Cart />} />
+      <Route path="artist" element={<Artist />} />
       {/* Changed from component to element */}
       <Route path="/products/:id" element={<ProductDetails />} />
 

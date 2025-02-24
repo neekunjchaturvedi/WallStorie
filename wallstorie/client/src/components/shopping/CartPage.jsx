@@ -90,11 +90,12 @@ const CartPage = () => {
         description: "Failed to remove item",
       });
     } finally {
-      setDeletingItems((prev) => {
+      setDeletingItemIds((prev) => {
         const newSet = new Set(prev);
         newSet.delete(itemId);
         return newSet;
       });
+      window.location.reload();
     }
   };
 

@@ -55,10 +55,21 @@ export const deleteCartItem = createAsyncThunk(
   }
 );
 
+export const fetchCartItemCount = createAsyncThunk(
+  "cart/fetchCartItemCount",
+  async (userId) => {
+    const response = await axios.get(
+      `http://localhost:5000/api/shop/cart/count/${userId}`
+    );
+    return response.data;
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cart: null,
+    itemCount: 0,
     items: [],
     isLoading: false,
     error: null,
@@ -119,6 +130,18 @@ const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteCartItem.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchCartItemCount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCartItemCount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.itemCount = action.payload.data.itemCount;
+        state.error = null;
+      })
+      .addCase(fetchCartItemCount.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       });

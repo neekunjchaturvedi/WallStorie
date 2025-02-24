@@ -310,3 +310,41 @@ exports.deleteCartItem = async (req, res) => {
     });
   }
 };
+
+exports.cartitemcount = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+  
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart not found",
+      });
+    }
+
+    // Count the items in the cart
+    const itemCount = await CartItem.countDocuments({ cartId: cart._id });
+
+    res.status(200).json({
+      success: true,
+      data: { itemCount },
+    });
+  } catch (error) {
+    console.error("Count cart item error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error counting cart items",
+      error: error.message,
+    });
+  }
+};

@@ -59,9 +59,8 @@ const ProductDetails = () => {
       if (productdetails?.salePrice) {
         const basePrice = productdetails.salePrice;
         const totalPriceCalc = (
-          calculatedArea *
-          (basePrice ) *
-          quantity+ materialPrice
+          calculatedArea * basePrice * quantity +
+          materialPrice
         ).toFixed(2);
         setTotalPrice(totalPriceCalc);
       }
@@ -167,6 +166,7 @@ const ProductDetails = () => {
           title: "Success",
           description: "Product added to cart successfully",
         });
+        window.location.reload();
       }
     } catch (error) {
       toast({
@@ -372,61 +372,65 @@ const ProductDetails = () => {
                   </div>
                 </div>
               )}
-              <div className="p-4">
-                <h3 className="text-green-700 font-medium mb-3 text-left">
-                  Material :{" "}
-                  <span className="text-black">{selectedMaterial}</span>
-                </h3>
-                <div className="flex gap-4">
-                  {productdetails.productType === "wallpapers"
-                    ? materials.map((material) => (
-                        <button
-                          key={material.id}
-                          onClick={() => handleMaterialChange(material)}
-                          className={`
-                                relative w-32 h-32 border rounded-lg p-4 
-                                flex flex-col items-center justify-center
-                                transition-all duration-200
-                                ${
-                                  selectedMaterial === material.name
-                                    ? "border-green-600 border-2"
-                                    : "border-gray-200 hover:border-green-200"
-                                }
-                              `}
-                        >
-                          <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg">
-                            +₹{material.price}
-                          </div>
-                          <span className="text-center mt-4">
-                            {material.name}
-                          </span>
-                        </button>
-                      ))
-                    : materialsblinds.map((material) => (
-                        <button
-                          key={material.id}
-                          onClick={() => handleMaterialChange(material)}
-                          className={`
-                                relative w-32 h-32 border rounded-lg p-4 
-                                flex flex-col items-center justify-center
-                                transition-all duration-200
-                                ${
-                                  selectedMaterial === material.name
-                                    ? "border-green-600 border-2"
-                                    : "border-gray-200 hover:border-green-200"
-                                }
-                              `}
-                        >
-                          <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg rounded-bl-lg">
-                            +₹{material.price}
-                          </div>
-                          <span className="text-center mt-4">
-                            {material.name}
-                          </span>
-                        </button>
-                      ))}
+              {(productdetails.productType === "wallpapers" ||
+                productdetails.productType === "curtains" ||
+                productdetails.productType === "blinds") && (
+                <div className="p-4">
+                  <h3 className="text-green-700 font-medium mb-3 text-left">
+                    Material :{" "}
+                    <span className="text-black">{selectedMaterial}</span>
+                  </h3>
+                  <div className="flex gap-4">
+                    {productdetails.productType === "wallpapers"
+                      ? materials.map((material) => (
+                          <button
+                            key={material.id}
+                            onClick={() => handleMaterialChange(material)}
+                            className={`
+                              relative w-32 h-32 border rounded-lg p-4 
+                              flex flex-col items-center justify-center
+                              transition-all duration-200
+                              ${
+                                selectedMaterial === material.name
+                                  ? "border-green-600 border-2"
+                                  : "border-gray-200 hover:border-green-200"
+                              }
+                            `}
+                          >
+                            <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg">
+                              +₹{material.price}
+                            </div>
+                            <span className="text-center mt-4">
+                              {material.name}
+                            </span>
+                          </button>
+                        ))
+                      : materialsblinds.map((material) => (
+                          <button
+                            key={material.id}
+                            onClick={() => handleMaterialChange(material)}
+                            className={`
+                              relative w-32 h-32 border rounded-lg p-4 
+                              flex flex-col items-center justify-center
+                              transition-all duration-200
+                              ${
+                                selectedMaterial === material.name
+                                  ? "border-green-600 border-2"
+                                  : "border-gray-200 hover:border-green-200"
+                              }
+                            `}
+                          >
+                            <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg rounded-bl-lg">
+                              +₹{material.price}
+                            </div>
+                            <span className="text-center mt-4">
+                              {material.name}
+                            </span>
+                          </button>
+                        ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <p className="font-extralight text-xs text-gray-800 mb-6">

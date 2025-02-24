@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import { fetchCartItemCount } from "@/store/shop/cartslice";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const nav = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { itemCount, isLoading } = useSelector((state) => state.cart);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(fetchCartItemCount(user.id));
+    }
+  }, [dispatch, user]);
 
   return (
     <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10 fixed">
@@ -20,7 +32,7 @@ const Navbar = () => {
       <div className="flex items-center cursor-pointer">
         <img
           onClick={() => {
-            return nav("/home");
+            return navigate("/home");
           }}
           src="/src/assets/logo.png"
           alt="Wall Storie"
@@ -33,7 +45,7 @@ const Navbar = () => {
         <li>
           <a
             onClick={() => {
-              return nav("/wallpapers");
+              return navigate("/wallpapers");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -43,7 +55,7 @@ const Navbar = () => {
         <li>
           <a
             onClick={() => {
-              return nav("/wallpaperrolls");
+              return navigate("/wallpaperrolls");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -53,7 +65,7 @@ const Navbar = () => {
         <li>
           <a
             onClick={() => {
-              return nav("/blinds");
+              return navigate("/blinds");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -63,7 +75,7 @@ const Navbar = () => {
         <li>
           <a
             onClick={() => {
-              return nav("/curtain");
+              return navigate("/curtain");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -73,7 +85,17 @@ const Navbar = () => {
         <li>
           <a
             onClick={() => {
-              return nav("/contact");
+              return navigate("/artist");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
+          >
+            Artist Collection
+          </a>
+        </li>
+        <li>
+          <a
+            onClick={() => {
+              return navigate("/contact");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -87,14 +109,21 @@ const Navbar = () => {
         <button className="hover:text-green-700 transition-colors duration-300">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
-        <button className="hover:text-green-700 transition-colors duration-300">
-          <i
-            className="fa-solid fa-bag-shopping"
+        <div className="relative">
+          <button
+            className="hover:text-green-700 transition-colors duration-300"
             onClick={() => {
-              return nav("/cart");
+              return navigate("/cart");
             }}
-          ></i>
-        </button>
+          >
+            <i className="fa-solid fa-bag-shopping"></i>
+          </button>
+          {isAuthenticated && !isLoading && itemCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {itemCount}
+            </span>
+          )}
+        </div>
         <button className="hover:text-green-700 transition-colors duration-300">
           <i className="fa-solid fa-user"></i>
         </button>
@@ -105,6 +134,21 @@ const Navbar = () => {
         <button className="hover:text-green-700 transition-colors duration-300">
           <i className="fa-solid fa-user"></i>
         </button>
+        <div className="relative">
+          <button
+            className="hover:text-green-700 transition-colors duration-300"
+            onClick={() => {
+              return navigate("/cart");
+            }}
+          >
+            <i className="fa-solid fa-bag-shopping"></i>
+          </button>
+          {isAuthenticated && !isLoading && itemCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {itemCount}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Mobile Layout (Overlay Menu) */}
@@ -119,7 +163,7 @@ const Navbar = () => {
 
           <a
             onClick={() => {
-              return nav("/wallpapers");
+              return navigate("/wallpapers");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -127,7 +171,7 @@ const Navbar = () => {
           </a>
           <a
             onClick={() => {
-              return nav("/wallpaperrolls");
+              return navigate("/wallpaperrolls");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -135,7 +179,7 @@ const Navbar = () => {
           </a>
           <a
             onClick={() => {
-              return nav("/blinds");
+              return navigate("/blinds");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
@@ -143,25 +187,47 @@ const Navbar = () => {
           </a>
           <a
             onClick={() => {
-              return nav("/curtain");
+              return navigate("/curtain");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Curtain
           </a>
+
+          <a
+            onClick={() => {
+              return navigate("/artist");
+            }}
+            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
+          >
+            Artist Collection
+          </a>
+
           <a
             href="#"
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Contact us
           </a>
-          <div className="items-center space-x-6 text-[#4a4a4a] text-xl ">
+          <div className="items-center flex space-x-6 text-[#4a4a4a] text-xl">
             <button className="hover:text-green-700 transition-colors duration-300">
               <i className="fa-solid fa-magnifying-glass"></i>
             </button>
-            <button className="hover:text-green-700 transition-colors duration-300">
-              <i className="fa-solid fa-bag-shopping"></i>
-            </button>
+            <div className="relative">
+              <button
+                className="hover:text-green-700 transition-colors duration-300"
+                onClick={() => {
+                  return navigate("/cart");
+                }}
+              >
+                <i className="fa-solid fa-bag-shopping"></i>
+              </button>
+              {isAuthenticated && !isLoading && itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                  {itemCount}
+                </span>
+              )}
+            </div>
             <button className="hover:text-green-700 transition-colors duration-300">
               <i className="fa-solid fa-user"></i>
             </button>
