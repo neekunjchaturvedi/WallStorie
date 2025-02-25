@@ -8,6 +8,7 @@ import Navbar from "@/components/home-components/Navbar";
 import { Hheader } from "@/components/home-components/header";
 import Orders from "@/components/shopping/orders";
 import Address from "@/components/shopping/address";
+import Userorders from "./Userorders";
 
 const Accounts = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -55,7 +56,7 @@ const Accounts = () => {
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="address">Address</TabsTrigger>
             </TabsList>
-            <TabsContent value="orders">{<Orders />}</TabsContent>
+            <TabsContent value="orders">{<Userorders />}</TabsContent>
             <TabsContent value="address">{<Address />}</TabsContent>
           </Tabs>
         </div>

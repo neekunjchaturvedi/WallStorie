@@ -8,11 +8,11 @@ const StyledWrapper = styled.div`
   .animated-button {
     position: relative;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 5px 7px 5px 7px;
     border: none;
     font-size: 14px;
     background-color: #43a047;
-    border-radius: 20px;
+    border-radius: 10px;
     font-weight: 600;
     color: #fff;
     cursor: pointer;
@@ -44,7 +44,7 @@ const Navbar = () => {
   }, [dispatch, user]);
 
   return (
-    <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10 fixed">
+    <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10">
       {/* Hamburger Menu Button */}
       <div className="flex items-center md:hidden">
         <button

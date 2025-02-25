@@ -163,7 +163,8 @@ const CartPage = () => {
           {items.map((item) => (
             <div
               key={item._id}
-              className="border rounded-lg p-4 bg-white shadow-sm"
+              className="border rounded-lg p-4 bg-white shadow-sm cursor-pointer"
+              onClick={() => navigate(`/products/${item.productId._id}`)}
             >
               <div className="flex gap-4">
                 <img
@@ -177,7 +178,10 @@ const CartPage = () => {
                       {item.productName}
                     </h3>
                     <button
-                      onClick={() => handleRemoveItem(item._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveItem(item._id);
+                      }}
                       disabled={deletingItemIds.has(item._id)}
                       className={`text-gray-400 hover:text-red-500 transition-colors ${
                         deletingItemIds.has(item._id)
@@ -220,13 +224,14 @@ const CartPage = () => {
                   <div className="flex justify-between items-center mt-4">
                     <div className="flex items-center gap-3 border rounded-lg p-1">
                       <button
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           handleQuantityChange(
                             item._id,
                             item.quantity - 1,
                             item.quantity
-                          )
-                        }
+                          );
+                        }}
                         disabled={item.quantity <= 1}
                         className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
@@ -236,13 +241,14 @@ const CartPage = () => {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           handleQuantityChange(
                             item._id,
                             item.quantity + 1,
                             item.quantity
-                          )
-                        }
+                          );
+                        }}
                         className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100"
                       >
                         <Plus className="w-4 h-4" />
@@ -299,7 +305,7 @@ const CartPage = () => {
                   value={specialInstructions}
                   onChange={(e) => setSpecialInstructions(e.target.value)}
                   placeholder="Any special instructions for your order?"
-                  className="w-full border rounded-lg p-2 text-sm min-h-[80px] resize-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full border rounded-lg p-2 text-sm min-h-[80px] resize-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white"
                 />
               </div>
 
@@ -313,7 +319,7 @@ const CartPage = () => {
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     placeholder="Enter promo code"
-                    className="flex-1 border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="flex-1 border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white"
                   />
                   <button
                     onClick={handleApplyPromo}
@@ -333,7 +339,7 @@ const CartPage = () => {
               </button>
 
               <button
-                onClick={() => navigate("/shop")}
+                onClick={() => navigate("/wallpapers")}
                 className="w-full border border-green-600 text-green-600 py-3 rounded-lg font-medium hover:bg-green-50 transition-colors"
               >
                 Continue Shopping

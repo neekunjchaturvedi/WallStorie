@@ -17,14 +17,14 @@ export const addressFormControls = [
     label: "Pincode",
     name: "pincode",
     componentType: "input",
-    type: "text",
+    type: "number",
     placeholder: "Enter your pincode",
   },
   {
     label: "Phone",
     name: "phone",
     componentType: "input",
-    type: "text",
+    type: "number",
     placeholder: "Enter your phone number",
   },
   {

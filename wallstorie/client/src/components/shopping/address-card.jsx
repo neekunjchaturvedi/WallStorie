@@ -18,7 +18,7 @@ function AddressCard({
       className={`cursor-pointer border p-4 rounded-md ${
         selectedId?._id === addressInfo?._id
           ? "border-red-900 border-4"
-          : "border-black"
+          : "border-grey"
       }`}
     >
       <div className="grid gap-4 text-left">
@@ -39,8 +39,18 @@ function AddressCard({
         </h3>
       </div>
       <div className="flex justify-between mt-4">
-        <Button onClick={() => handleEditAddress(addressInfo)}>Edit</Button>
-        <Button onClick={() => handleDeleteAddress(addressInfo)}>Delete</Button>
+        <Button
+          className="bg-green-600 hover:bg-green-700"
+          onClick={() => handleEditAddress(addressInfo)}
+        >
+          Edit
+        </Button>
+        <Button
+          className="bg-green-600 hover:bg-green-700"
+          onClick={() => handleDeleteAddress(addressInfo)}
+        >
+          Delete
+        </Button>
       </div>
     </div>
   );
