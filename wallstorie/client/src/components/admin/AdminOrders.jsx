@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import {
   Table,
   TableBody,
@@ -8,11 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-function UOrders() {
+function AdminOrders() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Order History</CardTitle>
+        <CardTitle>All Orders</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -33,4 +34,4 @@ function UOrders() {
   );
 }
 
-export default UOrders;
+export default AdminOrders;
