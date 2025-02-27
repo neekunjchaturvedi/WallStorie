@@ -12,7 +12,7 @@ const calculatePrice = (product, quantity, height, width, materialPrice) => {
     area = (height * width) / 144;
     totalPrice = area * product.salePrice * quantity + (materialPrice || 0);
   } else {
-    totalPrice = product.salePrice * quantity;
+    totalPrice = product.salePrice + materialPrice * quantity;
   }
 
   return { totalPrice, area };
@@ -71,7 +71,7 @@ exports.addToCart = async (req, res) => {
     if (cartItem) {
       // Update existing item
       cartItem.quantity += quantity;
-      cartItem.totalPrice = totalPrice;
+      cartItem.totalPrice = totalPrice + totalPrice * quantity;
       cartItem.height = height;
       cartItem.width = width;
       cartItem.area = area;
@@ -315,7 +315,6 @@ exports.cartitemcount = async (req, res) => {
   try {
     const { userId } = req.params;
 
-  
     if (!userId) {
       return res.status(400).json({
         success: false,

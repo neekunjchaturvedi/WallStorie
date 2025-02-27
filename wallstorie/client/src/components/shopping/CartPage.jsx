@@ -166,6 +166,8 @@ const CartPage = () => {
               className="border rounded-lg p-4 bg-white shadow-sm cursor-pointer"
               onClick={() => navigate(`/products/${item.productId._id}`)}
             >
+              <div>{item.productType}
+                </div>
               <div className="flex gap-4">
                 <img
                   src={item.image || "/placeholder-image.jpg"}
@@ -197,7 +199,7 @@ const CartPage = () => {
                     Size:{" "}
                     {item.productType === "wallpaperRolls" ||
                     item.productType === "curtains"
-                      ? "Standard Roll"
+                      ? "Standard"
                       : "Custom Size"}
                   </p>
 

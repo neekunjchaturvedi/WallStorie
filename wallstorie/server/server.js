@@ -41,7 +41,6 @@ app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shop/products", shopProductRouter);
 app.use("/api/shop/cart", shopcartRouter);
 app.use("/api/shop/address", shopAddressRouter);
-
 app.use("/api/payments", paymentRouter);
 
 app.listen(PORT, () => {

@@ -16,7 +16,7 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
-
+        
   const { cart, items, isLoading } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
