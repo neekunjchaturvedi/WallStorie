@@ -1,6 +1,5 @@
 import { useToast } from "@/hooks/use-toast";
 import { registeruser } from "@/store/auth-slice";
-
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
