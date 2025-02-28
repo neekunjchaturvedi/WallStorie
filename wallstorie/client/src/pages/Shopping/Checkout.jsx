@@ -25,6 +25,7 @@ const Checkout = () => {
   const [promoCode, setPromoCode] = useState("");
   const [applyingPromo, setApplyingPromo] = useState(false);
   const [deletingItemIds, setDeletingItemIds] = useState(new Set());
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -77,7 +78,6 @@ const Checkout = () => {
         toast({
           description: "Item removed from cart",
         });
-        // Refresh cart data
         dispatch(fetchCartItems(user.id));
       }
     } catch (error) {
@@ -100,7 +100,6 @@ const Checkout = () => {
 
     setApplyingPromo(true);
     try {
-      // Implement promo code logic here
       toast({
         description: "Promo code applied successfully",
       });
@@ -128,8 +127,11 @@ const Checkout = () => {
       <div className="flex p-7 text-green-600">Add Address for Delivery</div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 px-3">
-        <Address />
-        <div className=" space-y-6">
+        <Address
+          setCurrentSelectedAddress={(address) => setSelectedAddress(address)}
+          selectedId={selectedAddress?._id}
+        />
+        <div className="space-y-6">
           {items.map((item) => (
             <div
               key={item._id}
@@ -302,7 +304,7 @@ const Checkout = () => {
 
                 <Payment
                   orderDetails={orderDetails}
-                  shippingAddress={cart.shippingAddress}
+                  shippingAddress={selectedAddress}
                 />
               </div>
             </div>

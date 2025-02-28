@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CommonForm from "../common/form";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-
-import { useDispatch, useSelector } from "react-redux";
 import {
   addNewAddress,
   deleteAddress,
@@ -29,7 +28,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
   const { addressList } = useSelector((state) => state.shopAddress);
   const { toast } = useToast();
 
-  function handleManageAddress(event) {
+  const handleManageAddress = (event) => {
     event.preventDefault();
 
     if (addressList.length >= 3 && currentEditedId === null) {
@@ -73,9 +72,9 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
             });
           }
         });
-  }
+  };
 
-  function handleDeleteAddress(getCurrentAddress) {
+  const handleDeleteAddress = (getCurrentAddress) => {
     dispatch(
       deleteAddress({ userId: user?.id, addressId: getCurrentAddress._id })
     ).then((data) => {
@@ -86,31 +85,31 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
         });
       }
     });
-  }
+  };
 
-  function handleEditAddress(getCuurentAddress) {
-    setCurrentEditedId(getCuurentAddress?._id);
+  const handleEditAddress = (getCurrentAddress) => {
+    setCurrentEditedId(getCurrentAddress?._id);
     setFormData({
       ...formData,
-      address: getCuurentAddress?.address,
-      city: getCuurentAddress?.city,
-      phone: getCuurentAddress?.phone,
-      pincode: getCuurentAddress?.pincode,
-      notes: getCuurentAddress?.notes,
+      address: getCurrentAddress?.address,
+      city: getCurrentAddress?.city,
+      phone: getCurrentAddress?.phone,
+      pincode: getCurrentAddress?.pincode,
+      notes: getCurrentAddress?.notes,
     });
-  }
+  };
 
-  function isFormValid() {
+  const isFormValid = () => {
     return Object.keys(formData)
       .map((key) => formData[key].trim() !== "")
       .every((item) => item);
-  }
+  };
 
   useEffect(() => {
-    dispatch(fetchAllAddresses(user?.id));
-  }, [dispatch]);
-
-  console.log(addressList, "addressList");
+    if (user?.id) {
+      dispatch(fetchAllAddresses(user.id));
+    }
+  }, [dispatch, user]);
 
   return (
     <Card>
@@ -118,6 +117,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
         {addressList && addressList.length > 0
           ? addressList.map((singleAddressItem) => (
               <AddressCard
+                key={singleAddressItem._id}
                 selectedId={selectedId}
                 handleDeleteAddress={handleDeleteAddress}
                 addressInfo={singleAddressItem}

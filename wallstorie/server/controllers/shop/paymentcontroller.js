@@ -1,6 +1,10 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-const { Order } = require("../../models/orders");
+const Order = require("../../models/orders");
+const dotenv = require("dotenv");
+const Cart = require("../../models/Cart");
+
+dotenv.config({ path: "config.env" });
 
 const razorpayInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,

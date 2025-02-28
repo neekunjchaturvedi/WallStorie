@@ -40,11 +40,14 @@ const Payment = ({ orderDetails, shippingAddress }) => {
       }
 
       // Create order on server
-      const response = await axios.post("/api/payments/create-order", {
-        amount: cart.totalAmount,
-        currency: "INR",
-        receipt: `receipt_${Date.now()}`,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/payments/create-order",
+        {
+          amount: cart.totalAmount,
+          currency: "INR",
+          receipt: `receipt_${Date.now()}`,
+        }
+      );
 
       if (!response.data.success) {
         throw new Error(response.data.message || "Failed to create order");
@@ -54,7 +57,7 @@ const Payment = ({ orderDetails, shippingAddress }) => {
 
       // Initialize Razorpay options
       const options = {
-        key: process.env.RAZORPAY_KEY_ID, // Replace with your actual test key
+        key: "rzp_test_4Cg7heDn6qDvau", // Replace with your actual test key
         amount: order.amount, // Amount in smallest currency unit (paise)
         currency: order.currency,
         name: "Wall Storie",
@@ -64,7 +67,7 @@ const Payment = ({ orderDetails, shippingAddress }) => {
           try {
             // Verify payment on server
             const verificationResponse = await axios.post(
-              "/api/payments/verify-payment",
+              "http://localhost:5000/api/payments/verify-payment",
               {
                 orderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,
