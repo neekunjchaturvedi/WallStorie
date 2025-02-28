@@ -57,7 +57,7 @@ const Payment = ({ orderDetails, shippingAddress }) => {
 
       // Initialize Razorpay options
       const options = {
-        key: "rzp_test_4Cg7heDn6qDvau", // Replace with your actual test key
+        key: "abcd", // Replace with your actual test key
         amount: order.amount, // Amount in smallest currency unit (paise)
         currency: order.currency,
         name: "Wall Storie",
