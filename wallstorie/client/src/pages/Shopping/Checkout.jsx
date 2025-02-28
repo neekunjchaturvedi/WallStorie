@@ -5,6 +5,7 @@ import { Trash2, Minus, Plus } from "lucide-react";
 import { Hheader } from "@/components/home-components/header";
 import Navbar from "@/components/home-components/Navbar";
 import Address from "@/components/shopping/address";
+import Payment from "@/components/shopping/Payment";
 import { useToast } from "@/hooks/use-toast";
 import {
   deleteCartItem,
@@ -16,7 +17,7 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
-        
+
   const { cart, items, isLoading } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
@@ -112,6 +113,14 @@ const Checkout = () => {
       setApplyingPromo(false);
     }
   };
+
+  const orderDetails = {
+    items,
+    totalAmount: cart.totalAmount,
+    specialInstructions,
+    promoCode,
+  };
+
   return (
     <>
       <Hheader />
@@ -290,6 +299,11 @@ const Checkout = () => {
                 >
                   Continue Shopping
                 </button>
+
+                <Payment
+                  orderDetails={orderDetails}
+                  shippingAddress={cart.shippingAddress}
+                />
               </div>
             </div>
           </div>

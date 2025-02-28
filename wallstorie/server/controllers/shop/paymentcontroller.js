@@ -1,10 +1,11 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-const { Order } = require("../../models/orders"); // Assuming you have an Order model
+const { Order } = require("../../models/orders");
 
-// import { razorpayInstance } from "../../server";
-// Initialize Razorpay instance
-
+const razorpayInstance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 // Create an order
 exports.createOrder = async (req, res) => {
@@ -18,9 +19,9 @@ exports.createOrder = async (req, res) => {
     };
 
     const order = await razorpayInstance.orders.create(options);
-    res.json(order);
+    res.json({ success: true, order });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
