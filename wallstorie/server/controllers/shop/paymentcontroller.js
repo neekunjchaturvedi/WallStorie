@@ -1,12 +1,10 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const { Order } = require("../../models/orders"); // Assuming you have an Order model
-require('dotenv').config();
+
+// import { razorpayInstance } from "../../server";
 // Initialize Razorpay instance
-// const razorpayInstance = new Razorpay({
-//   key_id: process.env.RAZORPAY_KEY_ID,
-//   key_secret: process.env.RAZORPAY_KEY_SECRET,
-// });
+
 
 // Create an order
 exports.createOrder = async (req, res) => {

@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const authrouter = require("./routes/auth/auth-rotes");
 const adminProductsRouter = require("./routes/admin/product-routes");
 const shopProductRouter = require("./routes/shop/productroutes");
@@ -9,15 +10,15 @@ const shopAddressRouter = require("./routes/shop/addressroutes");
 const paymentRouter = require("./routes/shop/paymentroutes");
 const mongoose = require("mongoose");
 
+dotenv.config({ path: "config.env" });
+
 mongoose
-  .connect(
-    "mongodb+srv://neekunjchaturvedi3:rishiyogitha@cluster0.pe2yh.mongodb.net/"
-  )
+  .connect(process.env.DB_URL)
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.log(error));
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.use(
   cors({
