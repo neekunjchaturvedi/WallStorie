@@ -347,3 +347,43 @@ exports.cartitemcount = async (req, res) => {
     });
   }
 };
+
+exports.emptyCart = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart not found",
+      });
+    }
+
+    await CartItem.deleteMany({ cartId: cart._id });
+
+    cart.totalItems = 0;
+    cart.totalAmount = 0;
+    await cart.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Cart emptied successfully",
+    });
+  } catch (error) {
+    console.error("Empty cart error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error emptying cart",
+      error: error.message,
+    });
+  }
+};
