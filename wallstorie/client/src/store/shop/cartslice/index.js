@@ -65,6 +65,13 @@ export const fetchCartItemCount = createAsyncThunk(
   }
 );
 
+export const emptyCart = createAsyncThunk("cart/emptyCart", async (userId) => {
+  const response = await axios.delete(
+    `http://localhost:5000/api/shop/cart/${userId}/empty`
+  );
+  return response.data;
+});
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -144,6 +151,12 @@ const cartSlice = createSlice({
       .addCase(fetchCartItemCount.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+      })
+      // Empty Cart
+      .addCase(emptyCart.fulfilled, (state) => {
+        state.cart = null;
+        state.items = [];
+        state.itemCount = 0;
       });
   },
 });

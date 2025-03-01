@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { emptyCart } from "@/store/shop/cartslice"; // Import the emptyCart action
 
 const Payment = ({ orderDetails, shippingAddress }) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
@@ -87,6 +89,9 @@ const Payment = ({ orderDetails, shippingAddress }) => {
                 description: "Payment successful! Your order has been placed.",
               });
 
+              // Empty the cart
+              dispatch(emptyCart(user.id));
+
               // Navigate to success page
               navigate(`/order/success/${order.id}`, {
                 state: {
@@ -160,7 +165,7 @@ const Payment = ({ orderDetails, shippingAddress }) => {
           disabled={true}
           className="w-full bg-green-600 text-white py-4 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
         >
-          Pay with Razorpay(Please select address to continue)
+          Pay with Razorpay (Please select address to continue)
         </button>
       )}
     </>

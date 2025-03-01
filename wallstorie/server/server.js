@@ -8,6 +8,8 @@ const shopProductRouter = require("./routes/shop/productroutes");
 const shopcartRouter = require("./routes/shop/cartroutes");
 const shopAddressRouter = require("./routes/shop/addressroutes");
 const paymentRouter = require("./routes/shop/paymentroutes");
+const shopOrderRouter = require("./routes/shop/orderroutes");
+const adminOrderRouter = require("./routes/admin/orderroutes");
 const mongoose = require("mongoose");
 
 dotenv.config({ path: "config.env" });
@@ -43,6 +45,8 @@ app.use("/api/shop/products", shopProductRouter);
 app.use("/api/shop/cart", shopcartRouter);
 app.use("/api/shop/address", shopAddressRouter);
 app.use("/api/payments", paymentRouter);
+app.use("/api/shop/order", shopOrderRouter);
+app.use("/api/admin/orders", adminOrderRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running at port ${PORT}`);

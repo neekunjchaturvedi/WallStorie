@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { useSelector } from "react-redux";
 
 function OrderSuccess() {
   const location = useLocation();
@@ -16,7 +17,7 @@ function OrderSuccess() {
       </div>
       <Button
         className="bg-green-600 hover:bg-green-700"
-        onclick={() => {
+        onClick={() => {
           {
             isAuthenticated ? nav("/profile") : nav("/auth/login");
           }
