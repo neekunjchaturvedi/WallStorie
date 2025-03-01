@@ -206,7 +206,7 @@ const Navbar = () => {
             <i className="fa-solid fa-bag-shopping"></i>
           </button>
           {isAuthenticated && !isLoading && itemCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+            <span className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
               {itemCount}
             </span>
           )}
@@ -285,7 +285,7 @@ const Navbar = () => {
                 <i className="fa-solid fa-bag-shopping"></i>
               </button>
               {isAuthenticated && !isLoading && itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                <span className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                   {itemCount}
                 </span>
               )}
@@ -294,7 +294,7 @@ const Navbar = () => {
               <button
                 className="hover:text-green-700 transition-colors duration-300"
                 onClick={() => {
-                  return navigate("/cart");
+                  return navigate("/profile");
                 }}
               >
                 <i className="fa-solid fa-user"></i>

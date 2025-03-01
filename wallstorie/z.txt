@@ -1,6 +1,4 @@
-user layout '
-admin panel updation ***
-search sort 
-cart
-profile
-checkout
+Orders
+search 
+review
+
