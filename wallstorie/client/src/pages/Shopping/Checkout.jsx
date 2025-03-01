@@ -190,7 +190,7 @@ const Checkout = () => {
                     </p>
                   )}
 
-                  <div className="flex justify-between items-center mt-4">
+                  <div className="flex justify-between flex-col items-center mt-4">
                     <div className="flex items-center gap-3 border rounded-lg p-1">
                       <button
                         onClick={() =>
@@ -229,7 +229,7 @@ const Checkout = () => {
               </div>
             </div>
           ))}
-          <div className="lg:col-span-1 px-12">
+          <div className="px-6">
             <div className="border rounded-lg p-6 bg-white shadow-sm sticky top-4">
               <h2 className="text-xl font-medium mb-4">Order Summary</h2>
 
@@ -301,7 +301,7 @@ const Checkout = () => {
                 >
                   Continue Shopping
                 </button>
-
+                {}
                 <Payment
                   orderDetails={orderDetails}
                   shippingAddress={selectedAddress}

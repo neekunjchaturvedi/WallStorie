@@ -223,7 +223,7 @@ const CartPage = () => {
                     </p>
                   )}
 
-                  <div className="flex justify-between items-center mt-4">
+                  <div className="flex justify-between flex-col items-center mt-4">
                     <div className="flex items-center gap-3 border rounded-lg p-1">
                       <button
                         onClick={(e) => {

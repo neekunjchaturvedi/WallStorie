@@ -52,12 +52,13 @@ const Payment = ({ orderDetails, shippingAddress }) => {
       if (!response.data.success) {
         throw new Error(response.data.message || "Failed to create order");
       }
+      const key = import.meta.env.RAZORPAY_KEY_ID;
 
       const { order } = response.data;
 
       // Initialize Razorpay options
       const options = {
-        key: "abcd", // Replace with your actual test key
+        key: key, // Replace with your actual test key
         amount: order.amount, // Amount in smallest currency unit (paise)
         currency: order.currency,
         name: "Wall Storie",
@@ -87,7 +88,7 @@ const Payment = ({ orderDetails, shippingAddress }) => {
               });
 
               // Navigate to success page
-              navigate("/order/success", {
+              navigate(`/order/success/${order.id}`, {
                 state: {
                   orderId: verificationResponse.data.order._id,
                 },
@@ -144,13 +145,25 @@ const Payment = ({ orderDetails, shippingAddress }) => {
   };
 
   return (
-    <button
-      onClick={handlePayment}
-      disabled={loading}
-      className="w-full bg-green-600 text-white py-4 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-    >
-      {loading ? "Processing..." : "Pay with Razorpay"}
-    </button>
+    <>
+      {orderDetails && shippingAddress ? (
+        <button
+          onClick={handlePayment}
+          disabled={loading}
+          className="w-full bg-green-600 text-white py-4 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+        >
+          {loading ? "Processing..." : "Pay with Razorpay"}
+        </button>
+      ) : (
+        <button
+          onClick={handlePayment}
+          disabled={true}
+          className="w-full bg-green-600 text-white py-4 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+        >
+          Pay with Razorpay(Please select address to continue)
+        </button>
+      )}
+    </>
   );
 };
 
