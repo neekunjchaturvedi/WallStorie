@@ -47,10 +47,12 @@ function ShoppingOrderDetailsView({ orderDetails }) {
               <Badge
                 className={`py-1 px-3 ${
                   orderDetails?.status === "Delivered"
-                    ? "bg-green-500"
+                    ? "bg-green-700 hover:bg-green-700"
                     : orderDetails?.status === "Cancelled"
-                    ? "bg-red-600"
-                    : "bg-black"
+                    ? "bg-red-600 hover:bg-red-600"
+                    : orderDetails?.status === "Shipped"
+                    ? "bg-green-500 hover:bg-green-500"
+                    : "bg-black hover:bg-black"
                 }`}
               >
                 {orderDetails?.status}

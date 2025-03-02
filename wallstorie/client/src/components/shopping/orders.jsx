@@ -78,10 +78,12 @@ function UOrders() {
                       <Badge
                         className={`py-1 px-3 ${
                           orderItem?.status === "Delivered"
-                            ? "bg-green-500"
+                            ? "bg-green-700 hover:bg-green-700"
                             : orderItem?.status === "Cancelled"
-                            ? "bg-red-600"
-                            : "bg-black"
+                            ? "bg-red-600 hover:bg-red-600"
+                            : orderItem?.status === "Shipped"
+                            ? "bg-green-500 hover:bg-green-500"
+                            : "bg-black hover:bg-black"
                         }`}
                       >
                         {orderItem?.status}

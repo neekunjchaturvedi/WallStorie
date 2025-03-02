@@ -1,5 +1,9 @@
 import AdminOrders from "@/components/admin/AdminOrders";
 
 export default function Orders() {
-  return <AdminOrders />;
+  return (
+    <div className="">
+      <AdminOrders />
+    </div>
+  );
 }
