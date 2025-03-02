@@ -23,6 +23,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             <p className="font-medium">Order ID</p>
             <Label>{orderDetails?._id}</Label>
           </div>
+
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Date</p>
             <Label>
@@ -68,8 +69,13 @@ function ShoppingOrderDetailsView({ orderDetails }) {
               <TableHeader>
                 <TableRow>
                   <TableHead>Title</TableHead>
+                  <TableHead>Type</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Price</TableHead>
+                  <TableHead>Width</TableHead>
+                  <TableHead>Height</TableHead>
+                  <TableHead>Area</TableHead>
+                  <TableHead>Material</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -77,8 +83,13 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                   ? orderDetails.items.map((item) => (
                       <TableRow key={item.productId}>
                         <TableCell>{item.productName}</TableCell>
+                        <TableCell>{item.productType}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>₹{item.totalPrice}</TableCell>
+                        <TableCell>{item.width}</TableCell>
+                        <TableCell>{item.height}</TableCell>
+                        <TableCell>{item.area}</TableCell>
+                        <TableCell>{item.selectedMaterial}</TableCell>
                       </TableRow>
                     ))
                   : null}

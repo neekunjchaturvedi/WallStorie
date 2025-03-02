@@ -100,9 +100,14 @@ function AdminOrderDetailsView({ orderDetails }) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Product Name</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Type</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Price</TableHead>
+                  <TableHead>Width</TableHead>
+                  <TableHead>Height</TableHead>
+                  <TableHead>Area(sqft)</TableHead>
+                  <TableHead>Material</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -110,8 +115,13 @@ function AdminOrderDetailsView({ orderDetails }) {
                   ? orderDetails.items.map((item) => (
                       <TableRow key={item.productId}>
                         <TableCell>{item.productName}</TableCell>
+                        <TableCell>{item.productType}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>₹{item.totalPrice}</TableCell>
+                        <TableCell>{item.width}</TableCell>
+                        <TableCell>{item.height}</TableCell>
+                        <TableCell>{item.area}</TableCell>
+                        <TableCell>{item.selectedMaterial}</TableCell>
                       </TableRow>
                     ))
                   : null}

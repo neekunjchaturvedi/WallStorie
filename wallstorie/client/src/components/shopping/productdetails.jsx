@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getproductinfo } from "@/store/shop/productslice";
 import { addToCart } from "@/store/shop/cartslice";
 import UserLayout from "../user/layout";
-import { X } from "lucide-react";
+import { Share2, X } from "lucide-react";
 import ProductDetailsextra from "./prodextradetails";
 import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
@@ -244,6 +244,22 @@ const ProductDetails = () => {
       navigate("/checkout");
     } catch (error) {}
   };
+  const handleshare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Check this ${productdetails.productType}`,
+          text: `Sold by WallStorie  ${productdetails.productName}.`,
+          url: window.location.href,
+        });
+        console.log("Content shared successfully");
+      } catch (error) {
+        console.error("Error sharing content", error);
+      }
+    } else {
+      console.error("Web Share API not supported in this browser");
+    }
+  };
 
   if (!productdetails) {
     return (
@@ -308,20 +324,29 @@ const ProductDetails = () => {
               {productdetails.productType === "wallpaperRolls" ||
               productdetails.productType === "curtains" ? (
                 <>
-                  <div className="flex items-center gap-4 font-lato">
-                    <span className="text-2xl font-bold text-green-600">
-                      ₹{productdetails.salePrice}
-                    </span>
-                    {productdetails.salePrice && (
-                      <span className="text-xl text-gray-500 line-through">
-                        ₹{productdetails.price}
+                  <div className="flex items-center justify-between gap-4 font-lato">
+                    <div className="flex items-center gap-4 font-lato">
+                      <span className="text-2xl font-bold text-green-600">
+                        ₹{productdetails.salePrice}
                       </span>
-                    )}
-                    {productdetails.discount && (
-                      <span className="text-xl text-green-600">
-                        {productdetails.discount}% off
-                      </span>
-                    )}
+                      {productdetails.salePrice && (
+                        <span className="text-xl text-gray-500 line-through">
+                          ₹{productdetails.price}
+                        </span>
+                      )}
+                      {productdetails.discount && (
+                        <span className="text-xl text-green-600">
+                          {productdetails.discount}% off
+                        </span>
+                      )}
+                    </div>
+
+                    <div
+                      className="text-green-600 bg-white hover:bg-white cursor-pointer"
+                      onClick={handleshare}
+                    >
+                      <Share2 size={28} />
+                    </div>
                   </div>
                   <div className="flex">
                     {productdetails.productType === "wallpaperRolls" ? (
@@ -358,22 +383,31 @@ const ProductDetails = () => {
                 </>
               ) : (
                 <div className="space-y-6 font-lato">
-                  <div className="flex items-center gap-4 font-lato">
-                    <span className="text-2xl font-bold text-green-600">
-                      ₹{productdetails.salePrice}
-                    </span>
-                    {productdetails.salePrice && (
-                      <span className="text-xl text-gray-500 line-through">
-                        ₹{productdetails.price}
+                  <div className="flex items-center justify-between gap-4 font-lato">
+                    <div className="flex items-center gap-4 font-lato">
+                      <span className="text-2xl font-bold text-green-600">
+                        ₹{productdetails.salePrice}
                       </span>
-                    )}
-                    {productdetails.discount && (
-                      <span className="text-xl text-green-600">
-                        {productdetails.discount}% off
-                      </span>
-                    )}
+                      {productdetails.salePrice && (
+                        <span className="text-xl text-gray-500 line-through">
+                          ₹{productdetails.price}
+                        </span>
+                      )}
+                      {productdetails.discount && (
+                        <span className="text-xl text-green-600">
+                          {productdetails.discount}% off
+                        </span>
+                      )}
+                    </div>
+
+                    <div
+                      className="text-green-600 bg-white hover:bg-white cursor-pointer"
+                      onClick={handleshare}
+                    >
+                      <Share2 size={28} />
+                    </div>
                   </div>
-                  <Button>share</Button>
+
                   <div className="p-6 rounded-lg">
                     <div className="mb-4 flex">
                       <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left">
