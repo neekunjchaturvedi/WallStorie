@@ -1,3 +1,17 @@
 review
 price increase according to material select wallpaper rolls and curtains
 Artist collection
+.env file save
+
+
+
+
+
+
+mongodb setup
+cloudinary setup
+api hosting
+razorpay 
+whatapp num
+contact us
+

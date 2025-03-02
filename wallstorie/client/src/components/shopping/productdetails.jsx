@@ -68,7 +68,9 @@ const ProductDetails = () => {
       }
     } else if (productdetails?.salePrice) {
       // For standard products without custom dimensions
-      setTotalPrice((productdetails.salePrice * quantity).toFixed(2));
+      setTotalPrice(
+        (productdetails.salePrice * quantity + materialPrice).toFixed(2)
+      );
     }
   }, [height, width, productdetails?.salePrice, materialPrice, quantity]);
 
@@ -87,6 +89,11 @@ const ProductDetails = () => {
   const handleMaterialChange = (material) => {
     setSelectedMaterial(material.name);
     setMaterialPrice(material.price);
+    if (!height && !width) {
+      setTotalPrice(
+        (productdetails.salePrice * quantity + material.price).toFixed(2)
+      );
+    }
   };
 
   const handleDecrease = () => {
@@ -532,6 +539,11 @@ const ProductDetails = () => {
                           </button>
                         ))}
                   </div>
+                  {selectedMaterial && !height && !width && (
+                    <div className="mt-4 text-2xl font-bold text-green-600 font-lato">
+                      Total Price: ₹{totalPrice}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

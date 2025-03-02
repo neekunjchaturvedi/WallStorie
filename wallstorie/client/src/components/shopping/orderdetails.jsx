@@ -11,9 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingOrderDetailsView({ orderDetails }) {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   return (
     <DialogContent className="sm:max-w-[600px]">
@@ -69,6 +71,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
               <TableHeader>
                 <TableRow>
                   <TableHead>Title</TableHead>
+                  <TableHead>Image</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Price</TableHead>
@@ -81,8 +84,22 @@ function ShoppingOrderDetailsView({ orderDetails }) {
               <TableBody>
                 {orderDetails?.items && orderDetails?.items.length > 0
                   ? orderDetails.items.map((item) => (
-                      <TableRow key={item.productId}>
+                      <TableRow
+                        key={item.productId}
+                        onClick={() => navigate(`/products/${item.productId}`)}
+                      >
                         <TableCell>{item.productName}</TableCell>
+                        <TableCell>
+                          <img
+                            src={item.image}
+                            alt={item.productName}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </TableCell>
                         <TableCell>{item.productType}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>₹{item.totalPrice}</TableCell>
