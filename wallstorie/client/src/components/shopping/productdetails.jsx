@@ -11,6 +11,8 @@ import { Bottomfoot } from "../home-components/Bottomfoot";
 import { checkAuth } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
 
+import { Button } from "../ui/button";
+
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -166,7 +168,6 @@ const ProductDetails = () => {
           title: "Success",
           description: "Product added to cart successfully",
         });
-        window.location.reload();
       }
     } catch (error) {
       toast({
@@ -175,6 +176,73 @@ const ProductDetails = () => {
         description: error.message || "Failed to add to cart",
       });
     }
+  };
+  const handleBuyNow = async () => {
+    if (!isAuthenticated) {
+      navigate("/auth/login");
+      return;
+    }
+
+    // Validate inputs for custom size products
+    if (
+      productdetails.productType !== "wallpaperRolls" &&
+      productdetails.productType !== "curtains" &&
+      productdetails.category !== "sheer"
+    ) {
+      if (!height || !width) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please enter both height and width",
+        });
+        return;
+      }
+
+      if (!selectedMaterial) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please select a material",
+        });
+        return;
+      }
+    }
+
+    // For curtains, validate material selection
+    if (
+      (productdetails.productType === "curtains" ||
+        productdetails.productType === "blinds") &&
+      !selectedMaterial
+    ) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please select a material type",
+      });
+      return;
+    }
+
+    try {
+      const cartItem = {
+        userId: user.id,
+        productId: productdetails._id,
+        quantity,
+        price: productdetails.salePrice,
+        totalPrice: parseFloat(totalPrice),
+        height: height || null,
+        width: width || null,
+        area: area || null,
+        selectedMaterial,
+        materialPrice,
+        productType: productdetails.productType,
+        productName: productdetails.title || productdetails.productName,
+        image: productdetails.image1,
+      };
+
+      const result = await dispatch(addToCart(cartItem)).unwrap();
+
+      navigate("/checkout");
+    } catch (error) {}
   };
 
   if (!productdetails) {
@@ -305,6 +373,7 @@ const ProductDetails = () => {
                       </span>
                     )}
                   </div>
+                  <Button>share</Button>
                   <div className="p-6 rounded-lg">
                     <div className="mb-4 flex">
                       <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left">
@@ -445,7 +514,10 @@ const ProductDetails = () => {
               >
                 Add to Cart
               </button>
-              <button className="flex-1 bg-white text-green-700 py-3 px-6 border-2 border-green-500 transition duration-200 text-lg font-semibold font-lato">
+              <button
+                className="flex-1 bg-white text-green-700 py-3 px-6 border-2 border-green-500 transition duration-200 text-lg font-semibold font-lato"
+                onClick={handleBuyNow}
+              >
                 Buy Now
               </button>
             </div>
@@ -496,7 +568,7 @@ const ProductDetails = () => {
           </div>
         )}
       </div>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-full mx-auto">
         <Footer />
       </div>
       <Bottomfoot />

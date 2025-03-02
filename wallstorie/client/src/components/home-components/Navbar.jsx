@@ -46,7 +46,7 @@ const Navbar = () => {
   return (
     <nav className="font-lato flex items-center justify-between w-full max-w-[1169px] h-[80px] mx-auto px-6 rounded-full mb-8 border-2 border-white/50 bg-green-50 shadow-lg backdrop-blur-md relative z-10">
       {/* Hamburger Menu Button */}
-      <div className="flex items-center md:hidden">
+      <div className="flex items-center lg:hidden">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="text-[#4a4a4a] text-2xl hover:text-green-700 transition-colors duration-300"
@@ -67,7 +67,7 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Menu */}
-      <ul className="hidden md:flex space-x-8 text-[#4a4a4a] font-medium text-lg">
+      <ul className="hidden lg:flex space-x-8 text-[#4a4a4a] font-medium text-lg">
         <li>
           <a
             onClick={() => {
@@ -131,8 +131,13 @@ const Navbar = () => {
       </ul>
 
       {/* Right Icons on Larger Screens */}
-      <div className="hidden md:flex items-center space-x-4 text-[#4a4a4a] text-xl w-32 justify-between">
-        <button className="hover:text-green-700 transition-colors duration-300">
+      <div className="hidden lg:flex items-center space-x-4 text-[#4a4a4a] text-xl w-32 justify-between">
+        <button
+          className="hover:text-green-700 transition-colors duration-300"
+          onClick={() => {
+            navigate("/search");
+          }}
+        >
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
         <div className="relative">
@@ -174,7 +179,7 @@ const Navbar = () => {
       </div>
 
       {/* Left Icons on Small Screens */}
-      <div className="flex items-center md:hidden space-x-4 text-[#4a4a4a] text-xl">
+      <div className="flex items-center lg:hidden space-x-4 text-[#4a4a4a] text-xl">
         {isAuthenticated ? (
           <button
             className="hover:text-green-700 transition-colors duration-300"
@@ -266,13 +271,20 @@ const Navbar = () => {
           </a>
 
           <a
-            href="#"
+            onClick={() => {
+              return navigate("/contact");
+            }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Contact us
           </a>
           <div className="items-center flex space-x-6 text-[#4a4a4a] text-xl">
-            <button className="hover:text-green-700 transition-colors duration-300">
+            <button
+              className="hover:text-green-700 transition-colors duration-300"
+              onClick={() => {
+                navigate("/search");
+              }}
+            >
               <i className="fa-solid fa-magnifying-glass"></i>
             </button>
             <div className="relative">

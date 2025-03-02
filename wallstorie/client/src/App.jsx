@@ -24,6 +24,7 @@ import ProductDetails from "./components/shopping/productdetails";
 import Cart from "./pages/Shopping/cart";
 import Artist from "./pages/Shopping/Artist";
 import OrderSuccess from "./components/shopping/ordersuccess";
+import Search from "./pages/Shopping/Search";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -45,6 +46,7 @@ function App() {
       {/* Changed from component to element */}
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="order/success/:id" element={<OrderSuccess />} />
+      <Route path="search" element={<Search/>} />
 
       {/* Auth-Protected Routes */}
       <Route

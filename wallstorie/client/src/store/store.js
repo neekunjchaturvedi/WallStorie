@@ -5,17 +5,19 @@ import shopProductSlice from "./shop/productslice";
 import cartReducer from "./shop/cartslice";
 import shopAddressSlice from "./shop/addressslice";
 import shoppingOrderReducer from "./shop/ordersslice";
-import adminOrdersReducer from "./admin/orders-slice"; // Corrected the import name
+import adminOrdersReducer from "./admin/orders-slice";
+import shopsearchSlice from "./shop/searchslice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     adminProducts: adminProductsSlice,
-    adminOrders: adminOrdersReducer, // Corrected the key name
+    adminOrders: adminOrdersReducer,
     shopProducts: shopProductSlice,
     cart: cartReducer,
     shopAddress: shopAddressSlice,
     shoppingOrder: shoppingOrderReducer,
+    search: shopsearchSlice,
   },
 });
 
