@@ -18,7 +18,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
   const navigate = useNavigate();
 
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
       <div className="grid gap-6">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
@@ -75,9 +75,15 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                   <TableHead>Type</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Price</TableHead>
-                  <TableHead>Width</TableHead>
-                  <TableHead>Height</TableHead>
-                  <TableHead>Area</TableHead>
+                  <TableHead>Length (in meters)</TableHead>
+                  {orderDetails?.items?.[0]?.productType !==
+                    "wallpaperrolls" && (
+                    <>
+                      <TableHead>Width</TableHead>
+                      <TableHead>Height</TableHead>
+                      <TableHead>Area</TableHead>
+                    </>
+                  )}
                   <TableHead>Material</TableHead>
                 </TableRow>
               </TableHeader>
@@ -103,9 +109,18 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                         <TableCell>{item.productType}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>₹{item.totalPrice}</TableCell>
-                        <TableCell>{item.width}</TableCell>
-                        <TableCell>{item.height}</TableCell>
-                        <TableCell>{item.area}</TableCell>
+                        <TableCell>
+                          {item.productType === "curtains"
+                            ? item.area
+                            : item.length}
+                        </TableCell>
+                        {item.productType !== "wallpaperrolls" && (
+                          <>
+                            <TableCell>{item.width}</TableCell>
+                            <TableCell>{item.height}</TableCell>
+                            <TableCell>{item.area}</TableCell>
+                          </>
+                        )}
                         <TableCell>{item.selectedMaterial}</TableCell>
                       </TableRow>
                     ))

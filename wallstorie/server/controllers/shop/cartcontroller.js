@@ -4,15 +4,26 @@ const CartItem = require("../../models/cartitems");
 const Product = require("../../models/Product");
 
 // Helper function to calculate price
-const calculatePrice = (product, quantity, height, width, materialPrice) => {
+const calculatePrice = (
+  product,
+  quantity,
+  height,
+  width,
+  length,
+  materialPrice
+) => {
   let totalPrice = 0;
   let area = 0;
 
   if (height && width) {
     area = (height * width) / 144;
     totalPrice = area * product.salePrice * quantity + (materialPrice || 0);
+  } else if (length) {
+    area = length;
+    totalPrice = length * product.salePrice * quantity + (materialPrice || 0);
   } else {
-    totalPrice = product.salePrice + materialPrice * quantity;
+    totalPrice =
+      (product.salePrice || product.price) * quantity + (materialPrice || 0);
   }
 
   return { totalPrice, area };
@@ -26,6 +37,7 @@ exports.addToCart = async (req, res) => {
       quantity,
       height,
       width,
+      length,
       selectedMaterial,
       materialPrice,
     } = req.body;
@@ -59,6 +71,7 @@ exports.addToCart = async (req, res) => {
       quantity,
       height,
       width,
+      length,
       materialPrice
     );
 
@@ -71,7 +84,7 @@ exports.addToCart = async (req, res) => {
     if (cartItem) {
       // Update existing item
       cartItem.quantity += quantity;
-      cartItem.totalPrice = totalPrice + totalPrice * quantity;
+      cartItem.totalPrice = totalPrice;
       cartItem.height = height;
       cartItem.width = width;
       cartItem.area = area;
@@ -85,7 +98,7 @@ exports.addToCart = async (req, res) => {
         userId,
         productId: product._id,
         quantity,
-        price: product.salePrice,
+        price: product.salePrice || product.price,
         totalPrice,
         height,
         width,

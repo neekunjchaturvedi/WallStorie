@@ -11,6 +11,7 @@ const paymentRouter = require("./routes/shop/paymentroutes");
 const shopOrderRouter = require("./routes/shop/orderroutes");
 const adminOrderRouter = require("./routes/admin/orderroutes");
 const shopSearchRouter = require("./routes/shop/searchroutes");
+const reviewRouter = require("./routes/shop/reviewroutes");
 const mongoose = require("mongoose");
 
 dotenv.config({ path: "config.env" });
@@ -49,6 +50,7 @@ app.use("/api/payments", paymentRouter);
 app.use("/api/shop/order", shopOrderRouter);
 app.use("/api/admin/orders", adminOrderRouter);
 app.use("/api/shop/search", shopSearchRouter);
+app.use("/api/shop/review", reviewRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running at port ${PORT}`);

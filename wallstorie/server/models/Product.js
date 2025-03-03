@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
   trend: { type: String },
   space: { type: String },
   price: { type: Number, required: true },
-  salePrice: { type: Number },
+  salePrice: { type: Number, required: true },
   discount: { type: Number },
   stockQuantity: { type: Number, required: true },
   popularity: { type: Number, default: 0 }, // Added popularity field for sorting

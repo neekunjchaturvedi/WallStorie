@@ -11,8 +11,6 @@ import { Bottomfoot } from "../home-components/Bottomfoot";
 import { checkAuth } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
 
-import { Button } from "../ui/button";
-
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -26,6 +24,7 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [height, setHeight] = useState("");
   const [width, setWidth] = useState("");
+  const [length, setLength] = useState("");
   const [area, setArea] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedMaterial, setSelectedMaterial] = useState("");
@@ -47,32 +46,32 @@ const ProductDetails = () => {
     if (id) {
       dispatch(getproductinfo(id));
       dispatch(checkAuth());
-      console.log("Navigation State:", {
-        timestamp: "2025-02-23 10:54:15",
-        userLogin: "22951a3363",
-      });
     }
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (height && width) {
-      const calculatedArea = (height * width) / 144;
-      setArea(calculatedArea.toFixed(2));
-      if (productdetails?.salePrice) {
-        const basePrice = productdetails.salePrice;
+    const basePrice = productdetails?.salePrice || productdetails?.price;
+    if (basePrice) {
+      if (height && width) {
+        const calculatedArea = (height * width) / 144;
+        setArea(calculatedArea.toFixed(2));
         const totalPriceCalc = (
           calculatedArea * basePrice * quantity +
           materialPrice
         ).toFixed(2);
         setTotalPrice(totalPriceCalc);
+      } else if (length) {
+        setArea(length);
+        const totalPriceCalc = (
+          length * basePrice * quantity +
+          materialPrice
+        ).toFixed(2);
+        setTotalPrice(totalPriceCalc);
+      } else {
+        setTotalPrice((basePrice * quantity + materialPrice).toFixed(2));
       }
-    } else if (productdetails?.salePrice) {
-      // For standard products without custom dimensions
-      setTotalPrice(
-        (productdetails.salePrice * quantity + materialPrice).toFixed(2)
-      );
     }
-  }, [height, width, productdetails?.salePrice, materialPrice, quantity]);
+  }, [height, width, length, productdetails, materialPrice, quantity]);
 
   const openModal = (image) => {
     setSelectedImage(image);
@@ -89,10 +88,9 @@ const ProductDetails = () => {
   const handleMaterialChange = (material) => {
     setSelectedMaterial(material.name);
     setMaterialPrice(material.price);
-    if (!height && !width) {
-      setTotalPrice(
-        (productdetails.salePrice * quantity + material.price).toFixed(2)
-      );
+    const basePrice = productdetails?.salePrice || productdetails?.price;
+    if (!height && !width && basePrice) {
+      setTotalPrice((basePrice * quantity + material.price).toFixed(2));
     }
   };
 
@@ -115,8 +113,7 @@ const ProductDetails = () => {
     // Validate inputs for custom size products
     if (
       productdetails.productType !== "wallpaperRolls" &&
-      productdetails.productType !== "curtains" &&
-      productdetails.category !== "sheer"
+      productdetails.productType !== "curtains"
     ) {
       if (!height || !width) {
         toast({
@@ -137,7 +134,7 @@ const ProductDetails = () => {
       }
     }
 
-    // For curtains, validate material selection
+    // For curtains and blinds, validate material selection
     if (
       (productdetails.productType === "curtains" ||
         productdetails.productType === "blinds") &&
@@ -151,22 +148,53 @@ const ProductDetails = () => {
       return;
     }
 
+    // For curtains, validate length
+    if (
+      (productdetails.productType === "curtains" ||
+        productdetails.productType === "wallpaperRolls") &&
+      !length
+    ) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter the length",
+      });
+      return;
+    }
+
     try {
+      const basePrice = productdetails?.salePrice || productdetails?.price;
+      if (!basePrice) {
+        throw new Error("Price is not available.");
+      }
+
       const cartItem = {
         userId: user.id,
         productId: productdetails._id,
         quantity,
-        price: productdetails.salePrice,
+        price: basePrice,
         totalPrice: parseFloat(totalPrice),
-        height: height || null,
-        width: width || null,
-        area: area || null,
-        selectedMaterial,
-        materialPrice,
         productType: productdetails.productType,
         productName: productdetails.title || productdetails.productName,
         image: productdetails.image1,
+        selectedMaterial,
+        materialPrice,
       };
+
+      // Handle different product types
+      if (
+        productdetails.productType === "curtains" ||
+        productdetails.productType === "wallpaperRolls"
+      ) {
+        // For curtains and wallpaper rolls, use length as the area
+        cartItem.area = parseFloat(length);
+        cartItem.length = parseFloat(length);
+      } else {
+        // For wallpapers and other custom products
+        cartItem.height = height ? parseFloat(height) : null;
+        cartItem.width = width ? parseFloat(width) : null;
+        cartItem.area = area ? parseFloat(area) : null;
+      }
 
       const result = await dispatch(addToCart(cartItem)).unwrap();
 
@@ -184,6 +212,7 @@ const ProductDetails = () => {
       });
     }
   };
+
   const handleBuyNow = async () => {
     if (!isAuthenticated) {
       navigate("/auth/login");
@@ -229,28 +258,66 @@ const ProductDetails = () => {
       return;
     }
 
+    // For curtains, validate length
+    if (
+      (productdetails.productType === "curtains" ||
+        productdetails.productType === "wallpaperRolls") &&
+      !length
+    ) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter the length",
+      });
+      return;
+    }
+
     try {
+      const basePrice = productdetails?.salePrice || productdetails?.price;
+      if (!basePrice) {
+        throw new Error("Price is not available.");
+      }
+
       const cartItem = {
         userId: user.id,
         productId: productdetails._id,
         quantity,
-        price: productdetails.salePrice,
+        price: basePrice,
         totalPrice: parseFloat(totalPrice),
-        height: height || null,
-        width: width || null,
-        area: area || null,
-        selectedMaterial,
-        materialPrice,
         productType: productdetails.productType,
         productName: productdetails.title || productdetails.productName,
         image: productdetails.image1,
+        selectedMaterial,
+        materialPrice,
       };
+
+      // Handle different product types
+      if (
+        productdetails.productType === "curtains" ||
+        productdetails.productType === "wallpaperRolls"
+      ) {
+        // For curtains and wallpaper rolls, use length as the area
+        cartItem.area = parseFloat(length);
+        cartItem.length = parseFloat(length);
+      } else {
+        // For wallpapers and other custom products
+        cartItem.height = height ? parseFloat(height) : null;
+        cartItem.width = width ? parseFloat(width) : null;
+        cartItem.area = area ? parseFloat(area) : null;
+      }
 
       const result = await dispatch(addToCart(cartItem)).unwrap();
 
       navigate("/checkout");
-    } catch (error) {}
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to proceed to checkout",
+      });
+    }
   };
+
   const handleshare = async () => {
     if (navigator.share) {
       try {
@@ -334,7 +401,7 @@ const ProductDetails = () => {
                   <div className="flex items-center justify-between gap-4 font-lato">
                     <div className="flex items-center gap-4 font-lato">
                       <span className="text-2xl font-bold text-green-600">
-                        ₹{productdetails.salePrice}
+                        ₹{productdetails.salePrice || productdetails.price}
                       </span>
                       {productdetails.salePrice && (
                         <span className="text-xl text-gray-500 line-through">
@@ -366,6 +433,21 @@ const ProductDetails = () => {
                       </span>
                     )}
                   </div>
+                  {productdetails.productType === "curtains" && (
+                    <div className="flex flex-col">
+                      <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+                        Length (meters)
+                      </label>
+                      <input
+                        type="number"
+                        value={length}
+                        onChange={(e) => setLength(e.target.value)}
+                        className="w-1/3 p-3 border rounded-lg bg-white outline-none"
+                        min="1"
+                        placeholder="Enter length"
+                      />
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-3">
                     <button
@@ -393,7 +475,7 @@ const ProductDetails = () => {
                   <div className="flex items-center justify-between gap-4 font-lato">
                     <div className="flex items-center gap-4 font-lato">
                       <span className="text-2xl font-bold text-green-600">
-                        ₹{productdetails.salePrice}
+                        ₹{productdetails.salePrice || productdetails.price}
                       </span>
                       {productdetails.salePrice && (
                         <span className="text-xl text-gray-500 line-through">
@@ -497,15 +579,15 @@ const ProductDetails = () => {
                             key={material.id}
                             onClick={() => handleMaterialChange(material)}
                             className={`
-                              relative w-32 h-32 border rounded-lg p-4 
-                              flex flex-col items-center justify-center
-                              transition-all duration-200
-                              ${
-                                selectedMaterial === material.name
-                                  ? "border-green-600 border-2"
-                                  : "border-gray-200 hover:border-green-200"
-                              }
-                            `}
+                  relative w-32 h-32 border rounded-lg p-4 
+                  flex flex-col items-center justify-center
+                  transition-all duration-200
+                  ${
+                    selectedMaterial === material.name
+                      ? "border-green-600 border-2"
+                      : "border-gray-200 hover:border-green-200"
+                  }
+                `}
                           >
                             <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg">
                               +₹{material.price}
@@ -520,15 +602,15 @@ const ProductDetails = () => {
                             key={material.id}
                             onClick={() => handleMaterialChange(material)}
                             className={`
-                              relative w-32 h-32 border rounded-lg p-4 
-                              flex flex-col items-center justify-center
-                              transition-all duration-200
-                              ${
-                                selectedMaterial === material.name
-                                  ? "border-green-600 border-2"
-                                  : "border-gray-200 hover:border-green-200"
-                              }
-                            `}
+                  relative w-32 h-32 border rounded-lg p-4 
+                  flex flex-col items-center justify-center
+                  transition-all duration-200
+                  ${
+                    selectedMaterial === material.name
+                      ? "border-green-600 border-2"
+                      : "border-gray-200 hover:border-green-200"
+                  }
+                `}
                           >
                             <div className="absolute top-0 right-0 bg-green-600 text-white px-2 py-1 text-sm rounded-tr-lg rounded-bl-lg">
                               +₹{material.price}
@@ -576,16 +658,6 @@ const ProductDetails = () => {
                 Need Help? Order via Whatsapp
               </button>
             </a>
-
-            {/* Product Details */}
-            {/* {productdetails.description && (
-              <div className="mb-6 bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-lg font-semibold mb-3">Product Details</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {productdetails.description}
-                </p>
-              </div>
-            )} */}
           </div>
         </div>
         <ProductDetailsextra
