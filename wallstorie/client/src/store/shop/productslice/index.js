@@ -117,6 +117,26 @@ export const getcur = createAsyncThunk(
   }
 );
 
+export const getartist = createAsyncThunk(
+  "products/getartist",
+  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
+    try {
+      const query = generateQueryString(sortOption, filters);
+      const res = await axios.get(
+        `http://localhost:5000/api/shop/products/getartist?${query}`
+      );
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message);
+      }
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching curtains"
+      );
+    }
+  }
+);
+
 export const getProductsByCategory = createAsyncThunk(
   "products/getByCategory",
   async (
@@ -170,6 +190,7 @@ const shopProductSlice = createSlice({
       getblinds,
       getcur,
       getProductsByCategory,
+      getartist,
     ];
 
     handlers.forEach((action) => {

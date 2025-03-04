@@ -46,7 +46,7 @@ function App() {
       {/* Changed from component to element */}
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="order/success/:id" element={<OrderSuccess />} />
-      <Route path="search" element={<Search/>} />
+      <Route path="search" element={<Search />} />
 
       {/* Auth-Protected Routes */}
       <Route

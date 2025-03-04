@@ -11,6 +11,7 @@ import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
 
 import {
+  getartist,
   getblinds,
   getcur,
   getproductinfo,
@@ -68,6 +69,8 @@ function Layout() {
       case "curtain":
         dispatch(getcur(options));
         break;
+      case "artist":
+        dispatch(getartist(options));
     }
   };
   const handleCategoryClick = (categoryName) => {

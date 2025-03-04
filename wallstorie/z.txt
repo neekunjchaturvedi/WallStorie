@@ -3,7 +3,7 @@ price increase according to material select wallpaper rolls and curtains
 Artist collection
 contact us page
 .env file save problem
-
+artist product details 
 
 
 

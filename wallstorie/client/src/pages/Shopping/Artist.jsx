@@ -1,7 +1,12 @@
+import Layout from "@/components/shopping/layout";
 import React from "react";
 
 function Artist() {
-  return <div>Artist</div>;
+  return (
+    <div>
+      <Layout />
+    </div>
+  );
 }
 
 export default Artist;

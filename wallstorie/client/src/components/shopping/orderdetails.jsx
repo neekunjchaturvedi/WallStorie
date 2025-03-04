@@ -88,7 +88,8 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                         </>
                       )}
                       {(item.productType === "wallpapers" ||
-                        item.productType === "blinds") && (
+                        item.productType === "blinds" ||
+                        item.productType === "artist") && (
                         <>
                           <p className="text-gray-600 font-lato">
                             Width: {item.width}

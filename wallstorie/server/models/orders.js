@@ -35,7 +35,14 @@ const orderSchema = new mongoose.Schema({
       },
       productType: {
         type: String,
-        enum: ["wallpapers", "curtains", "wallpaperRolls", "blinds", "other"],
+        enum: [
+          "wallpapers",
+          "curtains",
+          "wallpaperRolls",
+          "blinds",
+          "artist",
+          "other",
+        ],
         required: true,
       },
       height: {

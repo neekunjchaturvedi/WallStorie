@@ -21,6 +21,7 @@ export const addProductFormElements = [
       { id: "wallpaperRolls", label: "Wallpaper Rolls" },
       { id: "curtains", label: "Curtains" },
       { id: "blinds", label: "Blinds" },
+      { id: "artist", label: "Artist" },
     ],
   },
   {

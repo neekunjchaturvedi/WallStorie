@@ -74,11 +74,12 @@ const getWallpaperrolls = async (req, res) =>
   getProductsByType(req, res, "wallpaperRolls");
 const getblinds = async (req, res) => getProductsByType(req, res, "blinds");
 const getcur = async (req, res) => getProductsByType(req, res, "curtains");
+const getartist = async (req, res) => getProductsByType(req, res, "artist");
 
 const getbycategory = async (req, res) => {
   try {
     const { category, productType, sortOption, price, space, trends, color } =
-      req.query; // Changed from colors to color
+      req.query;
 
     if (!category || !productType) {
       return res.status(400).json({
@@ -167,6 +168,7 @@ module.exports = {
   getWallpaperrolls,
   getblinds,
   getcur,
+  getartist,
   getbycategory,
   getproductbyid,
 };

@@ -201,7 +201,9 @@ const CartPage = () => {
                       : "Custom Size"}
                   </p>
 
-                  {item.productType == "wallpapers" && (
+                  {(item.productType == "wallpapers" ||
+                    item.productType == "blinds" ||
+                    item.productType == "artist") && (
                     <>
                       <p className="text-sm text-gray-600">
                         Height: {item.height} inches
@@ -211,6 +213,13 @@ const CartPage = () => {
                       </p>
                       <p className="text-sm text-gray-600">
                         Area: {item.area} sq.ft
+                      </p>
+                    </>
+                  )}
+                  {item.productType == "curtains" && (
+                    <>
+                      <p className="text-sm text-gray-600">
+                        Length: {item.area} m
                       </p>
                     </>
                   )}

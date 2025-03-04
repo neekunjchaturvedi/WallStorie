@@ -10,6 +10,24 @@ import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
 import { checkAuth } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
+const Section = ({ title, children, className }) => {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <div className="mb-4">
+      <div
+        className={`flex justify-between items-center cursor-pointer py-2 border-b ${className}`}
+        onClick={() => setOpen(!open)}
+      >
+        <h3 className={`text-xl font-semibold text-green-800 mb-4`}>{title}</h3>
+        {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+      </div>
+      {open && <div className="mt-2 text-gray-700">{children}</div>}
+    </div>
+  );
+};
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -187,7 +205,7 @@ const ProductDetails = () => {
         // For wallpapers and other custom products
         cartItem.height = height ? parseFloat(height) : null;
         cartItem.width = width ? parseFloat(width) : null;
-        cartItem.area = area ? parseFloat(area) : null;
+        cartItem.area = area ? parseFloat(area).toFixed(2) : null;
       }
 
       const result = await dispatch(addToCart(cartItem)).unwrap();
@@ -290,7 +308,7 @@ const ProductDetails = () => {
         // For wallpapers and other custom products
         cartItem.height = height ? parseFloat(height) : null;
         cartItem.width = width ? parseFloat(width) : null;
-        cartItem.area = area ? parseFloat(area) : null;
+        cartItem.area = area ? parseFloat(area).toFixed(2) : null;
       }
 
       const result = await dispatch(addToCart(cartItem)).unwrap();
@@ -553,14 +571,16 @@ const ProductDetails = () => {
               )}
               {(productdetails.productType === "wallpapers" ||
                 productdetails.productType === "curtains" ||
-                productdetails.productType === "blinds") && (
+                productdetails.productType === "blinds" ||
+                productdetails.productType === "artist") && (
                 <div className="p-4">
                   <h3 className="text-green-700 font-medium mb-3 text-left">
                     Material :{" "}
                     <span className="text-black">{selectedMaterial}</span>
                   </h3>
                   <div className="flex gap-4">
-                    {productdetails.productType === "wallpapers"
+                    {productdetails.productType === "wallpapers" ||
+                    productdetails.productType === "artist"
                       ? materials.map((material) => (
                           <button
                             key={material.id}
@@ -647,6 +667,18 @@ const ProductDetails = () => {
             </a>
           </div>
         </div>
+        {productdetails.productType == "artist" ? (
+          <Section title="Artist Description" className="text-green-500">
+            <div className="mb-4 flex flex-col text-left">
+              <ul className="list-disc pl-10 flex flex-col mb-6">
+                {productdetails.description}
+              </ul>
+            </div>
+          </Section>
+        ) : (
+          <div>Product description not available.</div>
+        )}
+
         <ProductDetailsextra
           producttype={productdetails.productType}
           category={productdetails.category}
