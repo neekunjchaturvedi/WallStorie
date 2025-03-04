@@ -7,19 +7,26 @@ const addProductReview = async (req, res) => {
     const { productId, userId, userName, reviewMessage, reviewValue } =
       req.body;
 
-    const order = await Order.findOne({
-      userId,
-      "cartItems.productId": productId,
-      $or: [{ orderStatus: "confirmed" }, { orderStatus: "delivered" }],
-    });
+    // Check if the user has purchased the product
+    // const order = await Order.findOne({
+    //   userId,
+    //   "cartItems.productId": productId,
+    //   $or: [
+    //     { orderStatus: "processing" },
+    //     { orderStatus: "shipped" },
+    //     { orderStatus: "delivered" },
+    //     { orderStatus: "pending" },
+    //   ],
+    // });
 
-    if (!order) {
-      return res.status(403).json({
-        success: false,
-        message: "You need to purchase the product to review it.",
-      });
-    }
+    // if (!order) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "You need to purchase the product to review it.",
+    //   });
+    // }
 
+    // Check if the user has already reviewed the product
     const existingReview = await ProductReview.findOne({
       productId,
       userId,
@@ -32,6 +39,7 @@ const addProductReview = async (req, res) => {
       });
     }
 
+    // Add the new review
     const newReview = new ProductReview({
       productId,
       userId,
@@ -42,6 +50,7 @@ const addProductReview = async (req, res) => {
 
     await newReview.save();
 
+    // Calculate the new average review value
     const reviews = await ProductReview.find({ productId });
     const totalReviewsLength = reviews.length;
     const averageReview =

@@ -308,6 +308,50 @@ const productDetails = {
     },
     // Add other categories for curtains here...
   },
+  artist: {
+    details: [
+      "Standard coverage: Custom",
+      "Panels are customized based on wall dimensions.",
+      "Wallpaper is delivered in multiple sections.",
+    ],
+    print: [
+      "Color tones may vary depending on the chosen finish.",
+      "High-quality digital printing ensures vibrant details.",
+    ],
+    installation: [
+      "Professional installation is included at no extra cost for a seamless setup. ",
+      "Walls should be primed at least 10 days before application.",
+      "Ensures seamless alignment and a flawless finish.",
+    ],
+    care: [
+      "Clean with a soft, damp cloth only.",
+      "Avoid harsh chemicals and abrasives.",
+      "Preserves the wallpaper's texture and color.",
+    ],
+    shipping: [
+      {
+        icon: "Truck",
+        title: "Low-cost shipping:",
+        description: "Delivery in 2-3 business days across India.",
+      },
+      {
+        icon: "ShieldCheck",
+        title: "Secure delivery:",
+        description: "Orders with timely updates via email or SMS.",
+      },
+    ],
+    sustainability: [
+      "Eco-Materials: Made from sustainable fabrics.",
+      "Energy-Saving: Improves insulation, cuts energy use.",
+      "Low VOCs: Ensures healthier air quality.",
+      "Green Packaging: Delivered in biodegradable packs.",
+    ],
+    moreInfo: [
+      "Get in Touch: wallstorie.com | +XXXXX",
+      "Sold By: Wallstorie Pvt. Ltd.",
+      "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
+    ],
+  },
 };
 
 export default productDetails;
