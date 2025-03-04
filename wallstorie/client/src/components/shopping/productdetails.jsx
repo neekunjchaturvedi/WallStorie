@@ -113,7 +113,8 @@ const ProductDetails = () => {
     // Validate inputs for custom size products
     if (
       productdetails.productType !== "wallpaperRolls" &&
-      productdetails.productType !== "curtains"
+      productdetails.productType !== "curtains" &&
+      productdetails.category !== "sheer"
     ) {
       if (!height || !width) {
         toast({
@@ -134,7 +135,7 @@ const ProductDetails = () => {
       }
     }
 
-    // For curtains and blinds, validate material selection
+    // For curtains, validate material selection
     if (
       (productdetails.productType === "curtains" ||
         productdetails.productType === "blinds") &&
@@ -149,11 +150,7 @@ const ProductDetails = () => {
     }
 
     // For curtains, validate length
-    if (
-      (productdetails.productType === "curtains" ||
-        productdetails.productType === "wallpaperRolls") &&
-      !length
-    ) {
+    if (productdetails.productType === "curtains" && !length) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -182,11 +179,8 @@ const ProductDetails = () => {
       };
 
       // Handle different product types
-      if (
-        productdetails.productType === "curtains" ||
-        productdetails.productType === "wallpaperRolls"
-      ) {
-        // For curtains and wallpaper rolls, use length as the area
+      if (productdetails.productType === "curtains") {
+        // For curtains use length as the area
         cartItem.area = parseFloat(length);
         cartItem.length = parseFloat(length);
       } else {
@@ -259,11 +253,7 @@ const ProductDetails = () => {
     }
 
     // For curtains, validate length
-    if (
-      (productdetails.productType === "curtains" ||
-        productdetails.productType === "wallpaperRolls") &&
-      !length
-    ) {
+    if (productdetails.productType === "curtains" && !length) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -292,11 +282,8 @@ const ProductDetails = () => {
       };
 
       // Handle different product types
-      if (
-        productdetails.productType === "curtains" ||
-        productdetails.productType === "wallpaperRolls"
-      ) {
-        // For curtains and wallpaper rolls, use length as the area
+      if (productdetails.productType === "curtains") {
+        // For curtains use length as the area
         cartItem.area = parseFloat(length);
         cartItem.length = parseFloat(length);
       } else {

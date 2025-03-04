@@ -1,7 +1,8 @@
 review
 price increase according to material select wallpaper rolls and curtains
 Artist collection
-.env file save
+contact us page
+.env file save problem
 
 
 
@@ -11,7 +12,7 @@ Artist collection
 mongodb setup
 cloudinary setup
 api hosting
-razorpay 
+razorpay api
 whatapp num
 contact us
 

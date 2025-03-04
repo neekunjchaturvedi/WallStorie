@@ -37,6 +37,11 @@ function AdminOrdersView() {
     if (orderDetails !== null) setOpenDetailsDialog(true);
   }, [orderDetails]);
 
+  // Sort orders by newest on top
+  const sortedOrderList = orderList
+    ?.slice()
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   return (
     <Card>
       <CardHeader>
@@ -56,8 +61,8 @@ function AdminOrdersView() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orderList && orderList.length > 0
-              ? orderList.map((orderItem) => (
+            {sortedOrderList && sortedOrderList.length > 0
+              ? sortedOrderList.map((orderItem) => (
                   <TableRow key={orderItem?._id}>
                     <TableCell>{orderItem?._id}</TableCell>
                     <TableCell>

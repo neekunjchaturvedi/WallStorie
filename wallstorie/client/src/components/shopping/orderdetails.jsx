@@ -3,14 +3,6 @@ import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
 import { DialogContent } from "../ui/dialog";
 import { Separator } from "../ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 
 function ShoppingOrderDetailsView({ orderDetails }) {
@@ -67,66 +59,67 @@ function ShoppingOrderDetailsView({ orderDetails }) {
         <div className="grid gap-4">
           <div className="grid gap-2">
             <div className="font-medium">Order Details</div>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Image</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Length (in meters)</TableHead>
-                  {orderDetails?.items?.[0]?.productType !==
-                    "wallpaperrolls" && (
-                    <>
-                      <TableHead>Width</TableHead>
-                      <TableHead>Height</TableHead>
-                      <TableHead>Area</TableHead>
-                    </>
-                  )}
-                  <TableHead>Material</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {orderDetails?.items && orderDetails?.items.length > 0
-                  ? orderDetails.items.map((item) => (
-                      <TableRow
-                        key={item.productId}
-                        onClick={() => navigate(`/products/${item.productId}`)}
-                      >
-                        <TableCell>{item.productName}</TableCell>
-                        <TableCell>
-                          <img
-                            src={item.image}
-                            alt={item.productName}
-                            style={{
-                              width: "50px",
-                              height: "50px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell>{item.productType}</TableCell>
-                        <TableCell>{item.quantity}</TableCell>
-                        <TableCell>₹{item.totalPrice}</TableCell>
-                        <TableCell>
-                          {item.productType === "curtains"
-                            ? item.area
-                            : item.length}
-                        </TableCell>
-                        {item.productType !== "wallpaperrolls" && (
-                          <>
-                            <TableCell>{item.width}</TableCell>
-                            <TableCell>{item.height}</TableCell>
-                            <TableCell>{item.area}</TableCell>
-                          </>
-                        )}
-                        <TableCell>{item.selectedMaterial}</TableCell>
-                      </TableRow>
-                    ))
-                  : null}
-              </TableBody>
-            </Table>
+
+            {orderDetails?.items && orderDetails?.items.length > 0
+              ? orderDetails.items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="border p-4 rounded-md flex items-center"
+                    onClick={() => navigate(`/products/${item.productId}`)}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.productName}
+                      className="w-24 h-24 object-cover mr-4"
+                    />
+                    <div className="flex-1">
+                      <h2 className="text-xl font-bold">{item.productName}</h2>
+                      <p className="text-gray-600 font-lato">
+                        {item.productType}
+                      </p>
+                      {item.productType === "curtains" && (
+                        <>
+                          <p className="text-gray-600 font-lato">
+                            Length: {item.area}m
+                          </p>
+                          <p className="text-gray-600 font-lato">
+                            Material: {item.selectedMaterial}
+                          </p>{" "}
+                        </>
+                      )}
+                      {(item.productType === "wallpapers" ||
+                        item.productType === "blinds") && (
+                        <>
+                          <p className="text-gray-600 font-lato">
+                            Width: {item.width}
+                          </p>
+                          <p className="text-gray-600 font-lato">
+                            Height: {item.height}
+                          </p>
+                          <p className="text-gray-600 font-lato">
+                            Area: {item.area}
+                          </p>
+                          <p className="text-gray-600 font-lato">
+                            Material: {item.selectedMaterial}
+                          </p>
+                        </>
+                      )}
+                      {item.category ? (
+                        <p className="text-gray-600 font-lato">
+                          Category: {item.category}
+                        </p>
+                      ) : null}
+                    </div>
+                    {item.totalPrice ? (
+                      <p className="text-green-600 font-bold font-lato">
+                        ₹{item.totalPrice}
+                      </p>
+                    ) : (
+                      <p className="text-green-600 font-bold">₹{item.price}</p>
+                    )}
+                  </div>
+                ))
+              : null}
           </div>
         </div>
         <div className="grid gap-4">
