@@ -643,18 +643,26 @@ const ProductDetails = () => {
 
             {/* Action Buttons */}
             <div className="flex gap-4 lg:mb-8 mb-8 lg:max-w-xl">
-              <button
-                onClick={handleAddToCart}
-                className="flex-1 bg-green-600 text-white py-3 px-6 rounded-3xl hover:bg-green-700 transition duration-200 text-lg font-semibold font-lato"
-              >
-                Add to Cart
-              </button>
-              <button
-                className="flex-1 bg-white text-green-700 py-3 px-6 border-2 border-green-500 transition duration-200 text-lg font-semibold font-lato"
-                onClick={handleBuyNow}
-              >
-                Buy Now
-              </button>
+              {productdetails.stockQuantity !== 0 ? (
+                <>
+                  <button
+                    onClick={handleAddToCart}
+                    className="flex-1 bg-green-600 text-white py-3 px-6 rounded-3xl hover:bg-green-700 transition duration-200 text-lg font-semibold font-lato"
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    className="flex-1 bg-white text-green-700 py-3 px-6 border-2 border-green-500 transition duration-200 text-lg font-semibold font-lato"
+                    onClick={handleBuyNow}
+                  >
+                    Buy Now
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div>Out Of Stock</div>
+                </>
+              )}
             </div>
             <a
               href={`https://wa.me/916302445751?text=I'm%20interested%20in%20buying%20${encodeURIComponent(

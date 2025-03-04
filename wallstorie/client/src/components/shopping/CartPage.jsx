@@ -125,6 +125,10 @@ const CartPage = () => {
       },
     });
   };
+  function capitalizeFirstLetter(string) {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   if (isLoading) {
     return (
@@ -165,7 +169,9 @@ const CartPage = () => {
               className="border rounded-lg p-4 bg-white shadow-sm cursor-pointer"
               onClick={() => navigate(`/products/${item.productId._id}`)}
             >
-              <div>{item.productType}</div>
+              <div className="text-md font-medium text-gray-800">
+                {capitalizeFirstLetter(item.productType)}
+              </div>
               <div className="flex gap-4">
                 <img
                   src={item.image || "/placeholder-image.jpg"}
