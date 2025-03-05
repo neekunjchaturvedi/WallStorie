@@ -9,11 +9,10 @@ import {
 const Footer = () => {
   return (
     <footer className="bg-green-50 text-white p-4 mt-10 px-10 font-lato w-full">
-      <div className=" h-[800px] max-w-5xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mt-10">
-        {" "}
+      <div className="lg:h-[270px] sm:h-[800px] max-w-5xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
         <div>
           <img
-            src="\src\assets\logo.png"
+            src="/src/assets/logo.png"
             alt="Wall Storie Logo"
             className="h-36 mb-4 items-center"
           />
@@ -21,7 +20,7 @@ const Footer = () => {
             Wall Storie offers custom wallpapers, curtains, and blinds to
             transform your space with style and quality.
           </p>
-          <div className="flex space-x-4 mt-4  justify-center md:justify-start ">
+          <div className="flex space-x-4 mt-4 justify-center md:justify-start">
             <a
               href="#"
               aria-label="Facebook"
@@ -52,16 +51,20 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-64">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-x-64">
           <div className="mb-10">
             <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
               Our Services
             </h4>
-
             <ul className="space-y-2">
               <li>
                 <a href="#" className="text-gray-600 hover:text-green-700">
                   Wallpaper
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-600 hover:text-green-700">
+                  Wallpaper Rolls
                 </a>
               </li>
               <li>
@@ -72,6 +75,11 @@ const Footer = () => {
               <li>
                 <a href="#" className="text-gray-600 hover:text-green-700">
                   Curtains
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-600 hover:text-green-700">
+                  Artiste
                 </a>
               </li>
             </ul>
@@ -136,9 +144,9 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        {/* <div className="w-fit h-[700px] bg-cover bg-center bg-no-repeat">
-          <img src="\src\assets\wallpaperimages\footer.png" alt="" />
-        </div> */}
+      </div>
+      <div className="flex justify-center items-center mt-4  ">
+        <img src="/src/assets/footerimg.png" alt="" />
       </div>
     </footer>
   );

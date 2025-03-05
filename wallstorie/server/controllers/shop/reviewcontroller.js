@@ -1,4 +1,3 @@
-const Order = require("../../models/orders");
 const Product = require("../../models/Product");
 const ProductReview = require("../../models/review");
 
@@ -6,25 +5,6 @@ const addProductReview = async (req, res) => {
   try {
     const { productId, userId, userName, reviewMessage, reviewValue } =
       req.body;
-
-    // Check if the user has purchased the product
-    // const order = await Order.findOne({
-    //   userId,
-    //   "cartItems.productId": productId,
-    //   $or: [
-    //     { orderStatus: "processing" },
-    //     { orderStatus: "shipped" },
-    //     { orderStatus: "delivered" },
-    //     { orderStatus: "pending" },
-    //   ],
-    // });
-
-    // if (!order) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: "You need to purchase the product to review it.",
-    //   });
-    // }
 
     // Check if the user has already reviewed the product
     const existingReview = await ProductReview.findOne({

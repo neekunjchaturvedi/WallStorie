@@ -55,6 +55,7 @@ function CheckAuth({ isAuthenticated, user, children }) {
       location.pathname.includes("wallpaperrolls") ||
       location.pathname.includes("curtain") ||
       location.pathname.includes("blinds") ||
+      location.pathname.includes("artist") ||
       location.pathname.includes("checkout") ||
       location.pathname.includes("profile"))
   ) {

@@ -11,10 +11,8 @@ import { Bottomfoot } from "../home-components/Bottomfoot";
 import { checkAuth } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import StarRatingComponent from "../common/starrating";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { addReview, getReviews } from "@/store/shop/reviewslice";
+
+import Review from "./review";
 
 const Section = ({ title, children, className }) => {
   const [open, setOpen] = useState(true);
@@ -53,8 +51,6 @@ const ProductDetails = () => {
   const [materialPrice, setMaterialPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
-  const [reviewMsg, setReviewMsg] = useState("");
-  const [rating, setRating] = useState(0);
 
   const materials = [
     { id: 1, name: "Non woven", price: 99 },
@@ -344,45 +340,6 @@ const ProductDetails = () => {
     } else {
       console.error("Web Share API not supported in this browser");
     }
-  };
-
-  const handleAddReview = () => {
-    dispatch(
-      addReview({
-        productId: productdetails?._id,
-        userId: user?.id,
-        userName: user?.userName,
-        reviewMessage: reviewMsg,
-        reviewValue: rating,
-      })
-    )
-      .then((data) => {
-        if (data.payload?.success) {
-          setRating(0);
-          setReviewMsg("");
-          dispatch(getReviews(productdetails?._id));
-          toast({
-            title: "Review added successfully!",
-          });
-        } else {
-          toast({
-            title:
-              data.payload?.message ||
-              "Failed to add review. Please try again.",
-            status: "error",
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to add review:", error);
-        toast({
-          title: "An error occurred. Please try again.",
-          status: "error",
-        });
-      });
-  };
-  const handleRatingChange = (newRating) => {
-    setRating(newRating);
   };
 
   if (!productdetails) {
@@ -736,45 +693,7 @@ const ProductDetails = () => {
           producttype={productdetails.productType}
           category={productdetails.category}
         />
-        <div className="text-green-700  text-2xl mt-8">
-          <div className="font-bold font-lato">Customer Review</div>
-
-          <div className="max-w-4xl mx-auto p-6 text-center">
-            <div className="flex justify-between items-center">
-              <div>
-                <StarRatingComponent
-                  rating={rating}
-                  handleRatingChange={handleRatingChange}
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <h3 className="text-xl text-left mb-4">
-                  Share Your Experience
-                </h3>
-
-                <p className="text-gray-600 mb-6 text-sm font-lato">
-                  No reviews yet for this product! Share your feedback and help
-                  others make the right choice.
-                </p>
-              </div>
-            </div>
-
-            <Input
-              name="reviewMsg"
-              value={reviewMsg}
-              onChange={(event) => setReviewMsg(event.target.value)}
-              placeholder="Write a review..."
-            />
-
-            <Button
-              onClick={handleAddReview}
-              disabled={reviewMsg.trim() === ""}
-            >
-              Add the review
-            </Button>
-          </div>
-        </div>
+        <Review productDetails={productdetails} />
 
         {/* Image Modal */}
         {showModal && (

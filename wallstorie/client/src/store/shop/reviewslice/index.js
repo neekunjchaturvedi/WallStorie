@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   isLoading: false,
   reviews: [],
+  averageRating: 0,
 };
 
 export const addReview = createAsyncThunk(
@@ -35,7 +36,12 @@ const reviewSlice = createSlice({
       })
       .addCase(getReviews.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.reviews = action.payload.data;
+        state.reviews = action.payload.data || [];
+        state.averageRating =
+          action.payload.data.reduce(
+            (sum, review) => sum + review.reviewValue,
+            0
+          ) / action.payload.data.length;
       })
       .addCase(getReviews.rejected, (state) => {
         state.isLoading = false;
@@ -46,8 +52,10 @@ const reviewSlice = createSlice({
       })
       .addCase(addReview.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Optionally, you can add the new review to the state
         state.reviews.push(action.payload.data);
+        state.averageRating =
+          state.reviews.reduce((sum, review) => sum + review.reviewValue, 0) /
+          state.reviews.length;
       })
       .addCase(addReview.rejected, (state) => {
         state.isLoading = false;
