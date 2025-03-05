@@ -14,10 +14,10 @@ export const Hero = () => {
 
         <div class="absolute inset-0 flex items-center justify-center">
           <div class="bg-gray-70 backdrop-blur-md p-10 rounded-lg shadow-lg max-w-lg text-center ">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4 opacity-100">
+            <h1 class="text-4xl font-extrabold text-white mb-4 opacity-100">
               LET YOUR WALLS TELL YOUR STORIES
             </h1>
-            <p class="text-gray-600 mb-6">
+            <p class="text-gray-700 mb-6">
               Bring your walls to life with designs that echo your personality
               and create spaces you'll love coming home to.
             </p>

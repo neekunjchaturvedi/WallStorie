@@ -85,7 +85,9 @@ function AdminOrdersView() {
                         {orderItem?.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>₹{orderItem?.totalAmount}</TableCell>
+                    <TableCell className="font-lato">
+                      ₹{orderItem?.totalAmount}
+                    </TableCell>
                     <TableCell>
                       <Button
                         onClick={() => handleFetchOrderDetails(orderItem?._id)}

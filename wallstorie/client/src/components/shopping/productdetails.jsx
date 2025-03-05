@@ -51,6 +51,7 @@ const ProductDetails = () => {
   const [materialPrice, setMaterialPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
+  const title = productdetails.productType;
 
   const materials = [
     { id: 1, name: "Non woven", price: 99 },
@@ -685,9 +686,8 @@ const ProductDetails = () => {
               </ul>
             </div>
           </Section>
-        ) : (
-          <div>Product description not available.</div>
-        )}
+        ) : // <div>Product description not available.</div>
+        null}
 
         <ProductDetailsextra
           producttype={productdetails.productType}

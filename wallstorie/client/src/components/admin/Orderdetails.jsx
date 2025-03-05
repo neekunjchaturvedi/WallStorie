@@ -52,13 +52,13 @@ function AdminOrderDetailsView({ orderDetails }) {
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Date</p>
-            <Label>
+            <Label className="font-lato">
               {new Date(orderDetails?.createdAt).toLocaleDateString()}
             </Label>
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Price</p>
-            <Label>₹{orderDetails?.totalAmount}</Label>
+            <Label className="font-lato">₹{orderDetails?.totalAmount}</Label>
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Payment method</p>
@@ -97,7 +97,6 @@ function AdminOrderDetailsView({ orderDetails }) {
                   <div
                     key={item.id}
                     className="border p-4 rounded-md flex items-center"
-                    onClick={() => navigate(`/products/${item.productId}`)}
                   >
                     <img
                       src={item.image}
@@ -124,13 +123,13 @@ function AdminOrderDetailsView({ orderDetails }) {
                         item.productType === "artist") && (
                         <>
                           <p className="text-gray-600 font-lato">
-                            Width: {item.width}
+                            Width: {item.width} .inch
                           </p>
                           <p className="text-gray-600 font-lato">
-                            Height: {item.height}
+                            Height: {item.height} .inch
                           </p>
                           <p className="text-gray-600 font-lato">
-                            Area: {item.area}
+                            Area: {item.area} .sqft
                           </p>
                           <p className="text-gray-600 font-lato">
                             Material: {item.selectedMaterial}
@@ -158,7 +157,7 @@ function AdminOrderDetailsView({ orderDetails }) {
         <div className="grid gap-4">
           <div className="grid gap-2">
             <div className="font-medium">Shipping Info</div>
-            <div className="grid gap-0.5 text-muted-foreground">
+            <div className="grid gap-0.5 text-muted-foreground font-lato">
               <span>{user.userName}</span>
               <span>{orderDetails?.shippingAddress?.address}</span>
               <span>{orderDetails?.shippingAddress?.city}</span>

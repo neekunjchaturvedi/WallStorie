@@ -8,7 +8,6 @@ import { Bottomfoot } from "@/components/home-components/Bottomfoot";
 import Slider from "@/components/home-components/Slider";
 import SchedulingSection from "@/components/home-components/Schedule";
 import CommentSection from "@/components/home-components/Comments";
-import Makeyours from "@/components/home-components/Makeyours";
 import { Hheader } from "@/components/home-components/header";
 
 function Home() {
@@ -22,7 +21,7 @@ function Home() {
       <Slider />
       <WhyChooseUs />
       <SchedulingSection />
-      <Makeyours />
+
       <CommentSection />
       <Footer />
       <Bottomfoot />
