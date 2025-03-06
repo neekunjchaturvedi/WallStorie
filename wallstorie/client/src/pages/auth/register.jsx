@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function Register() {
   const [formData, setFormData] = useState({
     name: "",
+    phone: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -28,6 +29,15 @@ export default function Register() {
   // Handle form submission
   function onSubmit(event) {
     event.preventDefault();
+    // Simple validation for password match
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Passwords do not match",
+        variant: "destructive",
+      });
+      return;
+    }
+
     dispatch(registeruser(formData)).then((data) => {
       if (data?.payload?.success) {
         toast({
@@ -56,6 +66,19 @@ export default function Register() {
             id="name"
             placeholder="Name"
             value={formData.name}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+          />
+        </div>
+        <div className="space-y-1 text-sm">
+          <label htmlFor="phone" className="dark:text-gray-600 flex font-lato">
+            Phone
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Phone"
+            value={formData.phone}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
           />

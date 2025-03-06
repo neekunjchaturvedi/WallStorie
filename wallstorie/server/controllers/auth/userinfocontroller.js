@@ -1,3 +1,4 @@
+const User = require("../../models/user");
 const Userinfo = require("../../models/userinfo");
 
 const createUserinfo = async (req, res) => {
@@ -21,4 +22,20 @@ const getAllUserinfo = async (req, res) => {
   }
 };
 
-module.exports = { createUserinfo, getAllUserinfo };
+const fetchAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json({
+      success: true,
+      users,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred",
+    });
+  }
+};
+
+module.exports = { createUserinfo, getAllUserinfo, fetchAllUsers };

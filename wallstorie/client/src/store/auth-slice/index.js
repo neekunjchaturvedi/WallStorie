@@ -6,7 +6,6 @@ const initialState = {
   isLoading: false,
   user: null,
   error: null,
-  // To store error messages
 };
 
 // Register User
@@ -89,6 +88,8 @@ export const checkAuth = createAsyncThunk(
   }
 );
 
+// Fetch All Users
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -163,6 +164,8 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.error = action.payload;
       });
+
+    // Fetch All Users
   },
 });
 

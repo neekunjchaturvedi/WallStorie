@@ -65,7 +65,7 @@ function AdminOrdersView() {
               ? sortedOrderList.map((orderItem) => (
                   <TableRow key={orderItem?._id}>
                     <TableCell>{orderItem?._id}</TableCell>
-                    <TableCell>
+                    <TableCell className="font-lato">
                       {orderItem?.createdAt
                         ? new Date(orderItem.createdAt).toLocaleDateString()
                         : "N/A"}

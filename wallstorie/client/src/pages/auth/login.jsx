@@ -5,10 +5,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ identifier: "", password: "" });
   const nav = useNavigate();
   const dispatch = useDispatch();
   const { toast } = useToast();
+
   // Handle form submission
   function onSubmit(event) {
     event.preventDefault();
@@ -42,16 +43,19 @@ export default function Login() {
       <h1 className="text-2xl font-bold text-center font-lato">Login</h1>
       <form onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-1 text-sm">
-          <label htmlFor="email" className="dark:text-gray-600 flex font-lato">
-            Email
+          <label
+            htmlFor="identifier"
+            className="dark:text-gray-600 flex font-lato"
+          >
+            Email or Phone
           </label>
           <input
             type="text"
-            name="email"
-            id="email"
-            value={formData.email}
+            name="identifier"
+            id="identifier"
+            value={formData.identifier}
             onChange={handleChange}
-            placeholder="Email"
+            placeholder="Email or Phone"
             className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
           />
         </div>

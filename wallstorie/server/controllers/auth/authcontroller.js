@@ -2,22 +2,23 @@ const bcrypt = require("bcryptjs");
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 
-//register
-
-const registeruser = async (req, res) => {
-  const { name, email, password } = req.body;
+// Register
+const registerUser = async (req, res) => {
+  const { name, phone, email, password } = req.body;
 
   try {
     const checkUser = await User.findOne({ email });
-    if (checkUser)
+    if (checkUser) {
       return res.json({
         success: false,
-        message: "User Already exists with the same email! Please try again",
+        message: "User already exists with the same email! Please try again",
       });
+    }
 
     const hashPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
       name,
+      phone,
       email,
       password: hashPassword,
     });
@@ -31,32 +32,42 @@ const registeruser = async (req, res) => {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured",
+      message: "Some error occurred",
     });
   }
 };
 
 // Login
-const loginuser = async (req, res) => {
-  const { email, password } = req.body;
+const loginUser = async (req, res) => {
+  const { identifier, password } = req.body; // identifier can be phone or email
 
   try {
-    const checkUser = await User.findOne({ email });
-    if (!checkUser)
+    let checkUser;
+    if (isNaN(identifier)) {
+      // If identifier is not a number, treat it as an email
+      checkUser = await User.findOne({ email: identifier });
+    } else {
+      // If identifier is a number, treat it as a phone number
+      checkUser = await User.findOne({ phone: identifier });
+    }
+
+    if (!checkUser) {
       return res.json({
         success: false,
-        message: "User doesn't exists! Please register first",
+        message: "User doesn't exist! Please register first",
       });
+    }
 
     const checkPasswordMatch = await bcrypt.compare(
       password,
       checkUser.password
     );
-    if (!checkPasswordMatch)
+    if (!checkPasswordMatch) {
       return res.json({
         success: false,
         message: "Incorrect password! Please try again",
       });
+    }
 
     const token = jwt.sign(
       {
@@ -83,13 +94,13 @@ const loginuser = async (req, res) => {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured",
+      message: "Some error occurred",
     });
   }
 };
 
 // Logout
-const logoutuser = (req, res) => {
+const logoutUser = (req, res) => {
   res.clearCookie("token").json({
     success: true,
     message: "Logged out successfully!",
@@ -99,11 +110,12 @@ const logoutuser = (req, res) => {
 // Middleware to protect routes
 const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
-  if (!token)
+  if (!token) {
     return res.status(401).json({
       success: false,
-      message: "Unauthorised user!",
+      message: "Unauthorized user!",
     });
+  }
 
   try {
     const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
@@ -112,14 +124,14 @@ const authMiddleware = async (req, res, next) => {
   } catch (error) {
     res.status(401).json({
       success: false,
-      message: "Unauthorised user!",
+      message: "Unauthorized user!",
     });
   }
 };
 
 module.exports = {
-  registeruser,
-  loginuser,
-  logoutuser,
+  registerUser,
+  loginUser,
+  logoutUser,
   authMiddleware,
 };
