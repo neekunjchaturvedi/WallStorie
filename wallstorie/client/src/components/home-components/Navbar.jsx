@@ -3,6 +3,15 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Separator } from "../ui/separator";
 
 const StyledWrapper = styled.div`
   .animated-button {
@@ -119,13 +128,27 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a
-            onClick={() => {
-              return navigate("/contact");
-            }}
-            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
-          >
-            Contact us
+          <a className="hover:text-green-700 transition-colors duration-300 cursor-pointer">
+            <DropdownMenu>
+              <DropdownMenuTrigger>Contact Us</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    return navigate("/sellart");
+                  }}
+                >
+                  Sell Art
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => {
+                    return navigate("/reachout");
+                  }}
+                >
+                  Reach Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </a>
         </li>
       </ul>
@@ -270,13 +293,27 @@ const Navbar = () => {
             Artist Collection
           </a>
 
-          <a
-            onClick={() => {
-              return navigate("/contact");
-            }}
-            className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
-          >
-            Contact us
+          <a className="hover:text-green-700 transition-colors duration-300 cursor-pointer">
+            <DropdownMenu>
+              <DropdownMenuTrigger>Contact Us</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    return navigate("/sellart");
+                  }}
+                >
+                  Sell Art
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => {
+                    return navigate("/reachout");
+                  }}
+                >
+                  Reach Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </a>
           <div className="items-center flex space-x-6 text-[#4a4a4a] text-xl">
             <button

@@ -25,6 +25,8 @@ import Cart from "./pages/Shopping/cart";
 import Artist from "./pages/Shopping/Artist";
 import OrderSuccess from "./components/shopping/ordersuccess";
 import Search from "./pages/Shopping/Search";
+import Sellart from "./components/shopping/Sellart";
+import Reachout from "./components/shopping/reachout";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -43,6 +45,8 @@ function App() {
       <Route path="blinds" element={<Blinds />} />
       <Route path="cart" element={<Cart />} />
       <Route path="artist" element={<Artist />} />
+      <Route path="sellart" element={<Sellart />} />
+      <Route path="reachout" element={<Reachout />} />
       {/* Changed from component to element */}
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="order/success/:id" element={<OrderSuccess />} />

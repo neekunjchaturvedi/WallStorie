@@ -99,7 +99,7 @@ export default function Review({ productDetails }) {
           <Button
             onClick={handleAddReview}
             disabled={reviewMsg.trim() === ""}
-            className="mt-7 bg-green-600"
+            className="mt-7 bg-green-600 hover:bg-green-700"
           >
             Add the review
           </Button>
@@ -108,17 +108,23 @@ export default function Review({ productDetails }) {
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center sm:justify-evenly">
             <div className="flex flex-col justify-center items-center mb-6 sm:mb-0">
-              <h2 className="text-left text-3xl mb-2">
-                {averageRating.toFixed(1)}
-              </h2>
-              <StarRatingComponent rating={averageRating} />
+              {reviews.length !== 0 ? (
+                <>
+                  {" "}
+                  <h2 className="text-left text-3xl mb-2">
+                    {averageRating.toFixed(1)}
+                  </h2>
+                  <StarRatingComponent rating={averageRating} />
+                  <h2 className="text-left text-xl mb-2">Overall Rating</h2>
+                </>
+              ) : null}
             </div>
 
             <div className="w-full sm:w-1/2 flex flex-col items-center">
               {reviews.map((review) => (
                 <Card
                   key={review._id}
-                  className="bg-white shadow-md rounded-lg p-6 mb-4"
+                  className="bg-green-50 shadow-md rounded-lg p-6 mb-4"
                 >
                   <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center space-x-4">
@@ -142,13 +148,13 @@ export default function Review({ productDetails }) {
                           />
                         ))}
                       </div>
-                      <span className="text-md font-bold text-gray-800 font-lato">
+                      {/* <span className="text-md font-bold text-gray-800 font-lato">
                         {review.reviewValue} *
-                      </span>
+                      </span> */}
                     </div>
                   </div>
 
-                  <div className="mb-4">
+                  <div className="mb-4 w-96">
                     <p className="text-gray-600 text-left text-sm">
                       {review.reviewMessage}
                     </p>

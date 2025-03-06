@@ -115,7 +115,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="mb-10">
+          <div className="mb-10 md:w-48 md:text-left ">
             <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
               Customer Care
             </h4>
@@ -125,7 +125,7 @@ const Footer = () => {
                   href="mailto:care@wallstorie.com"
                   className="text-gray-600 hover:text-green-700 whitespace-nowrap"
                 >
-                  care@wallstorie.com
+                  contact@wallstorie.in
                 </a>
               </li>
               <li>
@@ -133,15 +133,15 @@ const Footer = () => {
                   href="tel:+91798123006"
                   className="text-gray-600 hover:text-green-700 whitespace-nowrap"
                 >
-                  +91 7981230006
+                  +91 6302644520
                 </a>
               </li>
-              <li>
-                <span className="text-gray-600 whitespace-nowrap">
-                  11:00 to 10:30 IST Mon-Sat
-                </span>
-              </li>
+              <li></li>
             </ul>
+            <p className="text-gray-600">
+              1st floor, Hanuman plywood complex, Beside PSR Convention centre,
+              Kompally, Hyderabad-500014
+            </p>
           </div>
         </div>
       </div>

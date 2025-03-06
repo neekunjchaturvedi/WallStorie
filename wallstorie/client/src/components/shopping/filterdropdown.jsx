@@ -135,6 +135,10 @@ const FilterDropdown = ({ filters, setFilters, applyFilters }) => {
                   onChange={() => handleCheckboxChange("color", color.id)}
                   className="appearance-none w-4 h-4 border border-black checked:bg-green-400 rounded"
                 />
+                <span
+                  className="border-2 w-6 h-6 rounded-lg"
+                  style={{ backgroundColor: color.label }} // dynamically set the background color
+                ></span>
                 <span className="text-sm capitalize">{color.label}</span>
               </label>
             ))}

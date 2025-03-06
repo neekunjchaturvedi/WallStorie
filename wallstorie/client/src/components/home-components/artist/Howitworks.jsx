@@ -1,57 +1,57 @@
 import React from "react";
 import { FaRegPaperPlane, FaLightbulb, FaCheckCircle } from "react-icons/fa";
 
-const SchedulingSection = () => {
+const Howitworks = () => {
   return (
     <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between w-1/2 gap-8 bg-white p-8 rounded-lg mt-20 mb-20 mx-auto">
       <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
-        <h2 className="text-3xl font-bold text-green-700 mb-6 text-left">
-          Book Your Personalized Consultation
-        </h2>
-        <div className="flex items-start mb-6 font-lato">
+        <div className="text-left mb-10">
+          <h2 className="text-3xl font-bold text-green-700 ">How It Works:</h2>
+          <span className="font-lato text-3xl text-green-700">
+            From Canvas to Wall
+          </span>
+        </div>
+        <div className="flex items-start mb-12 font-lato">
           <FaRegPaperPlane className="text-green-600 text-3xl mr-4" />
           <div>
             <h3 className="text-xl font-semibold text-gray-800 text-start">
-              Share Your Preferences
+              Submit Your Artwork
             </h3>
             <p className="text-gray-600 text-start">
-              Let us know your style, needs, and space requirements by filling
-              out a quick form or talking to our expert.
+              Submit your high-resolution artwork through contacting us. Make
+              sure it meets our design and quality guidelines.
             </p>
           </div>
         </div>
-        <div className="flex items-start mb-6 font-lato">
+        <div className="flex items-start mb-12 font-lato">
           <FaLightbulb className="text-green-600 text-3xl mr-4" />
           <div>
             <h3 className="text-xl font-semibold text-gray-800 text-start">
-              Get Expert Advice
+              Approval & Collaboration
             </h3>
             <p className="text-gray-600 text-start ">
-              Our design specialists will provide tailored recommendations to
-              suit your home's unique aesthetic.
+              Our team will review your submission. Once approved, we’ll discuss
+              licensing terms and commission details.
             </p>
           </div>
         </div>
-        <div className="flex items-start font-lato">
+        <div className="flex items-start font-lato mb-8">
           <FaCheckCircle className="text-green-600 text-3xl mr-4" />
           <div>
             <h3 className="text-xl font-semibold text-gray-800 text-start">
-              Confirm Your Booking
+              Sell & Earn
             </h3>
             <p className="text-gray-600 text-start">
-              Schedule your consultation at your convenience and take the first
-              step toward transforming your space.
+              Your artwork is transformed into stunning wallpapers, and you earn
+              a commission on every sale!
             </p>
           </div>
         </div>
-        <button className="mt-6 px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 font-lato">
-          Schedule Now
-        </button>
       </div>
 
       <div className="hidden md:flex w-full md:w-1/2 mx-auto justify-center">
         <img
-          src="/src/assets/schedule.png"
+          src="/src/assets/artistwall.png"
           alt="Consultation"
           className="rounded-lg shadow-md w-[400px] h-[400px]"
         />
@@ -60,4 +60,4 @@ const SchedulingSection = () => {
   );
 };
 
-export default SchedulingSection;
+export default Howitworks;
