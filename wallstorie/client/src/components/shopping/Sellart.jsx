@@ -14,7 +14,7 @@ function Sellart() {
       <Info />
       <Collab />
       <Howitworks />
-      <ArtistCollaboration/>
+      <ArtistCollaboration />
     </>
   );
 }

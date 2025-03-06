@@ -1,3 +1,4 @@
+import { Globe, Handshake, Palette, Receipt } from "lucide-react";
 import React from "react";
 import {
   FaHammer,
@@ -10,25 +11,25 @@ import {
 const Collab = () => {
   const features = [
     {
-      icon: <FaPaintBrush size={30} className="text-green-600" />,
+      icon: <Palette className="w-12 h-12 text-green-500" />,
       title: "Showcase Your Talent",
       description:
         "Showcase your artwork on premium wallpapers and reach a passionate audience in interior design.",
     },
     {
-      icon: <FaMoneyBillWave size={30} className="text-green-600" />,
+      icon: <Receipt className="w-12 h-12 text-green-500" />,
       title: " Earn While You Create",
       description:
         "Earn a commission on every wallpaper sale with a clear profit-sharing model.",
     },
     {
-      icon: <FaGlobe size={30} className="text-green-600" />,
+      icon: <Globe className="w-12 h-12 text-green-500" />,
       title: "Expand Your Reach",
       description:
         "Gain recognition in interior décor and get featured on our website and social media.",
     },
     {
-      icon: <FaHandshake size={30} className="text-green-600" />,
+      icon: <Handshake className="w-12 h-12 text-green-600" />,
       title: "Seamless Process",
       description:
         "Submit your artwork—we handle production, marketing, and sales while you retain ownership rights.",
