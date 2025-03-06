@@ -5,6 +5,8 @@ import Navbar from "../home-components/Navbar";
 import Info from "../home-components/artist/Info";
 import Howitworks from "../home-components/artist/Howitworks";
 import ArtistCollaboration from "../home-components/artist/Join";
+import Footer from "../home-components/Footer";
+import { Bottomfoot } from "../home-components/Bottomfoot";
 
 function Sellart() {
   return (
@@ -15,6 +17,8 @@ function Sellart() {
       <Collab />
       <Howitworks />
       <ArtistCollaboration />
+      <Footer />
+      <Bottomfoot />
     </>
   );
 }

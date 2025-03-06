@@ -8,6 +8,7 @@ import shoppingOrderReducer from "./shop/ordersslice";
 import adminOrdersReducer from "./admin/orders-slice";
 import shopsearchSlice from "./shop/searchslice";
 import reviewReducer from "./shop/reviewslice";
+import userinforeducer from "./shop/userinfoslice";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     shoppingOrder: shoppingOrderReducer,
     search: shopsearchSlice,
     review: reviewReducer,
+    userinfo: userinforeducer,
   },
 });
 

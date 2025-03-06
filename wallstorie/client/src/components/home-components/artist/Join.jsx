@@ -3,7 +3,7 @@ import React from "react";
 const ArtistCollaboration = () => {
   return (
     <>
-      <div className="flex max-w-4xl justify-center mx-auto ">
+      <div className="flex max-w-4xl justify-center mx-auto flex-col mb-16">
         <div className="flex items-center justify-center bg-[#EAF7E5] rounded-xl p-6 shadow-sm max-w-xl mx-auto mb-10">
           <div className="max-w-md">
             <p className="text-green-700 font-medium mb-2 font-lato">
@@ -16,7 +16,7 @@ const ArtistCollaboration = () => {
             </button>
           </div>
         </div>
-        <div className="md:block text-green-700 text-4xl md:text-5xl font-bold leading-tight flex flex-col items-center justify-center">
+        <div className="md:block text-green-700 text-4xl md:text-5xl font-bold leading-tight flex flex-col sm: items-center justify-center">
           READY
           <br />
           TO JOIN?

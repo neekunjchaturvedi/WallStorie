@@ -12,6 +12,7 @@ const shopOrderRouter = require("./routes/shop/orderroutes");
 const adminOrderRouter = require("./routes/admin/orderroutes");
 const shopSearchRouter = require("./routes/shop/searchroutes");
 const reviewRouter = require("./routes/shop/reviewroutes");
+const userinforouter = require("./routes/auth/userinfo-routes");
 const mongoose = require("mongoose");
 
 dotenv.config({ path: "config.env" });
@@ -42,6 +43,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authrouter);
+app.use("/api/info", userinforouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shop/products", shopProductRouter);
 app.use("/api/shop/cart", shopcartRouter);

@@ -9,8 +9,26 @@ import Slider from "@/components/home-components/Slider";
 import SchedulingSection from "@/components/home-components/Schedule";
 import CommentSection from "@/components/home-components/Comments";
 import { Hheader } from "@/components/home-components/header";
+import InquiryPopup from "@/components/home-components/inquirypopup";
+import { useEffect, useState } from "react";
 
 function Home() {
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const hasShownPopup = sessionStorage.getItem("popupShown");
+
+    if (!hasShownPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(true);
+
+        sessionStorage.setItem("popupShown", "true");
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <>
       <Hheader />
@@ -25,6 +43,7 @@ function Home() {
       <CommentSection />
       <Footer />
       <Bottomfoot />
+      <InquiryPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
     </>
   );
 }

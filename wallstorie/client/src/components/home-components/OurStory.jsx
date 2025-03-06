@@ -27,7 +27,7 @@ const OurStory = () => {
 
         <div className="flex justify-around mt-6">
           <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">700+</p>
+            <p className="text-3xl font-bold text-gray-900">5000+</p>
             <p className="text-sm text-gray-600">satisfied clients</p>
           </div>
           <div className="text-center">
@@ -35,7 +35,7 @@ const OurStory = () => {
             <p className="text-sm text-gray-600">unique styles</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">2+</p>
+            <p className="text-3xl font-bold text-gray-900">4+</p>
             <p className="text-sm text-gray-600">years of experience</p>
           </div>
         </div>
