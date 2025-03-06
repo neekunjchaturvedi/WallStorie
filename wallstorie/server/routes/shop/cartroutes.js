@@ -1,4 +1,5 @@
 const express = require("express");
+const RateLimit = require("express-rate-limit");
 const {
   addToCart,
   updateCartItemQuantity,
@@ -10,7 +11,12 @@ const {
 
 const router = express.Router();
 
-router.post("/add", addToCart);
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+router.post("/add", limiter, addToCart);
 router.put("/updateQuantity", updateCartItemQuantity);
 router.delete("/:userId/item/:itemId", deleteCartItem);
 router.get("/:userId", fetchCartItems);
