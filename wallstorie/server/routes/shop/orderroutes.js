@@ -1,4 +1,5 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 
 const {
   getAllOrdersByUser,
@@ -7,6 +8,12 @@ const {
 
 const router = express.Router();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
+router.use(limiter);
 router.get("/list/:userId", getAllOrdersByUser);
 router.get("/details/:id", getOrderDetails);
 
