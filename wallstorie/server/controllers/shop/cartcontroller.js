@@ -50,6 +50,14 @@ exports.addToCart = async (req, res) => {
       });
     }
 
+    // Validate productId
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Product ID",
+      });
+    }
+
     // Find or create cart
     let cart = await Cart.findOne({ userId });
     if (!cart) {
