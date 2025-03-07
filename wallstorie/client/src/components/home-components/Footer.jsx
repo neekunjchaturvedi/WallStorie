@@ -5,8 +5,10 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const nav = useNavigate();
   return (
     <footer className="bg-green-50 text-white p-4 mt-10 px-10 font-lato w-full">
       <div className="lg:h-[270px] sm:h-[800px] max-w-5xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
@@ -58,27 +60,52 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-600 hover:text-green-700">
+                <a
+                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                  onClick={() => {
+                    nav("/wallpapers");
+                  }}
+                >
                   Wallpaper
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-green-700">
-                  Wallpaper Rolls
+                <a
+                  onClick={() => {
+                    nav("/wallpaperrolls");
+                  }}
+                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                >
+                  WallpaperRolls
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-green-700">
+                <a
+                  onClick={() => {
+                    nav("/blinds");
+                  }}
+                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                >
                   Blinds
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-green-700">
+                <a
+                  onClick={() => {
+                    nav("/curtain");
+                  }}
+                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                >
                   Curtains
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-green-700">
+                <a
+                  onClick={() => {
+                    nav("/artist");
+                  }}
+                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                >
                   Artiste
                 </a>
               </li>
@@ -91,24 +118,30 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
-                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                  onClick={() => {
+                    nav("/shipping");
+                  }}
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap cursor-pointer"
                 >
                   Shipping & Returns
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                  onClick={() => {
+                    nav("/terms");
+                  }}
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap cursor-pointer"
                 >
                   Terms & Conditions
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap cursor-pointer"
+                  onClick={() => {
+                    nav("/privacy");
+                  }}
                 >
                   Privacy
                 </a>

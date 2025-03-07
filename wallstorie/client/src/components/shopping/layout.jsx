@@ -164,12 +164,25 @@ function Layout() {
 
       {/* Header Section */}
       <div className="flex flex-col justify-center items-center">
-        <h2 className="text-3xl font-bold text-green-700 mb-3">
-          {capitalizeFirstLetter(name)}
-        </h2>
-        <p className="text-gray-700 mt-2 font-lato mb-3">
-          Find Your Perfect {capitalizeFirstLetter(name)}
-        </p>
+        {name == "artist" ? (
+          <>
+            <h2 className="text-3xl font-bold text-green-700 mb-3">
+              Artist Collection
+            </h2>
+            <p className="text-gray-700 mt-2 font-lato mb-3">
+              Collaborating with Artists: Bringing Unique Creations to You
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-3xl font-bold text-green-700 mb-3">
+              {capitalizeFirstLetter(name)}
+            </h2>
+            <p className="text-gray-700 mt-2 font-lato mb-3">
+              Find Your Perfect {capitalizeFirstLetter(name)}
+            </p>
+          </>
+        )}
       </div>
 
       {/* Main Content Section */}

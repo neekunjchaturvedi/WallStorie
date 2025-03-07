@@ -411,6 +411,11 @@ const ProductDetails = () => {
                       <span className="text-2xl font-bold text-green-600">
                         ₹{productdetails.salePrice || productdetails.price}
                       </span>
+                      {productdetails.productType == "wallpaperRolls" ? (
+                        <span className="text-xl text-left flex font-lato">
+                          50 sqft roll
+                        </span>
+                      ) : null}
                       {productdetails.salePrice && (
                         <span className="text-xl text-gray-500 line-through">
                           ₹{productdetails.price}
@@ -430,6 +435,7 @@ const ProductDetails = () => {
                       <Share2 size={28} />
                     </div>
                   </div>
+
                   <div className="flex">
                     {productdetails.productType === "wallpaperRolls" ? (
                       <span className="text-sm font-medium text-gray-600 bg-gray-50 p-3 rounded-lg text-left playfair">

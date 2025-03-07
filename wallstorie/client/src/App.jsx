@@ -27,6 +27,10 @@ import OrderSuccess from "./components/shopping/ordersuccess";
 import Search from "./pages/Shopping/Search";
 import Sellart from "./components/shopping/Sellart";
 import Reachout from "./components/shopping/reachout";
+import ShippingPolicy from "./pages/common/ShippingPolicy";
+
+import Privacy from "./pages/common/Privacypolicy";
+import Termsandcondition from "./pages/common/Termsandc";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -51,6 +55,9 @@ function App() {
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="order/success/:id" element={<OrderSuccess />} />
       <Route path="search" element={<Search />} />
+      <Route path="shipping" element={<ShippingPolicy />} />
+      <Route path="privacy" element={<Privacy />} />
+      <Route path="terms" element={<Termsandcondition />} />
 
       {/* Auth-Protected Routes */}
       <Route

@@ -69,7 +69,7 @@ function UOrders() {
               ? sortedOrderList.map((orderItem) => (
                   <TableRow key={orderItem?._id}>
                     <TableCell>{orderItem?._id}</TableCell>
-                    <TableCell>
+                    <TableCell className="font-lato">
                       {orderItem?.createdAt
                         ? new Date(orderItem.createdAt).toLocaleDateString()
                         : "N/A"}
@@ -89,7 +89,9 @@ function UOrders() {
                         {orderItem?.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>₹{orderItem?.totalAmount}</TableCell>
+                    <TableCell className="font-lato">
+                      ₹{orderItem?.totalAmount}
+                    </TableCell>
                     <TableCell>
                       <Dialog
                         open={openDetailsDialog}

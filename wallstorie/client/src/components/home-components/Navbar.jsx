@@ -2,7 +2,7 @@ import { fetchCartItemCount } from "@/store/shop/cartslice";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,32 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Separator } from "../ui/separator";
 
-const StyledWrapper = styled.div`
-  .animated-button {
-    position: relative;
-    display: inline-block;
-    padding: 5px 7px 5px 7px;
-    border: none;
-    font-size: 14px;
-    background-color: #43a047;
-    border-radius: 10px;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.3s ease-in-out;
-  }
-
-  .animated-button:hover {
-    background-color: #558b6e;
-  }
-
-  .animated-button:active {
-    transform: scale(0.95);
-  }
-`;
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -188,16 +164,14 @@ const Navbar = () => {
             <i className="fa-solid fa-user"></i>
           </button>
         ) : (
-          <StyledWrapper>
-            <button
-              className="animated-button"
-              onClick={() => {
-                navigate("/auth/login");
-              }}
-            >
-              Login
-            </button>
-          </StyledWrapper>
+          <Button
+            className="animated-button bg-green-600 hover:bg-green-700"
+            onClick={() => {
+              navigate("/auth/login");
+            }}
+          >
+            Login
+          </Button>
         )}
       </div>
 
@@ -213,16 +187,14 @@ const Navbar = () => {
             <i className="fa-solid fa-user"></i>
           </button>
         ) : (
-          <StyledWrapper>
-            <button
-              className="animated-button"
-              onClick={() => {
-                navigate("/auth/login");
-              }}
-            >
-              Login
-            </button>
-          </StyledWrapper>
+          <Button
+            className="animated-button bg-green-600 hover:bg-green-700"
+            onClick={() => {
+              navigate("/auth/login");
+            }}
+          >
+            Login
+          </Button>
         )}
         <div className="relative">
           <button
@@ -349,16 +321,14 @@ const Navbar = () => {
                 <i className="fa-solid fa-user"></i>
               </button>
             ) : (
-              <StyledWrapper>
-                <button
-                  className="animated-button"
-                  onClick={() => {
-                    navigate("/auth/login");
-                  }}
-                >
-                  Login
-                </button>
-              </StyledWrapper>
+              <Button
+                className="animated-button bg-green-600 hover:bg-green-700"
+                onClick={() => {
+                  navigate("/auth/login");
+                }}
+              >
+                Login
+              </Button>
             )}
           </div>
         </div>
