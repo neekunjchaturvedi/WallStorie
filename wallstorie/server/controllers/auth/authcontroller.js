@@ -45,10 +45,10 @@ const loginUser = async (req, res) => {
     let checkUser;
     if (isNaN(identifier)) {
       // If identifier is not a number, treat it as an email
-      checkUser = await User.findOne({ email: identifier });
+      checkUser = await User.findOne({ email: { $eq: identifier } });
     } else {
       // If identifier is a number, treat it as a phone number
-      checkUser = await User.findOne({ phone: identifier });
+      checkUser = await User.findOne({ phone: { $eq: identifier } });
     }
 
     if (!checkUser) {
