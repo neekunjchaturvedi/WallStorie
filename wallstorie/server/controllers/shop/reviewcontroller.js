@@ -7,9 +7,16 @@ const addProductReview = async (req, res) => {
       req.body;
 
     // Check if the user has already reviewed the product
+    if (typeof productId !== "string" || typeof userId !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid input data.",
+      });
+    }
+
     const existingReview = await ProductReview.findOne({
-      productId,
-      userId,
+      productId: { $eq: productId },
+      userId: { $eq: userId },
     });
 
     if (existingReview) {
