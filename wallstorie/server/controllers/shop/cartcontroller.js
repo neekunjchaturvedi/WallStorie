@@ -191,6 +191,13 @@ exports.updateCartItemQuantity = async (req, res) => {
       });
     }
 
+    if (!mongoose.Types.ObjectId.isValid(itemId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid item ID",
+      });
+    }
+
     const cartItem = await CartItem.findById(itemId);
     if (!cartItem) {
       return res.status(404).json({
