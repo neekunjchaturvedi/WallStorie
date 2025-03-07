@@ -31,7 +31,7 @@ const addProductReview = async (req, res) => {
     await newReview.save();
 
     // Calculate the new average review value
-    const reviews = await ProductReview.find({ productId });
+    const reviews = await ProductReview.find({ productId: { $eq: productId } });
     const totalReviewsLength = reviews.length;
     const averageReview =
       reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
