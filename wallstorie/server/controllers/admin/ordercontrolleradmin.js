@@ -26,6 +26,10 @@ exports.getOrderDetailsForAdmin = async (req, res) => {
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { status } = req.body;
+    const allowedStatuses = ["pending", "shipped", "delivered", "cancelled"];
+    if (typeof status !== "string" || !allowedStatuses.includes(status)) {
+      return res.status(400).json({ error: "Invalid status value" });
+    }
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { status },
