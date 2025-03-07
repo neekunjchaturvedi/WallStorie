@@ -1,4 +1,5 @@
 const express = require("express");
+const RateLimit = require("express-rate-limit");
 const {
   getAllUserinfo,
   createUserinfo,
@@ -7,8 +8,13 @@ const {
 
 const router = express.Router();
 
-router.get("/userinfo", getAllUserinfo);
-router.get("/getusers", fetchAllUsers);
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+router.get("/userinfo", limiter, getAllUserinfo);
+router.get("/getusers", limiter, fetchAllUsers);
 router.post("/userinfopost", createUserinfo);
 
 module.exports = router;
