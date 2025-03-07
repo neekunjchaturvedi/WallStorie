@@ -64,6 +64,13 @@ const editAddress = async (req, res) => {
   try {
     const { userId, addressId } = req.params;
     const formData = req.body;
+    const allowedFields = ['address', 'city', 'pincode', 'phone', 'notes'];
+    const sanitizedData = {};
+    allowedFields.forEach(field => {
+      if (formData[field] !== undefined) {
+        sanitizedData[field] = formData[field];
+      }
+    });
 
     if (!userId || !addressId) {
       return res.status(400).json({
@@ -77,7 +84,7 @@ const editAddress = async (req, res) => {
         _id: addressId,
         userId,
       },
-      formData,
+      { $set: sanitizedData },
       { new: true }
     );
 
