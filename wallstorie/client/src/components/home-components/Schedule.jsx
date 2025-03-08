@@ -1,7 +1,9 @@
 import React from "react";
 import { FaRegPaperPlane, FaLightbulb, FaCheckCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SchedulingSection = () => {
+  const nav = useNavigate();
   return (
     <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between w-1/2 gap-8 bg-white p-8 rounded-lg mt-20 mb-20 mx-auto">
       <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
@@ -44,7 +46,12 @@ const SchedulingSection = () => {
             </p>
           </div>
         </div>
-        <button className="mt-6 px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 font-lato">
+        <button
+          className="mt-6 px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 font-lato"
+          onClick={() => {
+            nav("/reachout");
+          }}
+        >
           Schedule Now
         </button>
       </div>

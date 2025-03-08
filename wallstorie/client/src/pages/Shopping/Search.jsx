@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { addToCart, fetchCartItems } from "@/store/shop/cartslice";
 import { getSearchResults, resetSearchResults } from "@/store/shop/searchslice";
 import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -46,14 +47,15 @@ function SearchProducts() {
     <>
       <Hheader />
       <Navbar />
-      <div className="container mx-auto md:px-6 px-4 py-8">
+      <div className="container max-w-5xl mx-auto md:px-6 px-4 py-8">
         <div className="flex justify-center mb-8">
-          <div className="w-full flex items-center">
+          <div className="w-full flex items-center justify-center gap-4">
+            <FaSearch size={24} className="font-extralight" />
             <Input
               value={keyword}
               name="keyword"
               onChange={(event) => setKeyword(event.target.value)}
-              className="py-6"
+              className="py-6 max-w-6xl"
               placeholder="Search Products..."
             />
           </div>

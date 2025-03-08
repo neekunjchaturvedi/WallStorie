@@ -1,6 +1,9 @@
+import { ArrowRight, MoveUpRight } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
+  const nav = useNavigate();
   return (
     <>
       <section class="relative bg-white py-12">
@@ -22,24 +25,13 @@ export const Hero = () => {
               and create spaces you'll love coming home to.
             </p>
             <a
-              href="#"
-              class="inline-flex items-center px-6 py-3 text-white bg-green-700 hover:bg-green-800 rounded-lg"
+              onClick={() => {
+                nav("/wallpapers");
+              }}
+              class="inline-flex items-center px-6 py-3 text-white bg-green-700 hover:bg-green-800 rounded-lg cursor-pointer"
             >
               Find your style
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 ml-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 12h14m-7-7l7 7-7 7"
-                />
-              </svg>
+              <MoveUpRight />
             </a>
           </div>
         </div>
