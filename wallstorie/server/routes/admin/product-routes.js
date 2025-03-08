@@ -19,9 +19,9 @@ const limiter = RateLimit({
 });
 
 router.post("/upload-image", upload.single("file"), handleImageUpload);
-router.post("/add", addProduct);
-router.put("/edit/:id", editProduct);
-router.delete("/delete/:id", deleteProduct);
+router.post("/add", limiter, addProduct);
+router.put("/edit/:id", limiter, editProduct);
+router.delete("/delete/:id", limiter, deleteProduct);
 router.get("/get", limiter, fetchAllProducts);
 
 module.exports = router;

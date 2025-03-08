@@ -1,5 +1,5 @@
 const express = require("express");
-
+const rateLimit = require("express-rate-limit");
 const {
   addAddress,
   fetchAllAddress,
@@ -9,9 +9,13 @@ const {
 
 const router = express.Router();
 
-router.post("/add", addAddress);
-router.get("/get/:userId", fetchAllAddress);
-router.delete("/delete/:userId/:addressId", deleteAddress);
-router.put("/update/:userId/:addressId", editAddress);
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
 
+router.post("/add", limiter, addAddress);
+router.get("/get/:userId", limiter, fetchAllAddress);
+router.delete("/delete/:userId/:addressId", limiter, deleteAddress);
+router.put("/update/:userId/:addressId", limiter, editAddress);
 module.exports = router;

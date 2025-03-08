@@ -18,8 +18,8 @@ const limiter = rateLimit({
 // Apply rate limiter to all routes
 router.use(limiter);
 
-router.get("/get", getAllOrdersOfAllUsers);
-router.get("/details/:id", getOrderDetailsForAdmin);
+router.get("/get", limiter, getAllOrdersOfAllUsers);
+router.get("/details/:id", limiter, getOrderDetailsForAdmin);
 router.put("/update/:id", updateOrderStatus);
 
 module.exports = router;
