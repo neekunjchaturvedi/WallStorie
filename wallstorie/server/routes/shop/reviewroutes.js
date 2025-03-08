@@ -1,5 +1,5 @@
 const express = require("express");
-const RateLimit = require("express-rate-limit");
+const rateLimit = require("express-rate-limit");
 
 const {
   addProductReview,
@@ -8,12 +8,12 @@ const {
 
 const router = express.Router();
 
-const addReviewLimiter = RateLimit({
+const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // max 100 requests per windowMs
 });
-router.use(addReviewLimiter);
+router.use(limiter);
 router.post("/add", addProductReview);
-router.get("/:productId", addReviewLimiter, getProductReviews);
+router.get("/:productId", limiter, getProductReviews);
 
 module.exports = router;

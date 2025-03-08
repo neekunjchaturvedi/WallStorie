@@ -11,7 +11,8 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 
-// apply rate limiter to search route
+
+router.use(limiter);
 router.get("/:keyword", limiter, searchProducts);
 
 module.exports = router;
