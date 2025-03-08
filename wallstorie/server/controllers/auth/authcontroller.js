@@ -1,6 +1,9 @@
 const bcrypt = require("bcryptjs");
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const ENCRYPTION_KEY = "YOUR_ENCRYPTION_KEY"; // Replace with your actual encryption key
+const IV_LENGTH = 16; // For AES, this is always 16
 
 // Register
 const registerUser = async (req, res) => {
@@ -80,7 +83,9 @@ const loginUser = async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    res.cookie("token", token, { httpOnly: true, secure: false }).json({
+    const encryptedToken = encrypt(token);
+
+    res.cookie("token", encryptedToken, { httpOnly: true, secure: false }).json({
       success: true,
       message: "Logged in successfully",
       user: {
@@ -118,7 +123,8 @@ const authMiddleware = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+    const decryptedToken = decrypt(token);
+    const decoded = jwt.verify(decryptedToken, "CLIENT_SECRET_KEY");
     req.user = decoded;
     next();
   } catch (error) {
@@ -128,6 +134,24 @@ const authMiddleware = async (req, res, next) => {
     });
   }
 };
+
+function encrypt(text) {
+  let iv = crypto.randomBytes(IV_LENGTH);
+  let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+  let encrypted = cipher.update(text);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return iv.toString('hex') + ':' + encrypted.toString('hex');
+}
+
+function decrypt(text) {
+  let textParts = text.split(':');
+  let iv = Buffer.from(textParts.shift(), 'hex');
+  let encryptedText = Buffer.from(textParts.join(':'), 'hex');
+  let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+  let decrypted = decipher.update(encryptedText);
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+  return decrypted.toString();
+}
 
 module.exports = {
   registerUser,
