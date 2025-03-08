@@ -6,17 +6,32 @@ const addProductReview = async (req, res) => {
     const { productId, userId, userName, reviewMessage, reviewValue } =
       req.body;
 
-    // Check if the user has already reviewed the product
-    if (typeof productId !== "string" || typeof userId !== "string") {
+    // Validate input data
+    if (
+      !productId ||
+      !userId ||
+      typeof productId !== "string" ||
+      typeof userId !== "string"
+    ) {
       return res.status(400).json({
         success: false,
         message: "Invalid input data.",
       });
     }
 
+    // Log the incoming request data
+    console.log("Incoming review data:", {
+      productId,
+      userId,
+      userName,
+      reviewMessage,
+      reviewValue,
+    });
+
+    // Check if the user has already reviewed the product
     const existingReview = await ProductReview.findOne({
-      productId: { $eq: productId },
-      userId: { $eq: userId },
+      productId,
+      userId,
     });
 
     if (existingReview) {
@@ -38,13 +53,14 @@ const addProductReview = async (req, res) => {
     await newReview.save();
 
     // Calculate the new average review value
-    const reviews = await ProductReview.find({ productId: { $eq: productId } });
+    const reviews = await ProductReview.find({ productId });
     const totalReviewsLength = reviews.length;
     const averageReview =
       reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
       totalReviewsLength;
 
-    await Product.findByIdAndUpdate({ _id: { $eq: productId } }, { averageReview });
+    // Update the product with the new average review value
+    await Product.findByIdAndUpdate(productId, { averageReview });
 
     res.status(201).json({
       success: true,
@@ -62,6 +78,13 @@ const addProductReview = async (req, res) => {
 const getProductReviews = async (req, res) => {
   try {
     const { productId } = req.params;
+
+    if (!productId || typeof productId !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid product ID.",
+      });
+    }
 
     const reviews = await ProductReview.find({ productId });
     res.status(200).json({
