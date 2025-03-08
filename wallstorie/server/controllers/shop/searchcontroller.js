@@ -1,4 +1,5 @@
 const Product = require("../../models/Product");
+const _ = require('lodash');
 
 const searchProducts = async (req, res) => {
   try {
@@ -10,7 +11,8 @@ const searchProducts = async (req, res) => {
       });
     }
 
-    const regEx = new RegExp(keyword, "i");
+    const safeKeyword = _.escapeRegExp(keyword);
+    const regEx = new RegExp(safeKeyword, "i");
 
     const createSearchQuery = {
       $or: [
