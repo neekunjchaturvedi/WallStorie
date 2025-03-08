@@ -12,7 +12,11 @@ const ArtistCollaboration = () => {
               creativity
             </p>
             <button className="mt-4 bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-full transition-colors duration-300">
-              Get in touch
+              <a
+                href={`https://wa.me/916302644520?text=I'm%20interested%20in%20Collaborating%20with%20WallStorie%20as%20an%20Artist`}
+              >
+                Get in touch
+              </a>
             </button>
           </div>
         </div>

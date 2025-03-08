@@ -674,7 +674,7 @@ const ProductDetails = () => {
               )}
             </div>
             <a
-              href={`https://wa.me/916302445751?text=I'm%20interested%20in%20buying%20${encodeURIComponent(
+              href={`https://wa.me/916302644520?text=I'm%20interested%20in%20buying%20${encodeURIComponent(
                 productdetails.productName
               )}%20${encodeURIComponent(productdetails.productType)}`}
             >
