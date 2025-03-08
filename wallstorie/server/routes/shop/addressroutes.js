@@ -11,9 +11,9 @@ const {
 const router = express.Router();
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000, 
 
-  max: 100, // max 100 requests per windowMs
+  max: 100, 
 });
 
 router.post("/add", limiter, addAddress);

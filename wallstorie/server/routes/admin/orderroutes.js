@@ -9,17 +9,16 @@ const {
 
 const router = express.Router();
 
-// Set up rate limiter: maximum of 100 requests per 15 minutes
+
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, 
+  max: 100,
 });
 
-// Apply rate limiter to all routes
 router.use(limiter);
 
 router.get("/get", limiter, getAllOrdersOfAllUsers);
 router.get("/details/:id", limiter, getOrderDetailsForAdmin);
-router.put("/update/:id", updateOrderStatus);
+router.put("/update/:id", limiter, updateOrderStatus);
 
 module.exports = router;
