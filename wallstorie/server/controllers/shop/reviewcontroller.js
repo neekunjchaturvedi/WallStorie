@@ -44,7 +44,7 @@ const addProductReview = async (req, res) => {
       reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
       totalReviewsLength;
 
-    await Product.findByIdAndUpdate(productId, { averageReview });
+    await Product.findByIdAndUpdate({ _id: { $eq: productId } }, { averageReview });
 
     res.status(201).json({
       success: true,
