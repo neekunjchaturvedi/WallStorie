@@ -1,4 +1,5 @@
 const express = require("express");
+const RateLimit = require("express-rate-limit");
 const {
   authMiddleware,
   registerUser,
@@ -8,7 +9,13 @@ const {
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+// set up rate limiter: maximum of 100 requests per 15 minutes
+const registerLimiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+router.post("/register", registerLimiter, registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 
