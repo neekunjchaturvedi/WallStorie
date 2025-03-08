@@ -31,7 +31,7 @@ const calculatePrice = (
 
 exports.addToCart = async (req, res) => {
   try {
-    const {
+    let {
       userId,
       productId,
       quantity,
@@ -41,6 +41,19 @@ exports.addToCart = async (req, res) => {
       selectedMaterial,
       materialPrice,
     } = req.body;
+
+    // Validate input types
+    if (typeof productId !== 'string' || typeof quantity !== 'number' ||
+        (height && typeof height !== 'number') ||
+        (width && typeof width !== 'number') ||
+        (length && typeof length !== 'number') ||
+        (selectedMaterial && typeof selectedMaterial !== 'string') ||
+        (materialPrice && typeof materialPrice !== 'number')) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid input types",
+      });
+    }
 
     // Validate input
     if (!productId || !quantity) {
