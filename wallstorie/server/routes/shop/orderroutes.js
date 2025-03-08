@@ -15,6 +15,6 @@ const limiter = rateLimit({
 
 router.use(limiter);
 router.get("/list/:userId", getAllOrdersByUser);
-router.get("/details/:id", getOrderDetails);
+router.get("/details/:id", limiter, getOrderDetails);
 
 module.exports = router;
