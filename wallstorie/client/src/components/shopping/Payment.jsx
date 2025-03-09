@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { emptyCart } from "@/store/shop/cartslice"; // Import the emptyCart action
 
 const Payment = ({ orderDetails, shippingAddress }) => {
+  console.log(import.meta.env.VITE_PORT);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const Payment = ({ orderDetails, shippingAddress }) => {
 
       // Create order on server
       const response = await axios.post(
-        "http://localhost:5000/api/payments/create-order",
+        `${import.meta.env.VITE_PORT}/api/payments/create-order`,
         {
           amount: cart.totalAmount,
           currency: "INR",
@@ -68,9 +69,8 @@ const Payment = ({ orderDetails, shippingAddress }) => {
         order_id: order.id,
         handler: async function (response) {
           try {
-            // Verify payment on server
             const verificationResponse = await axios.post(
-              "http://localhost:5000/api/payments/verify-payment",
+              `${import.meta.env.VITE_PORT}/api/payments/verify-payment`,
               {
                 orderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,

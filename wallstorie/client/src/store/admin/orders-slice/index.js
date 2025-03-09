@@ -5,7 +5,7 @@ export const getAllOrdersForAdmin = createAsyncThunk(
   "adminOrders/getAllOrdersForAdmin",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/admin/orders/get"
+      `${import.meta.env.VITE_PORT}/api/admin/orders/get`
     );
     return response.data; // Ensure this data structure matches what's expected in the reducer
   }
@@ -15,7 +15,7 @@ export const getOrderDetailsForAdmin = createAsyncThunk(
   "adminOrders/getOrderDetailsForAdmin",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:5000/api/admin/orders/details/${id}`
+      `${import.meta.env.VITE_PORT}/api/admin/orders/details/${id}`
     );
     return response.data;
   }
@@ -25,7 +25,7 @@ export const updateOrderStatus = createAsyncThunk(
   "adminOrders/updateOrderStatus",
   async ({ id, status }) => {
     const response = await axios.put(
-      `http://localhost:5000/api/admin/orders/update/${id}`,
+      `${import.meta.env.VITE_PORT}/api/admin/orders/update/${id}`,
       { status }
     );
     return response.data;

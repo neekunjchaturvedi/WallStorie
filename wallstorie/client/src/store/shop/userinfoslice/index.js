@@ -13,7 +13,9 @@ const initialState = {
 export const fetchUserinfo = createAsyncThunk(
   "userinfo/fetchUserinfo",
   async () => {
-    const response = await axios.get("http://localhost:5000/api/info/userinfo");
+    const response = await axios.get(
+      `${import.meta.env.VITE_PORT}/api/info/userinfo`
+    );
     return response.data;
   }
 );
@@ -23,7 +25,7 @@ export const addUserinfo = createAsyncThunk(
   "userinfo/addUserinfo",
   async (newUserinfo) => {
     const response = await axios.post(
-      "http://localhost:5000/api/info/userinfopost",
+      `${import.meta.env.VITE_PORT}/api/info/userinfopost`,
       newUserinfo
     );
     return response.data;
@@ -36,7 +38,7 @@ export const fetchAllUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/info/getusers",
+        `${import.meta.env.VITE_PORT}/api/info/getusers`,
         {
           withCredentials: true,
         }

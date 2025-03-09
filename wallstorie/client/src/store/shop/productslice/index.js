@@ -43,7 +43,7 @@ export const getWallpaper = createAsyncThunk(
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/get?${query}`
+        `${import.meta.env.VITE_PORT}/api/shop/products/get?${query}`
       );
       if (!res.data.success) {
         return rejectWithValue(res.data.message);
@@ -63,7 +63,7 @@ export const getWallpaperrolls = createAsyncThunk(
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/getr?${query}`
+        `${import.meta.env.VITE_PORT}/api/shop/products/getr?${query}`
       );
       if (!res.data.success) {
         return rejectWithValue(res.data.message);
@@ -83,7 +83,7 @@ export const getblinds = createAsyncThunk(
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/getb?${query}`
+        `${import.meta.env.VITE_PORT}/api/shop/products/getb?${query}`
       );
       if (!res.data.success) {
         return rejectWithValue(res.data.message);
@@ -103,7 +103,7 @@ export const getcur = createAsyncThunk(
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/getc?${query}`
+        `${import.meta.env.VITE_PORT}/api/shop/products/getc?${query}`
       );
       if (!res.data.success) {
         return rejectWithValue(res.data.message);
@@ -123,7 +123,7 @@ export const getartist = createAsyncThunk(
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/getartist?${query}`
+        `${import.meta.env.VITE_PORT}/api/shop/products/getartist?${query}`
       );
       if (!res.data.success) {
         return rejectWithValue(res.data.message);
@@ -146,7 +146,9 @@ export const getProductsByCategory = createAsyncThunk(
     try {
       const query = generateQueryString(sortOption, filters);
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/category?category=${category}&productType=${productType}&${query}`
+        `${
+          import.meta.env.VITE_PORT
+        }/api/shop/products/category?category=${category}&productType=${productType}&${query}`
       );
 
       if (!res.data.success) {
@@ -170,7 +172,7 @@ export const getproductinfo = createAsyncThunk(
   async (id) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/shop/products/get/${id}`
+        `${import.meta.env.VITE_PORT}/api/shop/products/get/${id}`
       );
       return res.data;
     } catch (error) {

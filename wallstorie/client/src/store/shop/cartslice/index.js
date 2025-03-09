@@ -5,7 +5,7 @@ export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/cart/${userId}`
+      `${import.meta.env.VITE_PORT}/api/shop/cart/${userId}`
     );
     return response.data;
   }
@@ -15,7 +15,7 @@ export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (cartData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/shop/cart/add",
+      `${import.meta.env.VITE_PORT}/api/shop/cart/add`,
       cartData
     );
     return response.data;
@@ -26,7 +26,7 @@ export const updateCartItemQuantity = createAsyncThunk(
   "cart/updateQuantity",
   async ({ userId, itemId, quantity }) => {
     const response = await axios.put(
-      "http://localhost:5000/api/shop/cart/updateQuantity",
+      `${import.meta.env.VITE_PORT}/api/shop/cart/updateQuantity`,
       {
         userId,
         itemId,
@@ -43,7 +43,7 @@ export const deleteCartItem = createAsyncThunk(
     try {
       console.log("Deleting item:", { userId, itemId }); // Debug log
       const response = await axios.delete(
-        `http://localhost:5000/api/shop/cart/${userId}/item/${itemId}`
+        `${import.meta.env.VITE_PORT}/api/shop/cart/${userId}/item/${itemId}`
       );
       return response.data;
     } catch (error) {
@@ -59,7 +59,7 @@ export const fetchCartItemCount = createAsyncThunk(
   "cart/fetchCartItemCount",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/cart/count/${userId}`
+      `${import.meta.env.VITE_PORT}/api/shop/cart/count/${userId}`
     );
     return response.data;
   }
@@ -67,7 +67,7 @@ export const fetchCartItemCount = createAsyncThunk(
 
 export const emptyCart = createAsyncThunk("cart/emptyCart", async (userId) => {
   const response = await axios.delete(
-    `http://localhost:5000/api/shop/cart/${userId}/empty`
+    `${import.meta.env.VITE_PORT}/api/shop/cart/${userId}/empty`
   );
   return response.data;
 });
