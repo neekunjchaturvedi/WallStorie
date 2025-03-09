@@ -81,7 +81,11 @@ const getbycategory = async (req, res) => {
     const { category, productType, sortOption, price, space, trends, color } =
       req.query;
 
-    if (!category || typeof category !== "string" || !productType) {
+    if (
+      !category ||
+      typeof category !== "string" ||
+      typeof productType !== "string"
+    ) {
       return res.status(400).json({
         success: false,
         message: "Category and product type are required",
@@ -90,7 +94,7 @@ const getbycategory = async (req, res) => {
 
     let filterCriteria = {
       category: { $eq: category },
-      productType,
+      productType: { $eq: productType },
     };
 
     if (price && price !== "0") {
