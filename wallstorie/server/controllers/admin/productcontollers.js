@@ -20,7 +20,7 @@ const handleImageUpload = async (req, res) => {
     const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
     // Upload to Cloudinary with user tracking
-    const result = await imageUploadUtil(dataURI, "22951a3363");
+    const result = await imageUploadUtil(dataURI, "admin");
 
     res.json({
       success: true,
@@ -93,14 +93,14 @@ const addProduct = async (req, res) => {
       stockQuantity: Number(stockQuantity),
       popularity: Number(popularity || 0),
       createdAt: getCurrentUTCDateTime(),
-      createdBy: "22951a3363",
+      createdBy: "admin",
       updatedAt: getCurrentUTCDateTime(),
-      updatedBy: "22951a3363",
+      updatedBy: "admin",
     });
 
     await newProduct.save();
 
-    console.log(`New product created: ${productName} by user 22951a3363`);
+    
 
     res.status(201).json({
       success: true,
@@ -150,7 +150,7 @@ const editProduct = async (req, res) => {
       });
     }
 
-    // Validate required fields if they're being updated
+    
     if (
       updates.productName === "" ||
       updates.description === "" ||
@@ -182,11 +182,11 @@ const editProduct = async (req, res) => {
 
     // Update audit fields
     product.updatedAt = getCurrentUTCDateTime();
-    product.updatedBy = "22951a3363";
+    product.updatedBy = "admin";
 
     await product.save();
 
-    console.log(`Product updated: ${id} by 22951a3363`);
+    console.log(`Product updated: ${id} by admin`);
 
     res.status(200).json({
       success: true,
@@ -214,7 +214,7 @@ const deleteProduct = async (req, res) => {
       });
     }
 
-    console.log(`Product being deleted: ${id} by 22951a3363`);
+    console.log(`Product being deleted: ${id} by admin`);
 
     await Product.deleteOne({ _id: id });
 

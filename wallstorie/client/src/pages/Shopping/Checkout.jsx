@@ -125,7 +125,6 @@ const Checkout = () => {
       <Hheader />
       <Navbar />
       <div className="flex p-7 text-green-600">Add Address for Delivery</div>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 px-3">
         <Address
           setCurrentSelectedAddress={(address) => setSelectedAddress(address)}
@@ -144,9 +143,9 @@ const Checkout = () => {
                   alt={item.productName}
                   className="w-32 h-32 object-cover rounded-lg"
                 />
-                <div className="flex-1">
+                <div className="flex-1 font-lato">
                   <div className="flex justify-between">
-                    <h3 className="text-lg font-medium text-gray-800">
+                    <h3 className="text-lg font-medium text-gray-800 playfair">
                       {item.productName}
                     </h3>
                     <button
@@ -230,7 +229,7 @@ const Checkout = () => {
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
-                    <p className="font-medium text-lg">
+                    <p className="font-medium text-md font-lato">
                       ₹{item.totalPrice.toFixed(2)}
                     </p>
                   </div>
@@ -242,10 +241,10 @@ const Checkout = () => {
             <div className="border rounded-lg p-6 bg-white shadow-sm sticky top-4">
               <h2 className="text-xl font-medium mb-4">Order Summary</h2>
 
-              <div className="space-y-3 mb-6">
+              <div className="space-y-3 mb-6 font-lato">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal ({cart?.totalItems} items)</span>
-                  <span>₹{cart?.totalAmount.toFixed(2)}</span>
+                  <span className="font-lato">₹{cart?.totalAmount.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
@@ -262,7 +261,7 @@ const Checkout = () => {
               <div className="border-t pt-4 mb-6">
                 <div className="flex justify-between font-medium text-lg">
                   <span>Total</span>
-                  <span>₹{cart?.totalAmount.toFixed(2)}</span>
+                  <span className="font-lato">₹{cart?.totalAmount.toFixed(2)}</span>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
                   (Including all applicable taxes)

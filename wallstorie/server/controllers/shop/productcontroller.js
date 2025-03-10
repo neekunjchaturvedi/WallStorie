@@ -11,7 +11,7 @@ const handleError = (res, error) => {
 
 const getProductsByType = async (req, res, productType) => {
   try {
-    const { sort, price, space, trends, color } = req.query; // Changed from colors to color
+    const { sort, price, space, trends, color } = req.query; 
     let sortCriteria = { popularity: -1 };
     let filterCriteria = { productType };
 
@@ -49,11 +49,7 @@ const getProductsByType = async (req, res, productType) => {
         // Changed from colors to color
         $in: colorArray,
       };
-      console.log("Color filter array:", colorArray);
     }
-
-    console.log("Filter Criteria:", filterCriteria);
-    console.log("Sort Criteria:", sortCriteria);
 
     const products = await Product.find(filterCriteria).sort(sortCriteria);
 

@@ -162,14 +162,14 @@ const CartPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-6 font-lato">
           {items.map((item) => (
             <div
               key={item._id}
               className="border rounded-lg p-4 bg-white shadow-sm cursor-pointer"
               onClick={() => navigate(`/products/${item.productId._id}`)}
             >
-              <div className="text-md font-medium text-gray-800">
+              <div className="text-md font-medium text-gray-800 playfair">
                 {capitalizeFirstLetter(item.productType)}
               </div>
               <div className="flex gap-4">
@@ -180,7 +180,7 @@ const CartPage = () => {
                 />
                 <div className="flex-1">
                   <div className="flex justify-between">
-                    <h3 className="text-lg font-medium text-gray-800">
+                    <h3 className="text-lg font-medium text-gray-800 playfair">
                       {item.productName}
                     </h3>
                     <button
@@ -269,7 +269,7 @@ const CartPage = () => {
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
-                    <p className="font-medium text-lg">
+                    <p className="font-medium text-md">
                       ₹{item.totalPrice.toFixed(2)}
                     </p>
                   </div>
@@ -284,7 +284,7 @@ const CartPage = () => {
           <div className="border rounded-lg p-6 bg-white shadow-sm sticky top-4">
             <h2 className="text-xl font-medium mb-4">Order Summary</h2>
 
-            <div className="space-y-3 mb-6">
+            <div className="space-y-3 mb-6 font-lato">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal ({cart?.totalItems} items)</span>
                 <span>₹{cart?.totalAmount.toFixed(2)}</span>
@@ -304,7 +304,7 @@ const CartPage = () => {
             <div className="border-t pt-4 mb-6">
               <div className="flex justify-between font-medium text-lg">
                 <span>Total</span>
-                <span>₹{cart?.totalAmount.toFixed(2)}</span>
+                <span className="font-lato">₹{cart?.totalAmount.toFixed(2)}</span>
               </div>
               <p className="text-xs text-gray-500 mt-1">
                 (Including all applicable taxes)

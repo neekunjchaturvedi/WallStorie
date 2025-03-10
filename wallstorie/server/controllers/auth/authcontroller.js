@@ -39,15 +39,15 @@ const registerUser = async (req, res) => {
 
 // Login
 const loginUser = async (req, res) => {
-  const { identifier, password } = req.body; // identifier can be phone or email
+  const { identifier, password } = req.body; 
 
   try {
     let checkUser;
     if (isNaN(identifier)) {
-      // If identifier is not a number, treat it as an email
+      
       checkUser = await User.findOne({ email: { $eq: identifier } });
     } else {
-      // If identifier is a number, treat it as a phone number
+      
       checkUser = await User.findOne({ phone: { $eq: identifier } });
     }
 
