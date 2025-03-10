@@ -1,131 +1,128 @@
 const bcrypt = require("bcryptjs");
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
-// Register
+// Token Expiry Config
+const ACCESS_TOKEN_EXPIRY = "15m"; // Short-lived access token
+const REFRESH_TOKEN_EXPIRY = "7d"; // Longer-lived refresh token
+
+// Generate Access Token
+const generateAccessToken = (user) => {
+  return jwt.sign(
+    { id: user._id, role: user.role, email: user.email, name: user.name },
+    process.env.JWT_SECRET,
+    { expiresIn: ACCESS_TOKEN_EXPIRY }
+  );
+};
+
+// Generate Refresh Token
+const generateRefreshToken = (user) => {
+  return jwt.sign({ id: user._id }, process.env.REFRESH_SECRET, {
+    expiresIn: REFRESH_TOKEN_EXPIRY,
+  });
+};
+
+// Register User
 const registerUser = async (req, res) => {
   const { name, phone, email, password } = req.body;
 
   try {
-    const checkUser = await User.findOne({ email: { $eq: email } });
+    const checkUser = await User.findOne({ email });
     if (checkUser) {
-      return res.json({
-        success: false,
-        message: "User already exists with the same email! Please try again",
-      });
+      return res.json({ success: false, message: "User already exists!" });
     }
 
     const hashPassword = await bcrypt.hash(password, 12);
-    const newUser = new User({
-      name,
-      phone,
-      email,
-      password: hashPassword,
-    });
+    const newUser = new User({ name, phone, email, password: hashPassword });
 
     await newUser.save();
-    res.status(200).json({
-      success: true,
-      message: "Registration successful",
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({
-      success: false,
-      message: "Some error occurred",
-    });
+    res.status(200).json({ success: true, message: "Registration successful" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Some error occurred" });
   }
 };
 
-// Login
+// Login User
 const loginUser = async (req, res) => {
-  const { identifier, password } = req.body; // identifier can be phone or email
+  const { identifier, password } = req.body;
 
   try {
-    let checkUser;
-    if (isNaN(identifier)) {
-      // If identifier is not a number, treat it as an email
-      checkUser = await User.findOne({ email: { $eq: identifier } });
-    } else {
-      // If identifier is a number, treat it as a phone number
-      checkUser = await User.findOne({ phone: { $eq: identifier } });
-    }
+    let checkUser = isNaN(identifier)
+      ? await User.findOne({ email: identifier })
+      : await User.findOne({ phone: identifier });
 
     if (!checkUser) {
-      return res.json({
-        success: false,
-        message: "User doesn't exist! Please register first",
-      });
+      return res.json({ success: false, message: "User doesn't exist!" });
     }
 
-    const checkPasswordMatch = await bcrypt.compare(
-      password,
-      checkUser.password
-    );
+    const checkPasswordMatch = await bcrypt.compare(password, checkUser.password);
     if (!checkPasswordMatch) {
-      return res.json({
-        success: false,
-        message: "Incorrect password! Please try again",
-      });
+      return res.json({ success: false, message: "Incorrect password!" });
     }
 
-    const token = jwt.sign(
-      {
-        id: checkUser._id,
-        role: checkUser.role,
-        email: checkUser.email,
-        name: checkUser.name,
-      },
-      "CLIENT_SECRET_KEY",
-      { expiresIn: "15m" }
-    );
+    // Generate tokens
+    const accessToken = generateAccessToken(checkUser);
+    const refreshToken = generateRefreshToken(checkUser);
 
-    res.cookie("token", token, { httpOnly: true, secure: false }).json({
+    // Setting up refresh token in HTTP-Only cookie
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true, // Set to true if using HTTPS
+      sameSite: "Strict",
+      path: "/auth/refresh-token",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.json({
       success: true,
       message: "Logged in successfully",
-      user: {
-        email: checkUser.email,
-        role: checkUser.role,
-        id: checkUser._id,
-        name: checkUser.name,
-      },
+      accessToken,
+      user: { email: checkUser.email, role: checkUser.role, id: checkUser._id, name: checkUser.name },
     });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({
-      success: false,
-      message: "Some error occurred",
-    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Some error occurred" });
   }
 };
 
-// Logout
+// Refresh Token Endpoint
+const refreshToken = (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    return res.status(401).json({ success: false, message: "Unauthorized!" });
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+    const newAccessToken = generateAccessToken({ _id: decoded.id });
+
+    res.json({ success: true, accessToken: newAccessToken });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Unauthorized!" });
+  }
+};
+
+// Logout User (Clears Refresh Token)
 const logoutUser = (req, res) => {
-  res.clearCookie("token").json({
-    success: true,
-    message: "Logged out successfully!",
-  });
+  res.clearCookie("refreshToken", { path: "/auth/refresh-token" });
+  res.json({ success: true, message: "Logged out successfully!" });
 };
 
 // Middleware to protect routes
-const authMiddleware = async (req, res, next) => {
-  const token = req.cookies.token;
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorized user!",
-    });
+    return res.status(401).json({ success: false, message: "Unauthorized!" });
   }
 
   try {
-    const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: "Unauthorized user!",
-    });
+    res.status(401).json({ success: false, message: "Unauthorized!" });
   }
 };
 
@@ -133,5 +130,6 @@ module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  refreshAccessToken,
   authMiddleware,
 };
