@@ -5,19 +5,20 @@ const {
   registerUser,
   loginUser,
   logoutUser,
+  refreshAccessToken,
 } = require("../../controllers/auth/authcontroller");
 
 const router = express.Router();
 
-
 const limiter = RateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100, 
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
 
 router.post("/register", limiter, registerUser);
 router.post("/login", limiter, loginUser);
 router.post("/logout", limiter, logoutUser);
+router.post("/refresh", limiter, refreshAccessToken);
 
 router.get("/check-auth", limiter, authMiddleware, (req, res) => {
   const user = req.user;
