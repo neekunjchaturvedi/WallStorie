@@ -1,21 +1,24 @@
 const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
+const dotenv = require("dotenv");
+
+dotenv.config({ path: "config.env" });
 
 cloudinary.config({
-  cloud_name: "dc8vfdhz7",
-  api_key: "756922894465624",
-  api_secret: "RAMKquYyFRIxDNNB_PtxBq8tun8",
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
 const storage = new multer.memoryStorage();
 
 async function imageUploadUtil(file) {
   try {
-    // Simplified upload options without metadata
+    
     const uploadOptions = {
       resource_type: "auto",
       folder: "product-images",
-      public_id: `${Date.now()}`, // Unique identifier for each upload
+      public_id: `${Date.now()}`, 
     };
 
     const result = await cloudinary.uploader.upload(file, uploadOptions);
@@ -33,7 +36,7 @@ async function imageUploadUtil(file) {
 const upload = multer({
   storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
+    fileSize: 5 * 1024 * 1024, 
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) {

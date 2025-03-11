@@ -5,8 +5,8 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 dotenv.config({ path: "config.env" });
 // Token Expiry Config
-const ACCESS_TOKEN_EXPIRY = "15m"; // Short-lived access token
-const REFRESH_TOKEN_EXPIRY = "7d"; // Longer-lived refresh token
+const ACCESS_TOKEN_EXPIRY = "15m";
+const REFRESH_TOKEN_EXPIRY = "7d";
 console.log(process.env.JWT_SECRET);
 // Generate Access Token
 const generateAccessToken = (user) => {
@@ -70,13 +70,12 @@ const loginUser = async (req, res) => {
     const accessToken = generateAccessToken(checkUser);
     const refreshToken = generateRefreshToken(checkUser);
 
-    // Setting up refresh token in HTTP-Only cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true, // Set to true if using HTTPS
+      secure: true,
       sameSite: "Strict",
       path: "/auth/refresh-token",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.json({
@@ -96,7 +95,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Refresh Token Endpoint
 const refreshAccessToken = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {
@@ -113,13 +111,11 @@ const refreshAccessToken = (req, res) => {
   }
 };
 
-// Logout User (Clears Refresh Token)
 const logoutUser = (req, res) => {
   res.clearCookie("refreshToken", { path: "/auth/refresh-token" });
   res.json({ success: true, message: "Logged out successfully!" });
 };
 
-// Middleware to protect routes
 const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {

@@ -36,7 +36,7 @@ function Home() {
       <Hero />
       <OurStorySection />
       <OurCollections />
-      <Slider />
+      {/* <Slider /> */}
       <WhyChooseUs />
       <SchedulingSection />
 

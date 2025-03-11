@@ -1,8 +1,6 @@
 
 
 google oauth 2.0
-review design
-
 
 
 

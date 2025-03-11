@@ -72,11 +72,7 @@ const CommentSection = () => {
               >
                 <div className="flex items-start space-x-3 md:space-x-4">
                   {/* Profile Image */}
-                  <img
-                    src={comments[commentIndex].imgSrc}
-                    alt={comments[commentIndex].name}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md"
-                  />
+                  
                   {/* Comment Content */}
                   <div>
                     <p className="text-gray-700 italic text-sm md:text-base mb-3 md:mb-4 font-lato">
