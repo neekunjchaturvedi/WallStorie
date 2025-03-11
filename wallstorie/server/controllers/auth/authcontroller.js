@@ -2,12 +2,13 @@ const bcrypt = require("bcryptjs");
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const cookieParser = require("cookie-parser");
+const passport = require("passport");
 dotenv.config({ path: "config.env" });
+
 // Token Expiry Config
 const ACCESS_TOKEN_EXPIRY = "15m";
 const REFRESH_TOKEN_EXPIRY = "7d";
-console.log(process.env.JWT_SECRET);
+
 // Generate Access Token
 const generateAccessToken = (user) => {
   return jwt.sign(
@@ -72,7 +73,7 @@ const loginUser = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
       path: "/auth/refresh-token",
       maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -116,10 +117,15 @@ const logoutUser = (req, res) => {
   res.json({ success: true, message: "Logged out successfully!" });
 };
 
+// Middleware to check if user is authenticated
 const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
+
   if (!token) {
-    return res.status(401).json({ success: false, message: "Unauthorized!" });
+    return res
+      .status(401)
+      .json({ success: false, message: "Unauthorized! No token provided." });
   }
 
   try {
@@ -127,8 +133,72 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ success: false, message: "Unauthorized!" });
+    console.error("Token verification error:", error);
+    return res
+      .status(401)
+      .json({ success: false, message: "Unauthorized! Invalid token." });
   }
+};
+
+// Google auth route
+const googleAuth = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
+
+// Google auth callback route
+const googleAuthCallback = passport.authenticate("google", {
+  failureRedirect: "/login?googleLogin=failure",
+});
+
+// Handle successful Google authentication
+const googleAuthRedirect = (req, res) => {
+  try {
+    // Generate tokens for the authenticated user
+    if (!req.user) {
+      console.error("No user found in request after Google authentication");
+      return res.redirect(
+        "http://localhost:5173/auth/login?googleLogin=failure"
+      );
+    }
+
+    const accessToken = generateAccessToken(req.user);
+    const refreshToken = generateRefreshToken(req.user);
+
+    // Set refresh token as cookie
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax", // Changed to Lax for cross-site redirect
+      path: "/auth/refresh-token",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    // Set access token in local storage by redirecting with a parameter
+    res.redirect(
+      `http://localhost:5173/auth/login?googleLogin=success&token=${accessToken}`
+    );
+  } catch (error) {
+    console.error("Error in googleAuthRedirect:", error);
+    res.redirect("http://localhost:5173/auth/login?googleLogin=failure");
+  }
+};
+
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+};
+
+const getProfile = (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ success: false, message: "Unauthorized!" });
+  }
+
+  res.json({
+    success: true,
+    user: req.user,
+  });
 };
 
 module.exports = {
@@ -137,4 +207,9 @@ module.exports = {
   logoutUser,
   refreshAccessToken,
   authMiddleware,
+  googleAuth,
+  googleAuthCallback,
+  googleAuthRedirect,
+  ensureAuthenticated,
+  getProfile,
 };

@@ -1,31 +1,105 @@
 import { useToast } from "@/hooks/use-toast";
-import { loginuser } from "@/store/auth-slice";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { loginuser, processGoogleAuth } from "@/store/auth-slice";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
   const [formData, setFormData] = useState({ identifier: "", password: "" });
   const nav = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const { isAuthenticated, isLoading,user } = useSelector((state) => state.auth);
+
+  // Check if user is already authenticated on component mount
+  useEffect(() => {
+    if (isAuthenticated && user.role=="admin") {
+      nav("/admin/dashboard");
+    }
+  }, [isAuthenticated, nav]);
+
+  // Handle Google OAuth redirect
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const googleLoginStatus = params.get("googleLogin");
+    const token = params.get("token");
+
+    if (googleLoginStatus === "success" && token) {
+      dispatch(processGoogleAuth(token))
+        .then((result) => {
+          if (result.meta.requestStatus === "fulfilled") {
+            toast({
+              title: "Google login successful!",
+              variant: "success",
+            });
+            nav("/home");
+          } else {
+            toast({
+              title: "Google login failed",
+              description: result.payload || "Authentication failed",
+              variant: "destructive",
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Google auth error:", error);
+          toast({
+            title: "Google login error",
+            description: "An unexpected error occurred",
+            variant: "destructive",
+          });
+        });
+    } else if (googleLoginStatus === "failure") {
+      toast({
+        title: "Google login failed",
+        description: "Could not authenticate with Google",
+        variant: "destructive",
+      });
+    }
+
+    // Clear the URL parameters after processing
+    if (googleLoginStatus) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [location.search, dispatch, toast, nav]);
 
   // Handle form submission
   function onSubmit(event) {
     event.preventDefault();
 
-    dispatch(loginuser(formData)).then((data) => {
-      if (data?.payload?.success) {
+    if (!formData.identifier || !formData.password) {
+      toast({
+        title: "All fields are required",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    dispatch(loginuser(formData))
+      .then((result) => {
+        if (result.payload?.success) {
+          toast({
+            title: result.payload.message || "Login successful",
+            variant: "success",
+          });
+          nav("/home");
+        } else {
+          toast({
+            title: result.payload?.message || "Login failed",
+            variant: "destructive",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
         toast({
-          title: data?.payload?.message,
-        });
-      } else {
-        toast({
-          title: data?.payload?.message,
+          title: "Login error",
+          description: "An unexpected error occurred",
           variant: "destructive",
         });
-      }
-    });
+      });
   }
 
   // Handle form input change
@@ -36,6 +110,10 @@ export default function Login() {
 
   const redirect = () => {
     nav("/auth/register");
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_PORT}/api/auth/google`;
   };
 
   return (
@@ -78,9 +156,23 @@ export default function Login() {
         </div>
         <button
           type="submit"
-          className="block w-full p-3 text-center rounded-sm dark:text-gray-50 dark:bg-green-600 font-lato"
+          disabled={isLoading}
+          className={`block w-full p-3 text-center rounded-sm dark:text-gray-50 dark:bg-green-600 font-lato ${
+            isLoading ? "opacity-70 cursor-not-allowed" : ""
+          }`}
         >
-          Sign in
+          {isLoading ? "Signing in..." : "Sign in"}
+        </button>
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          disabled={isLoading}
+          className={`flex items-center justify-center w-full p-3 mt-4 text-center border rounded-sm dark:text-gray-800 dark:border-gray-800 font-lato ${
+            isLoading ? "opacity-70 cursor-not-allowed" : ""
+          }`}
+        >
+          <FcGoogle className="mr-2" />
+          Sign in with Google
         </button>
       </form>
       <p className="text-xs text-center sm:px-6 dark:text-gray-600 font-lato">

@@ -53,12 +53,19 @@ function App() {
       <Route path="reachout" element={<Reachout />} />
       {/* Changed from component to element */}
       <Route path="/products/:id" element={<ProductDetails />} />
-      <Route path="order/success/:id" element={<OrderSuccess />} />
+
       <Route path="search" element={<Search />} />
       <Route path="shipping" element={<ShippingPolicy />} />
       <Route path="privacy" element={<Privacy />} />
       <Route path="terms" element={<Termsandcondition />} />
-
+      <Route
+        path="order/success/:id"
+        element={
+          <CheckAuth>
+            <OrderSuccess />
+          </CheckAuth>
+        }
+      />
       {/* Auth-Protected Routes */}
       <Route
         path="profile"

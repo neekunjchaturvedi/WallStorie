@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
+const findOrCreate = require("mongoose-findorcreate");
 
 const userSchema = new mongoose.Schema({
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   name: {
     type: String,
     required: true,
@@ -8,8 +14,8 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: Number,
-    required: true,
     unique: true,
+    sparse: true,
   },
   email: {
     type: String,
@@ -20,12 +26,17 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
     minlength: 6,
+    required: function () {
+      return !this.googleId;
+    },
   },
   role: {
     type: String,
     default: "user",
   },
 });
+
+userSchema.plugin(findOrCreate);
+
 module.exports = mongoose.model("User", userSchema);

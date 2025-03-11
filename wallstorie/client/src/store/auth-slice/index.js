@@ -10,7 +10,7 @@ const initialState = {
 
 // Register User
 export const registeruser = createAsyncThunk(
-  "/auth/register",
+  "auth/register",
   async (formdata, { rejectWithValue }) => {
     try {
       const response = await axios.post(
@@ -30,24 +30,38 @@ export const registeruser = createAsyncThunk(
 
 // Login User
 export const loginuser = createAsyncThunk(
-  "/auth/login",
+  "auth/login",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_PORT}/api/auth/login`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
 
-  async (formData) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_PORT}/api/auth/login`,
-      formData,
-      {
-        withCredentials: true,
+      if (response.data.success) {
+        // Store the token securely
+        localStorage.setItem("accessToken", response.data.accessToken);
+
+        // Set default auth header for future requests
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.accessToken}`;
       }
-    );
 
-    return response.data;
+      return response.data;
+    } catch (err) {
+      console.error("Error in API call:", err.response?.data);
+      return rejectWithValue(err.response?.data || "Login failed");
+    }
   }
 );
 
 // Logout User
 export const logoutuser = createAsyncThunk(
-  "/auth/logout",
+  "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
@@ -57,6 +71,11 @@ export const logoutuser = createAsyncThunk(
           withCredentials: true,
         }
       );
+
+      // Clear local storage and auth headers
+      localStorage.removeItem("accessToken");
+      delete axios.defaults.headers.common["Authorization"];
+
       return response.data;
     } catch (err) {
       console.error("Error in API call:", err.response?.data);
@@ -67,9 +86,19 @@ export const logoutuser = createAsyncThunk(
 
 // Check Auth
 export const checkAuth = createAsyncThunk(
-  "/auth/checkauth",
+  "auth/checkauth",
   async (_, { rejectWithValue }) => {
     try {
+      // Get token from local storage or URL parameter
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        return rejectWithValue("No authentication token found");
+      }
+
+      // Set the authorization header
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
       const response = await axios.get(
         `${import.meta.env.VITE_PORT}/api/auth/check-auth`,
         {
@@ -80,15 +109,51 @@ export const checkAuth = createAsyncThunk(
           },
         }
       );
+
       return response.data;
     } catch (err) {
       console.error("Error in API call:", err.response?.data);
+      localStorage.removeItem("accessToken");
+      delete axios.defaults.headers.common["Authorization"];
       return rejectWithValue(err.response?.data || "Failed to verify auth");
     }
   }
 );
 
-// Fetch All Users
+// Process Google Authentication
+export const processGoogleAuth = createAsyncThunk(
+  "auth/processGoogleAuth",
+  async (token, { rejectWithValue }) => {
+    try {
+      // Store the token from URL parameter
+      localStorage.setItem("accessToken", token);
+
+      // Set the authorization header
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      // Check auth to get user data
+      const response = await axios.get(
+        `${import.meta.env.VITE_PORT}/api/auth/check-auth`,
+        {
+          withCredentials: true,
+          headers: {
+            "Cache-Control":
+              "no-store, no-cache, must-revalidate, proxy-revalidate",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (err) {
+      console.error("Error processing Google auth:", err.response?.data);
+      localStorage.removeItem("accessToken");
+      delete axios.defaults.headers.common["Authorization"];
+      return rejectWithValue(
+        err.response?.data || "Failed to authenticate with Google"
+      );
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -113,7 +178,7 @@ const authSlice = createSlice({
       .addCase(registeruser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user || null;
-        state.isAuthenticated = true;
+        state.isAuthenticated = !!action.payload.user;
       })
       .addCase(registeruser.rejected, (state, action) => {
         state.isLoading = false;
@@ -123,21 +188,24 @@ const authSlice = createSlice({
       // Login User
       .addCase(loginuser.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(loginuser.fulfilled, (state, action) => {
-        console.log(action);
-
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.user : null;
-        state.isAuthenticated = action.payload.success;
+        state.isAuthenticated = !!action.payload.success;
       })
       .addCase(loginuser.rejected, (state, action) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+        state.error = action.payload;
       })
 
       // Logout User
+      .addCase(logoutuser.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(logoutuser.fulfilled, (state) => {
         state.isLoading = false;
         state.user = null;
@@ -145,6 +213,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(logoutuser.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       })
 
@@ -163,9 +232,24 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
         state.error = action.payload;
-      });
+      })
 
-    // Fetch All Users
+      // Process Google Auth
+      .addCase(processGoogleAuth.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(processGoogleAuth.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user || null;
+        state.isAuthenticated = true;
+      })
+      .addCase(processGoogleAuth.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+        state.error = action.payload;
+      });
   },
 });
 

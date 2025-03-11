@@ -1,11 +1,16 @@
 const express = require("express");
 const RateLimit = require("express-rate-limit");
 const {
-  authMiddleware,
   registerUser,
   loginUser,
   logoutUser,
   refreshAccessToken,
+  authMiddleware,
+  googleAuth,
+  googleAuthCallback,
+  googleAuthRedirect,
+  ensureAuthenticated,
+  getProfile,
 } = require("../../controllers/auth/authcontroller");
 
 const router = express.Router();
@@ -20,13 +25,19 @@ router.post("/login", limiter, loginUser);
 router.post("/logout", limiter, logoutUser);
 router.post("/refresh", limiter, refreshAccessToken);
 
-router.get("/check-auth", limiter, authMiddleware, (req, res) => {
-  const user = req.user;
+// Check if user is authenticated
+router.get("/check-auth", authMiddleware, (req, res) => {
   res.status(200).json({
     success: true,
     message: "Authenticated user!",
-    user,
+    user: req.user,
   });
 });
+
+// Google OAuth routes
+router.get("/google", googleAuth);
+router.get("/google/callback", googleAuthCallback, googleAuthRedirect);
+
+router.get("/profile", ensureAuthenticated, getProfile);
 
 module.exports = router;

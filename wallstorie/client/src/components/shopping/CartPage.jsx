@@ -28,6 +28,9 @@ const CartPage = () => {
       navigate("/auth/login");
       return;
     }
+    if (user.role == "admin") {
+      navigate("/admin/dashboard");
+    }
 
     if (user?.id) {
       dispatch(fetchCartItems(user.id));
@@ -304,7 +307,9 @@ const CartPage = () => {
             <div className="border-t pt-4 mb-6">
               <div className="flex justify-between font-medium text-lg">
                 <span>Total</span>
-                <span className="font-lato">₹{cart?.totalAmount.toFixed(2)}</span>
+                <span className="font-lato">
+                  ₹{cart?.totalAmount.toFixed(2)}
+                </span>
               </div>
               <p className="text-xs text-gray-500 mt-1">
                 (Including all applicable taxes)
