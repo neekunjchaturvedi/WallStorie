@@ -24,7 +24,7 @@ router.post("/logout", limiter, logoutUser);
 router.post("/refresh", limiter, refreshAccessToken);
 
 // Check if user is authenticated
-router.get("/check-auth", authMiddleware, limiter, (req, res) => {
+router.get("/check-auth", limiter, authMiddleware, (req, res) => {
   res.status(200).json({
     success: true,
     message: "Authenticated user!",
