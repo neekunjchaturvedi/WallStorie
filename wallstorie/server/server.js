@@ -65,7 +65,7 @@ app.use(
   })
 );
 
-// app.use(lusca.csrf());
+app.use(lusca.csrf());
 
 // Initialize passport
 app.use(passport.initialize());
