@@ -2,6 +2,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../models/user");
 const dotenv = require("dotenv");
+const crypto = require("crypto");
 dotenv.config({ path: "config.env" });
 
 passport.use(
@@ -22,10 +23,9 @@ passport.use(
             googleId: profile.id,
             email: profile.emails[0].value,
             name: profile.displayName,
-            // Add a random password or handle it differently as per your User schema
             password:
-              Math.random().toString(36).slice(-8) +
-              Math.random().toString(36).slice(-8),
+              crypto.randomBytes(4).toString("hex") +
+              crypto.randomBytes(4).toString("hex"),
           });
         }
 
