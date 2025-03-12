@@ -127,7 +127,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
           <div className="grid gap-2">
             <div className="font-medium">Shipping Info</div>
             <div className="grid gap-0.5 text-muted-foreground font-lato">
-              <span>{user.userName}</span>
+              <span>{orderDetails?.shippingAddress?.name}</span>
               <span>{orderDetails?.shippingAddress?.address}</span>
               <span>{orderDetails?.shippingAddress?.city}</span>
               <span>{orderDetails?.shippingAddress?.pincode}</span>

@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { addressFormControls } from "@/config/address";
 
 const initialAddressFormData = {
+  name: "",
   address: "",
   city: "",
   phone: "",
@@ -91,6 +92,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
     setCurrentEditedId(getCurrentAddress?._id);
     setFormData({
       ...formData,
+      name: getCurrentAddress?.name,
       address: getCurrentAddress?.address,
       city: getCurrentAddress?.city,
       phone: getCurrentAddress?.phone,

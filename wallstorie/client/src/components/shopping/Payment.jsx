@@ -6,7 +6,6 @@ import { useToast } from "@/hooks/use-toast";
 import { emptyCart } from "@/store/shop/cartslice"; // Import the emptyCart action
 
 const Payment = ({ orderDetails, shippingAddress }) => {
-  console.log(import.meta.env.VITE_PORT);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -119,7 +118,7 @@ const Payment = ({ orderDetails, shippingAddress }) => {
           contact: shippingAddress?.phone || "",
         },
         notes: {
-          address: `${shippingAddress?.address}, ${shippingAddress?.city}, ${shippingAddress?.pincode}`,
+          address: `${shippingAddress?.name},${shippingAddress?.address}, ${shippingAddress?.city}, ${shippingAddress?.pincode}`,
           specialInstructions: orderDetails?.specialInstructions || "",
         },
         theme: {

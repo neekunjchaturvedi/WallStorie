@@ -2,9 +2,9 @@ const Address = require("../../models/address");
 
 const addAddress = async (req, res) => {
   try {
-    const { userId, address, city, pincode, phone, notes } = req.body;
+    const { userId, name, address, city, pincode, phone, notes } = req.body;
 
-    if (!userId || !address || !city || !pincode || !phone || !notes) {
+    if (!userId || !name || !address || !city || !pincode || !phone || !notes) {
       return res.status(400).json({
         success: false,
         message: "Invalid data provided!",
@@ -13,6 +13,7 @@ const addAddress = async (req, res) => {
 
     const newlyCreatedAddress = new Address({
       userId,
+      name,
       address,
       city,
       pincode,
@@ -64,9 +65,16 @@ const editAddress = async (req, res) => {
   try {
     const { userId, addressId } = req.params;
     const formData = req.body;
-    const allowedFields = ['address', 'city', 'pincode', 'phone', 'notes'];
+    const allowedFields = [
+      "name",
+      "address",
+      "city",
+      "pincode",
+      "phone",
+      "notes",
+    ];
     const sanitizedData = {};
-    allowedFields.forEach(field => {
+    allowedFields.forEach((field) => {
       if (formData[field] !== undefined) {
         sanitizedData[field] = formData[field];
       }

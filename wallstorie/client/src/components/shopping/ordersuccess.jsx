@@ -35,7 +35,7 @@ function OrderSuccess() {
         </h1>
 
         <p className="text-gray-500 text-center mb-3">
-          Thank you for choosing Wallstone. We've received your order and are
+          Thank you for choosing Wallstorie. We've received your order and are
           already preparing it with care.
         </p>
         <Button

@@ -25,6 +25,9 @@ function AddressCard({
     >
       <div className="grid gap-4 text-left">
         <h3 className="text-left font-medium">
+          Name: <span className="font-normal">{addressInfo?.name}</span>
+        </h3>
+        <h3 className="text-left font-medium">
           Address: <span className="font-normal">{addressInfo?.address}</span>
         </h3>
         <h3 className="text-left font-medium">

@@ -61,7 +61,7 @@ function App() {
       <Route
         path="order/success/:id"
         element={
-          <CheckAuth>
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <OrderSuccess />
           </CheckAuth>
         }
