@@ -5,7 +5,7 @@ import OurCollections from "@/components/home-components/OurCollections";
 import WhyChooseUs from "@/components/home-components/Chooseus";
 import Footer from "@/components/home-components/Footer";
 import { Bottomfoot } from "@/components/home-components/Bottomfoot";
-import Slider from "@/components/home-components/Slider";
+// import Slider from "@/components/home-components/Slider";
 import SchedulingSection from "@/components/home-components/Schedule";
 import CommentSection from "@/components/home-components/Comments";
 import { Hheader } from "@/components/home-components/header";

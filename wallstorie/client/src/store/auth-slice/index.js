@@ -8,13 +8,6 @@ const initialState = {
   error: null,
 };
 
-// Add a function to get CSRF token from cookies
-const getCsrfToken = () => {
-  const match = document.cookie.match(new RegExp("(^| )XSRF-TOKEN=([^;]+)"));
-  if (match) return match[2];
-  return null;
-};
-
 // Register User
 export const registeruser = createAsyncThunk(
   "auth/register",
@@ -25,9 +18,6 @@ export const registeruser = createAsyncThunk(
         formdata,
         {
           withCredentials: true,
-          headers: {
-            "X-XSRF-TOKEN": getCsrfToken(),
-          },
         }
       );
       return response.data;
@@ -48,9 +38,6 @@ export const loginuser = createAsyncThunk(
         formData,
         {
           withCredentials: true,
-          headers: {
-            "X-XSRF-TOKEN": getCsrfToken(),
-          },
         }
       );
 
@@ -82,9 +69,6 @@ export const logoutuser = createAsyncThunk(
         {},
         {
           withCredentials: true,
-          headers: {
-            "X-XSRF-TOKEN": getCsrfToken(),
-          },
         }
       );
 
@@ -122,7 +106,6 @@ export const checkAuth = createAsyncThunk(
           headers: {
             "Cache-Control":
               "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "X-XSRF-TOKEN": getCsrfToken(),
           },
         }
       );
@@ -156,7 +139,6 @@ export const processGoogleAuth = createAsyncThunk(
           headers: {
             "Cache-Control":
               "no-store, no-cache, must-revalidate, proxy-revalidate",
-            "X-XSRF-TOKEN": getCsrfToken(),
           },
         }
       );

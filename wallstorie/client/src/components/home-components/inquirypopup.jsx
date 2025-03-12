@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { X } from "lucide-react";
 import { addUserinfo } from "@/store/shop/userinfoslice";
+// You need to import your toast library here
 
 export default function InquiryPopup({ isOpen, onClose }) {
   const [phone, setPhone] = useState("");
@@ -13,6 +14,7 @@ export default function InquiryPopup({ isOpen, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Form submitted with:", { phone, email }); // Debugging
 
     // Simple validation
     const newErrors = { phone: "", email: "" };
@@ -34,9 +36,12 @@ export default function InquiryPopup({ isOpen, onClose }) {
     setErrors(newErrors);
 
     if (isValid) {
+      console.log("Dispatching addUserinfo with:", { phone, email }); // Debugging
+
       // Dispatch the addUserinfo thunk
       dispatch(addUserinfo({ phone, email }))
         .then(() => {
+          
           onClose();
           // Reset form
           setPhone("");
@@ -48,6 +53,7 @@ export default function InquiryPopup({ isOpen, onClose }) {
     }
   };
 
+  // The rest of your component remains the same...
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-md w-full relative animate-fadeIn">

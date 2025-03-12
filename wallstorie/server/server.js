@@ -67,40 +67,6 @@ app.use(
   })
 );
 
-// CSRF protection setup
-const shouldSkipCSRF = (req) => {
-  // Skip CSRF for authentication routes
-  return (
-    req.path.startsWith("/api/auth/login") ||
-    req.path.startsWith("/api/auth/register") ||
-    req.path.startsWith("/api/auth/logout") ||
-    req.path.startsWith("/api/auth/google") ||
-    req.path.startsWith("/api/auth/check-auth") ||
-    req.path.startsWith("/api/auth/refresh-token")
-  );
-};
-
-// Apply CSRF protection to all routes except those defined in shouldSkipCSRF
-app.use((req, res, next) => {
-  if (shouldSkipCSRF(req)) {
-    next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
-});
-
-// Setup other security protections from lusca
-app.use(lusca.xframe("SAMEORIGIN"));
-app.use(lusca.xssProtection(true));
-
-// Set up CSRF token for routes that need it
-app.use((req, res, next) => {
-  if (!shouldSkipCSRF(req)) {
-    res.cookie("XSRF-TOKEN", req.csrfToken ? req.csrfToken() : "");
-  }
-  next();
-});
-
 // Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
