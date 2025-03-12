@@ -9,8 +9,6 @@ const {
   googleAuth,
   googleAuthCallback,
   googleAuthRedirect,
-  ensureAuthenticated,
-  getProfile,
 } = require("../../controllers/auth/authcontroller");
 
 const router = express.Router();
@@ -37,7 +35,5 @@ router.get("/check-auth", authMiddleware, (req, res) => {
 // Google OAuth routes
 router.get("/google", googleAuth);
 router.get("/google/callback", googleAuthCallback, googleAuthRedirect);
-
-router.get("/profile", ensureAuthenticated, getProfile);
 
 module.exports = router;

@@ -183,24 +183,6 @@ const googleAuthRedirect = (req, res) => {
   }
 };
 
-const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-};
-
-const getProfile = (req, res) => {
-  if (!req.user) {
-    return res.status(401).json({ success: false, message: "Unauthorized!" });
-  }
-
-  res.json({
-    success: true,
-    user: req.user,
-  });
-};
-
 module.exports = {
   registerUser,
   loginUser,
@@ -210,6 +192,4 @@ module.exports = {
   googleAuth,
   googleAuthCallback,
   googleAuthRedirect,
-  ensureAuthenticated,
-  getProfile,
 };

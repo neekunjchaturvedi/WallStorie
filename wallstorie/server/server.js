@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const session = require("express-session");
+const lusca = require("lusca");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth/auth-rotes");
@@ -63,6 +64,8 @@ app.use(
     },
   })
 );
+
+app.use(lusca.csrf());
 
 // Initialize passport
 app.use(passport.initialize());
