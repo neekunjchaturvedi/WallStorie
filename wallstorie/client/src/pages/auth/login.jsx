@@ -11,11 +11,13 @@ export default function Login() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { toast } = useToast();
-  const { isAuthenticated, isLoading,user } = useSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, user } = useSelector(
+    (state) => state.auth
+  );
 
   // Check if user is already authenticated on component mount
   useEffect(() => {
-    if (isAuthenticated && user.role=="admin") {
+    if (isAuthenticated && user.role == "admin") {
       nav("/admin/dashboard");
     }
   }, [isAuthenticated, nav]);
@@ -32,7 +34,6 @@ export default function Login() {
           if (result.meta.requestStatus === "fulfilled") {
             toast({
               title: "Google login successful!",
-              variant: "success",
             });
             nav("/home");
           } else {
@@ -82,7 +83,6 @@ export default function Login() {
         if (result.payload?.success) {
           toast({
             title: result.payload.message || "Login successful",
-            variant: "success",
           });
           nav("/home");
         } else {

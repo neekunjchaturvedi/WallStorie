@@ -43,7 +43,9 @@ app.use(
       "Cache-Control",
       "Expires",
       "Pragma",
+      "X-XSRF-TOKEN",
     ],
+    exposedHeaders: ["set-cookie"],
     credentials: true,
   })
 );
