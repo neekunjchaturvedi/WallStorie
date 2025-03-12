@@ -31,6 +31,16 @@ const calculatePrice = (
 
 exports.addToCart = async (req, res) => {
   try {
+    if (
+      typeof req.body !== "object" ||
+      req.body === null ||
+      Array.isArray(req.body)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid request body",
+      });
+    }
     let {
       userId,
       productId,
