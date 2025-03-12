@@ -30,7 +30,7 @@ const registerUser = async (req, res) => {
   const { name, phone, email, password } = req.body;
 
   try {
-    const checkUser = await User.findOne({ email });
+    const checkUser = await User.findOne({ email: { $eq: email } });
     if (checkUser) {
       return res.json({ success: false, message: "User already exists!" });
     }
@@ -52,8 +52,8 @@ const loginUser = async (req, res) => {
 
   try {
     let checkUser = isNaN(identifier)
-      ? await User.findOne({ email: identifier })
-      : await User.findOne({ phone: identifier });
+      ? await User.findOne({ email: { $eq: identifier } })
+      : await User.findOne({ phone: { $eq: identifier } });
 
     if (!checkUser) {
       return res.json({ success: false, message: "User doesn't exist!" });
