@@ -32,7 +32,7 @@ require("./config/passportConfig");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// CORS Setup
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -53,7 +53,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-// Session setup (required for Passport)
+// Session setup 
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "your_secret_key",
@@ -70,6 +70,43 @@ app.use(
 // Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+/**
+ * CSRF Protection Middleware
+ */
+
+// Function to determine which routes should bypass CSRF protection
+const shouldSkipCSRF = (req) => {
+  return (
+    req.method === "GET" || // Allow all GET requests
+    req.path.startsWith("/api/auth/login") ||
+    req.path.startsWith("/api/auth/register") ||
+    req.path.startsWith("/api/auth/logout") ||
+    req.path.startsWith("/api/auth/google") ||
+    req.path.startsWith("/api/auth/check-auth") ||
+    req.path.startsWith("/api/auth/refresh-token")
+  );
+};
+
+// Apply CSRF protection only to necessary routes
+app.use((req, res, next) => {
+  if (shouldSkipCSRF(req)) {
+    next();
+  } else {
+    lusca.csrf()(req, res, next);
+  }
+});
+
+// Set CSRF token in cookies for frontend access
+app.use((req, res, next) => {
+  if (!shouldSkipCSRF(req)) {
+    res.cookie("XSRF-TOKEN", req.csrfToken ? req.csrfToken() : "", {
+      httpOnly: false, // Allow frontend to access it
+      secure: process.env.NODE_ENV === "production",
+    });
+  }
+  next();
+});
 
 // Routes
 app.use("/api/auth", authRouter);
