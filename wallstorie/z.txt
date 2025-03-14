@@ -1,18 +1,8 @@
 
-
 google oauth 2.0
-
-
-
-
-
-
-
-
 mongodb setup
 cloudinary setup
-api hosting
 razorpay api
-whatapp num
-contact us
+
+
 
