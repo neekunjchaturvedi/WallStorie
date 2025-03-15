@@ -129,13 +129,6 @@ export default function Review({ productDetails }) {
                   <div className="flex justify-between p-4">
                     <div className="flex space-x-4">
                       <div>
-                        <img
-                          src="https://source.unsplash.com/100x100/?portrait"
-                          alt={review.userName}
-                          className="object-cover w-12 h-12 rounded-full bg-gray-500"
-                        />
-                      </div>
-                      <div>
                         <h4 className="font-bold">{review.userName}</h4>
                         <span className="text-xs text-gray-600">
                           {new Date(review.createdAt).toLocaleDateString()}
