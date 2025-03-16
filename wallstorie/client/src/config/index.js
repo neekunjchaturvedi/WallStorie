@@ -32,7 +32,7 @@ export const addProductFormElements = [
       { id: "heritage", label: "Heritage", productType: "wallpapers" },
       { id: "divine", label: "Divine", productType: "wallpapers" },
       { id: "tropical", label: "Tropical", productType: "wallpapers" },
-      { id: "kidSeries", label: "Kid Series", productType: "wallpapers" },
+      { id: "kidsSeries", label: "Kid Series", productType: "wallpapers" },
       { id: "roller", label: "Roller", productType: "blinds" },
       { id: "zebra", label: "Zebra", productType: "blinds" },
       { id: "roman", label: "Roman", productType: "blinds" },

@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
   salePrice: { type: Number, required: true },
   discount: { type: Number },
   stockQuantity: { type: Number, required: true },
-  popularity: { type: Number, default: 0 }, // Added popularity field for sorting
+  popularity: { type: Number, default: 0 }, 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
   createdBy: { type: String },

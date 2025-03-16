@@ -410,12 +410,18 @@ const ProductDetails = () => {
                     <div className="flex items-center gap-4 font-lato">
                       <span className="text-2xl font-bold text-green-600">
                         ₹{productdetails.salePrice || productdetails.price}
+                        {productdetails.productType == "wallpaperRolls" ? (
+                          <span className="text-2xl font-bold text-green-600">
+                            50 sqft roll
+                          </span>
+                        ) : (
+                          <span className="text-2xl font-bold text-green-600">
+                            {" "}
+                            per m
+                          </span>
+                        )}
                       </span>
-                      {productdetails.productType == "wallpaperRolls" ? (
-                        <span className="text-xl text-left flex font-lato">
-                          50 sqft roll
-                        </span>
-                      ) : null}
+
                       {productdetails.salePrice && (
                         <span className="text-xl text-gray-500 line-through">
                           ₹{productdetails.price}
@@ -489,7 +495,8 @@ const ProductDetails = () => {
                   <div className="flex items-center justify-between gap-4 font-lato">
                     <div className="flex items-center gap-4 font-lato">
                       <span className="text-2xl font-bold text-green-600">
-                        ₹{productdetails.salePrice || productdetails.price}
+                        ₹{productdetails.salePrice || productdetails.price} per
+                        Sqft
                       </span>
                       {productdetails.salePrice && (
                         <span className="text-xl text-gray-500 line-through">
