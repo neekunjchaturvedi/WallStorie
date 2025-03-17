@@ -11,6 +11,10 @@ import Address from "@/components/shopping/address";
 import Userorders from "./Userorders";
 
 const Accounts = () => {
+  function capitalizeFirstLetter(string) {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -39,12 +43,13 @@ const Accounts = () => {
         </div>
         <div className="bg-white shadow-md rounded-lg p-4">
           <div className="mb-4 flex">
-            <label className="block text-gray-700 font-bold mb-2">Name:</label>
-            <p className="text-gray-900">{user.name}</p>
+            <label className="block text-gray-700 font-bold mb-2">
+              Name: {capitalizeFirstLetter(user.name)}
+            </label>
           </div>
           <div className="mb-4 flex">
             <label className="block text-gray-700 font-bold mb-2">Email:</label>
-            <p className="text-gray-900">{user.email}</p>
+            <p className="text-gray-900"> {" "+user.email}</p>
           </div>
         </div>
       </div>
