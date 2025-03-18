@@ -1,7 +1,5 @@
 
-google oauth 2.0
-mongodb setup
-cloudinary setup
+
 razorpay api
 
 
