@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const dotenv = require("dotenv");
+require("dotenv").config();
 const session = require("express-session");
 const lusca = require("lusca");
 const passport = require("passport");
@@ -17,8 +17,6 @@ const adminOrderRouter = require("./routes/admin/orderroutes");
 const shopSearchRouter = require("./routes/shop/searchroutes");
 const reviewRouter = require("./routes/shop/reviewroutes");
 const userinforouter = require("./routes/auth/userinfo-routes");
-
-dotenv.config({ path: "config.env" });
 
 // Connect to MongoDB
 mongoose
