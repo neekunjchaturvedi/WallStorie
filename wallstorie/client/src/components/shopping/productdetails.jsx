@@ -409,7 +409,7 @@ const ProductDetails = () => {
                   <div className="flex items-center justify-between gap-4 font-lato">
                     <div className="flex items-center gap-4 font-lato">
                       <span className="text-2xl font-bold text-green-600">
-                        ₹{productdetails.salePrice || productdetails.price}
+                        ₹{productdetails.salePrice || productdetails.price}/{" "}
                         {productdetails.productType == "wallpaperRolls" ? (
                           <span className="text-2xl font-bold text-green-600">
                             50 sqft roll
@@ -422,11 +422,12 @@ const ProductDetails = () => {
                         )}
                       </span>
 
-                      {productdetails.salePrice && (
-                        <span className="text-xl text-gray-500 line-through">
-                          ₹{productdetails.price}
-                        </span>
-                      )}
+                      {productdetails.salePrice &&
+                        productdetails.price != 0 && (
+                          <span className="text-xl text-gray-500 line-through">
+                            ₹{productdetails.price}
+                          </span>
+                        )}
                       {productdetails.discount && (
                         <span className="text-xl text-green-600">
                           {productdetails.discount}% off
@@ -498,11 +499,12 @@ const ProductDetails = () => {
                         ₹{productdetails.salePrice || productdetails.price} per
                         Sqft
                       </span>
-                      {productdetails.salePrice && (
-                        <span className="text-xl text-gray-500 line-through">
-                          ₹{productdetails.price}
-                        </span>
-                      )}
+                      {productdetails.salePrice &&
+                        productdetails.price != 0 && (
+                          <span className="text-xl text-gray-500 line-through">
+                            ₹{productdetails.price}
+                          </span>
+                        )}
                       {productdetails.discount && (
                         <span className="text-xl text-green-600">
                           {productdetails.discount}% off

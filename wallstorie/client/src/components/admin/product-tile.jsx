@@ -22,7 +22,7 @@ function AdminProductTile({
           <h2 className="text-xl font-bold mb-2 mt-2">
             {product?.productName}
           </h2>
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex justify-between items-center mb-2 font-lato">
             <span
               className={`${
                 product?.salePrice > 0 ? "line-through" : ""
@@ -42,13 +42,13 @@ function AdminProductTile({
               setCurrentEditedId(product?._id);
               setFormData(product);
             }}
-            className="bg-green-300 text-black hover:bg-green-200"
+            className="bg-green-600 hover:bg-green-700 text-white"
           >
             Edit
           </Button>
           <Button
             onClick={() => handleDelete(product?._id)}
-            className="bg-green-300 text-black hover:bg-green-200"
+            className="bg-green-600 hover:bg-green-700 text-white"
           >
             Delete
           </Button>

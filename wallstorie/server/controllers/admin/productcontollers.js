@@ -65,7 +65,7 @@ const addProduct = async (req, res) => {
       !productName ||
       !description ||
       !productType ||
-      !price ||
+      !salePrice ||
       !stockQuantity
     ) {
       return res.status(400).json({
@@ -99,8 +99,6 @@ const addProduct = async (req, res) => {
     });
 
     await newProduct.save();
-
-    
 
     res.status(201).json({
       success: true,
@@ -150,7 +148,6 @@ const editProduct = async (req, res) => {
       });
     }
 
-    
     if (
       updates.productName === "" ||
       updates.description === "" ||
@@ -186,8 +183,6 @@ const editProduct = async (req, res) => {
 
     await product.save();
 
-    console.log(`Product updated: ${id} by admin`);
-
     res.status(200).json({
       success: true,
       data: product,
@@ -213,8 +208,6 @@ const deleteProduct = async (req, res) => {
         message: "Product not found",
       });
     }
-
-    console.log(`Product being deleted: ${id} by admin`);
 
     await Product.deleteOne({ _id: id });
 

@@ -1,19 +1,19 @@
 export const addProductFormElements = [
   {
-    label: "Product Name",
+    label: "Product Name *",
     name: "productName",
     componentType: "input",
     type: "text",
     placeholder: "Enter product name",
   },
   {
-    label: "Description",
+    label: "Description *",
     name: "description",
     componentType: "textarea",
     placeholder: "Enter product description",
   },
   {
-    label: "Product Type",
+    label: "Product Type *",
     name: "productType",
     componentType: "select",
     options: [
@@ -84,24 +84,24 @@ export const addProductFormElements = [
     name: "price",
     componentType: "input",
     type: "number",
-    placeholder: "Enter product price",
+    placeholder: "Enter product price (if any discount)",
   },
   {
-    label: "Sale Price",
+    label: "Sale Price *",
     name: "salePrice",
     componentType: "input",
     type: "number",
-    placeholder: "Enter sale price (optional)",
+    placeholder: "Enter sale price(Compulsory)",
   },
   {
-    label: "Discount",
+    label: "Discount *",
     name: "discount",
     componentType: "input",
     type: "number",
     placeholder: "Enter discount (optional)",
   },
   {
-    label: "Stock Quantity",
+    label: "Stock Quantity *",
     name: "stockQuantity",
     componentType: "input",
     type: "number",

@@ -100,7 +100,7 @@ function Products() {
       "productName",
       "description",
       "productType",
-      "price",
+      "salePrice",
       "stockQuantity",
       "image1",
     ];
@@ -207,7 +207,7 @@ function Products() {
       <div className="mb-5 w-full flex justify-end">
         <Button
           onClick={() => setOpenCreateProductsDialog(true)}
-          className="bg-green-300 text-black hover:bg-green-200"
+          className="bg-green-600 hover:bg-green-700 text-white"
         >
           Add New Product
         </Button>
