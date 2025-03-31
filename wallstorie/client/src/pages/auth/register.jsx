@@ -54,11 +54,11 @@ export default function Register() {
   }
 
   return (
-    <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-green-50 dark:text-gray-800">
+    <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-green-50 text-gray-800">
       <h1 className="text-2xl font-bold text-center font-lato">Register</h1>
       <form noValidate="" onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-1 text-sm">
-          <label htmlFor="name" className="dark:text-gray-600 flex font-lato">
+          <label htmlFor="name" className="text-gray-600 flex font-lato">
             Name
           </label>
           <input
@@ -67,11 +67,11 @@ export default function Register() {
             placeholder="Name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+            className="w-full px-4 py-3 rounded-md bg-white text-gray-800 focus:outline-none font-lato"
           />
         </div>
         <div className="space-y-1 text-sm">
-          <label htmlFor="phone" className="dark:text-gray-600 flex font-lato">
+          <label htmlFor="phone" className="text-gray-600 flex font-lato">
             Phone
           </label>
           <input
@@ -80,11 +80,11 @@ export default function Register() {
             placeholder="Phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+            className="w-full px-4 py-3 rounded-md bg-white text-gray-800 focus:outline-none font-lato"
           />
         </div>
         <div className="space-y-1 text-sm">
-          <label htmlFor="email" className="dark:text-gray-600 flex font-lato">
+          <label htmlFor="email" className="text-gray-600 flex font-lato">
             Email
           </label>
           <input
@@ -93,13 +93,13 @@ export default function Register() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+            className="w-full px-4 py-3 rounded-md bg-white text-gray-800 focus:outline-none font-lato"
           />
         </div>
         <div className="space-y-1 text-sm">
           <label
             htmlFor="password"
-            className="dark:text-gray-600 flex font-lato"
+            className="text-gray-600 flex font-lato"
           >
             Password
           </label>
@@ -109,13 +109,13 @@ export default function Register() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md dark:border-gray-300 dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+            className="w-full px-4 py-3 rounded-md border-gray-300 bg-white text-gray-800 focus:outline-none font-lato"
           />
         </div>
         <div className="space-y-1 text-sm">
           <label
             htmlFor="confirmPassword"
-            className="dark:text-gray-600 flex font-lato"
+            className="text-gray-600 flex font-lato"
           >
             Confirm Password
           </label>
@@ -125,22 +125,22 @@ export default function Register() {
             placeholder="Confirm Password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-md dark:border-gray-300 dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+            className="w-full px-4 py-3 rounded-md border-gray-300 bg-white text-gray-800 focus:outline-none font-lato"
           />
         </div>
         <button
           type="submit"
           onSubmit={onSubmit}
-          className="block w-full p-3 text-center rounded-sm dark:text-gray-50 dark:bg-green-600 font-lato"
+          className="block w-full p-3 text-center rounded-sm text-gray-50 bg-green-600 font-lato"
         >
           Sign up
         </button>
       </form>
-      <p className="text-xs text-center sm:px-6 dark:text-gray-600 font-lato">
+      <p className="text-xs text-center sm:px-6 text-gray-600 font-lato">
         Already have an account?
         <button
           onClick={() => nav("/auth/login")}
-          className="underline dark:text-gray-800 font-lato"
+          className="underline text-gray-800 font-lato"
         >
           Login
         </button>

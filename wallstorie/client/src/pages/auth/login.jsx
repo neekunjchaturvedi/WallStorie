@@ -117,13 +117,13 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-green-50 dark:text-gray-800">
+    <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-green-50 text-gray-800">
       <h1 className="text-2xl font-bold text-center font-lato">Login</h1>
       <form onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-1 text-sm">
           <label
             htmlFor="identifier"
-            className="dark:text-gray-600 flex font-lato"
+            className="text-gray-600 flex font-lato"
           >
             Email or Phone
           </label>
@@ -134,13 +134,13 @@ export default function Login() {
             value={formData.identifier}
             onChange={handleChange}
             placeholder="Email or Phone"
-            className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+            className="w-full px-4 py-3 rounded-md bg-white text-gray-800 focus:outline-none font-lato"
           />
         </div>
         <div className="space-y-1 text-sm">
           <label
             htmlFor="password"
-            className="dark:text-gray-600 flex font-lato"
+            className="text-gray-600 flex font-lato"
           >
             Password
           </label>
@@ -151,13 +151,13 @@ export default function Login() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
-            className="w-full px-4 py-3 rounded-md dark:bg-white dark:text-gray-800 focus:outline-none font-lato"
+            className="w-full px-4 py-3 rounded-md bg-white text-gray-800 focus:outline-none font-lato"
           />
         </div>
         <button
           type="submit"
           disabled={isLoading}
-          className={`block w-full p-3 text-center rounded-sm dark:text-gray-50 dark:bg-green-600 font-lato ${
+          className={`block w-full p-3 text-center rounded-sm text-gray-50 bg-green-600 font-lato ${
             isLoading ? "opacity-70 cursor-not-allowed" : ""
           }`}
         >
@@ -167,7 +167,7 @@ export default function Login() {
           type="button"
           onClick={handleGoogleLogin}
           disabled={isLoading}
-          className={`flex items-center justify-center w-full p-3 mt-4 text-center border rounded-sm dark:text-gray-800 dark:border-gray-800 font-lato ${
+          className={`flex items-center justify-center w-full p-3 mt-4 text-center border rounded-sm text-gray-800 border-gray-800 font-lato ${
             isLoading ? "opacity-70 cursor-not-allowed" : ""
           }`}
         >
