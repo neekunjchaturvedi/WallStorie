@@ -287,7 +287,6 @@ exports.updateCartItemQuantity = async (req, res) => {
 exports.deleteCartItem = async (req, res) => {
   try {
     const { userId, itemId } = req.params;
-    console.log("Delete request received:", { userId, itemId }); // Debug log
 
     // Input validation
     if (!userId || !itemId) {
@@ -345,8 +344,6 @@ exports.deleteCartItem = async (req, res) => {
       "productId",
       "image title price salePrice"
     );
-
-    console.log("Delete successful, remaining items:", remainingItems.length); // Debug log
 
     res.status(200).json({
       success: true,
