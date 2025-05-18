@@ -21,7 +21,7 @@ import { checkAuth } from "./store/auth-slice";
 import { useEffect } from "react";
 import CheckAuth from "./components/common/Checkauth";
 import ProductDetails from "./components/shopping/productdetails";
-import Cart from "./pages/Shopping/cart";
+import Cart from "./pages/Shopping/Cart";
 import Artist from "./pages/Shopping/Artist";
 import OrderSuccess from "./components/shopping/ordersuccess";
 import Search from "./pages/Shopping/Search";
