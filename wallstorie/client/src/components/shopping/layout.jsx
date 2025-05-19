@@ -9,6 +9,15 @@ import Productgrid from "@/components/user/Productgrid";
 import FilterDropdown from "@/components/shopping/filterdropdown";
 import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
+import tropical from "../../assets/productcategories/tropical.png";
+import divine from "../../assets/productcategories/divine.png";
+import heritage from "../../assets/productcategories/heritage.png";
+import kids from "../../assets/productcategories/kids.png";
+import roller from "../../assets/productcategories/roller.png";
+import roman from "../../assets/productcategories/roman.png";
+import drape from "../../assets/productcategories/drape.png";
+import sheer from "../../assets/productcategories/sheer.png";
+import zebra from "../../assets/productcategories/zebra.png";
 
 import {
   getartist,
@@ -109,51 +118,51 @@ function Layout() {
       {
         name: "tropical",
         label: "Tropical",
-        image: "./src/assets/productcategories/tropical.png",
+        image: tropical,
       },
       {
         name: "heritage",
         label: "Heritage",
-        image: "./src/assets/productcategories/heritage.png",
+        image: heritage,
       },
       {
         name: "divine",
         label: "Divine",
-        image: "./src/assets/productcategories/divine.png",
+        image: divine,
       },
       {
         name: "kidsSeries",
         label: "Kids Series",
-        image: "./src/assets/productcategories/kids.png",
+        image: kids,
       },
     ],
     blinds: [
       {
         name: "roller",
         label: "Roller",
-        image: "./src/assets/productcategories/roller.png",
+        image: roller,
       },
       {
         name: "zebra",
         label: "Zebra",
-        image: "./src/assets/productcategories/zebra.png",
+        image: zebra,
       },
       {
         name: "roman",
         label: "Roman",
-        image: "./src/assets/productcategories/roman.png",
+        image: roman,
       },
     ],
     curtain: [
       {
         name: "drape",
         label: "Drape",
-        image: "./src/assets/productcategories/drape.png",
+        image: drape,
       },
       {
         name: "sheer",
         label: "Sheer",
-        image: "./src/assets/productcategories/sheer.png",
+        image: sheer,
       },
     ],
   };
