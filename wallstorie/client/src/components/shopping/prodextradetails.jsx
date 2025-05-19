@@ -3,6 +3,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp, Truck, ShieldCheck } from "lucide-react";
 import productDetails from "@/config/proddetails";
 
+// Helper for map action
+const openInNewTab = (url) => window.open(url, "_blank");
+const openMap = (address) =>
+  window.open(
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      address
+    )}`,
+    "_blank"
+  );
+const callPhone = (phone) => (window.location.href = `tel:${phone}`);
+
 const Section = ({ title, children, className }) => {
   const [open, setOpen] = useState(true);
 
@@ -18,6 +29,58 @@ const Section = ({ title, children, className }) => {
       {open && <div className="mt-2 text-gray-700">{children}</div>}
     </div>
   );
+};
+
+const renderMoreInfoItem = (item) => {
+  // If string, just display as text (fallback)
+  if (typeof item === "string") {
+    return (
+      <span key={item}>
+        {item}
+        <br />
+      </span>
+    );
+  }
+  // If object, render clickable
+  switch (item.type) {
+    case "website":
+      return (
+        <span
+          key={item.value}
+          className="text-green-700 underline cursor-pointer"
+          onClick={() => openInNewTab(item.value)}
+        >
+          {item.label}
+        </span>
+      );
+    case "phone":
+      return (
+        <span
+          key={item.value}
+          className="text-green-700 underline cursor-pointer"
+          onClick={() => callPhone(item.value)}
+        >
+          {item.label}
+        </span>
+      );
+    case "address":
+      return (
+        <span
+          key={item.value}
+          className="text-green-700 underline cursor-pointer"
+          onClick={() => openMap(item.value)}
+        >
+          {item.label}
+        </span>
+      );
+    default:
+      return (
+        <span key={item.label}>
+          {item.label}
+          <br />
+        </span>
+      );
+  }
 };
 
 const ProductDetailsextra = ({ producttype, category }) => {
@@ -102,14 +165,11 @@ const ProductDetailsextra = ({ producttype, category }) => {
           </Section>
 
           <Section title="More Information" className="text-green-500">
-            <p className="text-left">
+            <div className="text-left flex flex-col gap-2">
               {details.moreInfo.map((item, index) => (
-                <span key={index}>
-                  <strong>{item.split(":")[0]}:</strong> {item.split(":")[1]}
-                  <br />
-                </span>
+                <span key={index}>{renderMoreInfoItem(item)}</span>
               ))}
-            </p>
+            </div>
           </Section>
         </CardContent>
       </Card>

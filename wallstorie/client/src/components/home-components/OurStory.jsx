@@ -5,7 +5,7 @@ const OurStory = () => {
     <div className="bg-white rounded-xl p-10 max-w-7xl mx-auto flex flex-col md:flex-row mt-7">
       <div
         className="md:w-1/2 bg-cover bg-center rounded-l-xl"
-        style={{ backgroundImage: 'url("/src/assets/storysection.jpg")' }}
+        style={{ backgroundImage: 'url("./src/assets/storysection.jpg")' }}
       >
         <div className="p-8 md:p-12 h-full flex flex-col justify-start">
           <h1 className="text-5xl font-bold text-white leading-tight flex">

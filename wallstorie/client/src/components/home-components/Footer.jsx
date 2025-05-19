@@ -6,6 +6,8 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.png";
+import footerimg from "../../assets/footerimg.png";
 
 const Footer = () => {
   const nav = useNavigate();
@@ -14,7 +16,7 @@ const Footer = () => {
       <div className="lg:h-[270px] sm:h-[800px] max-w-5xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
         <div>
           <img
-            src="/src/assets/logo.png"
+            src={logo}
             alt="Wall Storie Logo"
             className="h-36 mb-4 items-center"
           />
@@ -163,23 +165,29 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="tel:+91798123006"
+                  href="tel:+916302644520"
                   className="text-gray-600 hover:text-green-700 whitespace-nowrap"
                 >
                   +91 6302644520
                 </a>
               </li>
-              <li></li>
+              <li>
+                <a
+                  href="https://maps.app.goo.gl/cJ7LLnRjDV5qVK6t5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-green-700 whitespace-normal block"
+                >
+                  1st floor, Hanuman plywood complex, Beside PSR Convention
+                  centre, Kompally, Hyderabad-500014
+                </a>
+              </li>
             </ul>
-            <p className="text-gray-600">
-              1st floor, Hanuman plywood complex, Beside PSR Convention centre,
-              Kompally, Hyderabad-500014
-            </p>
           </div>
         </div>
       </div>
       <div className="flex justify-center items-center mt-4  ">
-        <img src="/src/assets/footerimg.png" alt="" />
+        <img src={footerimg} alt="footerimg" />
       </div>
     </footer>
   );

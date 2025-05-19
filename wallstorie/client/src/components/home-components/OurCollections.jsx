@@ -7,22 +7,22 @@ const OurCollections = () => {
   const collections = [
     {
       name: "Wallpaper",
-      image: "/src/assets/wallpaperimages/collection1.png",
+      image: "./src/assets/wallpaperimages/collection1.png",
       link: "/wallpapers",
     },
     {
       name: "Wallpaper Roll",
-      image: "/src/assets/wallpaperimages/collection2.png",
+      image: "./src/assets/wallpaperimages/collection2.png",
       link: "/wallpaperrolls",
     },
     {
       name: "Blinds",
-      image: "/src/assets/wallpaperimages/collection3.png",
+      image: "./src/assets/wallpaperimages/collection3.png",
       link: "/blinds",
     },
     {
       name: "Curtains",
-      image: "/src/assets/wallpaperimages/collection4.png",
+      image: "./src/assets/wallpaperimages/collection4.png",
       link: "/curtain",
     },
   ];
@@ -42,7 +42,6 @@ const OurCollections = () => {
             className="text-center"
             onClick={() => {
               navigate(collection.link);
-              
             }}
           >
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-yellow-400 shadow-lg mx-auto mb-4">

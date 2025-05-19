@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 const Carousel = () => {
   const images = [
-    { id: 1, src: "/src/assets/slider/Kidsroom.png", title: "Kids room" },
-    { id: 2, src: "/src/assets/slider/Livingroom.png", title: "Living room" },
-    { id: 3, src: "/src/assets/slider/Kitchen.png", title: "Kitchen" },
-    { id: 4, src: "/src/assets/slider/Pooja.png", title: "Pooja room" },
-    { id: 5, src: "/src/assets/slider/Bedroom.png", title: "Bed room" },
+    { id: 1, src: "./src/assets/slider/Kidsroom.png", title: "Kids room" },
+    { id: 2, src: "./src/assets/slider/Livingroom.png", title: "Living room" },
+    { id: 3, src: "./src/assets/slider/Kitchen.png", title: "Kitchen" },
+    { id: 4, src: "./src/assets/slider/Pooja.png", title: "Pooja room" },
+    { id: 5, src: "./src/assets/slider/Bedroom.png", title: "Bed room" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);

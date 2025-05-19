@@ -51,7 +51,7 @@ const Howitworks = () => {
 
       <div className="hidden md:flex w-full md:w-1/2 mx-auto justify-center">
         <img
-          src="/src/assets/artistwall.png"
+          src="./src/assets/artistwall.png"
           alt="Consultation"
           className="rounded-lg shadow-md w-[400px] h-[400px]"
         />

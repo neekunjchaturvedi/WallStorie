@@ -38,9 +38,27 @@ const productDetails = {
       "Green Packaging: Delivered in biodegradable packs.",
     ],
     moreInfo: [
-      "Get in Touch: wallstorie.com | +XXXXX",
+      {
+        type: "website",
+        label:
+          "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+        value: "https://wallstorie.in",
+        action: "openWeb",
+      },
+      {
+        type: "phone",
+        label: "+91 6302644520",
+        value: "+916302644520",
+        action: "call",
+      },
+      {
+        type: "address",
+        label:
+          "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+        value: "17.529066374101294, 78.48782346322449",
+        action: "openMap",
+      },
       "Sold By: Wallstorie Pvt. Ltd.",
-      "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
     ],
   },
   wallpaperRolls: {
@@ -82,9 +100,27 @@ const productDetails = {
       "Green Packaging: Delivered in biodegradable packs.",
     ],
     moreInfo: [
-      "Get in Touch: wallstorie.com | +XXXXX",
+      {
+        type: "website",
+        label:
+          "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+        value: "https://wallstorie.in",
+        action: "openWeb",
+      },
+      {
+        type: "phone",
+        label: "+91 6302644520",
+        value: "+916302644520",
+        action: "call",
+      },
+      {
+        type: "address",
+        label:
+          "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+        value: "17.529066374101294, 78.48782346322449",
+        action: "openMap",
+      },
       "Sold By: Wallstorie Pvt. Ltd.",
-      "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
     ],
   },
   blinds: {
@@ -127,9 +163,27 @@ const productDetails = {
         "Green Packaging: Delivered in biodegradable packs.",
       ],
       moreInfo: [
-        "Get in Touch: wallstorie.com | +XXXXX",
+        {
+          type: "website",
+          label:
+            "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+          value: "https://wallstorie.in",
+          action: "openWeb",
+        },
+        {
+          type: "phone",
+          label: "+91 6302644520",
+          value: "+916302644520",
+          action: "call",
+        },
+        {
+          type: "address",
+          label:
+            "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+          value: "17.529066374101294, 78.48782346322449",
+          action: "openMap",
+        },
         "Sold By: Wallstorie Pvt. Ltd.",
-        "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
       ],
     },
     roller: {
@@ -171,9 +225,27 @@ const productDetails = {
         "Green Packaging: Delivered in biodegradable packs.",
       ],
       moreInfo: [
-        "Get in Touch: wallstorie.com | +XXXXX",
+        {
+          type: "website",
+          label:
+            "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+          value: "https://wallstorie.in",
+          action: "openWeb",
+        },
+        {
+          type: "phone",
+          label: "+91 6302644520",
+          value: "+916302644520",
+          action: "call",
+        },
+        {
+          type: "address",
+          label:
+            "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+          value: "17.529066374101294, 78.48782346322449",
+          action: "openMap",
+        },
         "Sold By: Wallstorie Pvt. Ltd.",
-        "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
       ],
     },
     zebra: {
@@ -213,9 +285,27 @@ const productDetails = {
         "Green Packaging: Delivered in biodegradable and recyclable packs.",
       ],
       moreInfo: [
-        "Get in Touch: wallstorie.com | +XXXXX",
+        {
+          type: "website",
+          label:
+            "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+          value: "https://wallstorie.in",
+          action: "openWeb",
+        },
+        {
+          type: "phone",
+          label: "+91 6302644520",
+          value: "+916302644520",
+          action: "call",
+        },
+        {
+          type: "address",
+          label:
+            "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+          value: "17.529066374101294, 78.48782346322449",
+          action: "openMap",
+        },
         "Sold By: Wallstorie Pvt. Ltd.",
-        "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
       ],
     },
     // Add other categories for blinds here...
@@ -259,9 +349,27 @@ const productDetails = {
         "Green Packaging: Delivered in biodegradable packs.",
       ],
       moreInfo: [
-        "Get in Touch: wallstorie.com | +XXXXX",
+        {
+          type: "website",
+          label:
+            "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+          value: "https://wallstorie.in",
+          action: "openWeb",
+        },
+        {
+          type: "phone",
+          label: "+91 6302644520",
+          value: "+916302644520",
+          action: "call",
+        },
+        {
+          type: "address",
+          label:
+            "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+          value: "17.529066374101294, 78.48782346322449",
+          action: "openMap",
+        },
         "Sold By: Wallstorie Pvt. Ltd.",
-        "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
       ],
     },
     sheer: {
@@ -301,9 +409,27 @@ const productDetails = {
         "Green Packaging: Delivered in biodegradable and recyclable materials for a reduced carbon footprint.",
       ],
       moreInfo: [
-        "Get in Touch: wallstorie.com | +XXXXX",
+        {
+          type: "website",
+          label:
+            "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+          value: "https://wallstorie.in",
+          action: "openWeb",
+        },
+        {
+          type: "phone",
+          label: "+91 6302644520",
+          value: "+916302644520",
+          action: "call",
+        },
+        {
+          type: "address",
+          label:
+            "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+          value: "17.529066374101294, 78.48782346322449",
+          action: "openMap",
+        },
         "Sold By: Wallstorie Pvt. Ltd.",
-        "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
       ],
     },
     // Add other categories for curtains here...
@@ -347,9 +473,27 @@ const productDetails = {
       "Green Packaging: Delivered in biodegradable packs.",
     ],
     moreInfo: [
-      "Get in Touch: wallstorie.com | +XXXXX",
+      {
+        type: "website",
+        label:
+          "Wallstorie | Home Décor in Hyderabad | Blinds, Curtains, Wallpapers",
+        value: "https://wallstorie.in",
+        action: "openWeb",
+      },
+      {
+        type: "phone",
+        label: "+91 6302644520",
+        value: "+916302644520",
+        action: "call",
+      },
+      {
+        type: "address",
+        label:
+          "1st floor, Hanuman plywood complext, beside PSR CONVENTION CENTRE, Ruby Block, Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana 500014",
+        value: "17.529066374101294, 78.48782346322449",
+        action: "openMap",
+      },
       "Sold By: Wallstorie Pvt. Ltd.",
-      "Reach Us At: Wall Vibes (HDVPL), 45 Green Acres, Sunset Avenue, Harmony Complex, Maple Street, Andheri East, Mumbai, 400059",
     ],
   },
 };

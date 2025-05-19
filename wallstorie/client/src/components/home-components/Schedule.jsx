@@ -58,7 +58,7 @@ const SchedulingSection = () => {
 
       <div className="hidden md:flex w-full md:w-1/2 mx-auto justify-center">
         <img
-          src="/src/assets/schedule.png"
+          src="./src/assets/schedule.png"
           alt="Consultation"
           className="rounded-lg shadow-md w-[400px] h-[400px]"
         />

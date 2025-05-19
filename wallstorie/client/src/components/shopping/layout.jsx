@@ -109,51 +109,51 @@ function Layout() {
       {
         name: "tropical",
         label: "Tropical",
-        image: "/src/assets/productcategories/tropical.png",
+        image: "./src/assets/productcategories/tropical.png",
       },
       {
         name: "heritage",
         label: "Heritage",
-        image: "/src/assets/productcategories/heritage.png",
+        image: "./src/assets/productcategories/heritage.png",
       },
       {
         name: "divine",
         label: "Divine",
-        image: "/src/assets/productcategories/divine.png",
+        image: "./src/assets/productcategories/divine.png",
       },
       {
         name: "kidsSeries",
         label: "Kids Series",
-        image: "/src/assets/productcategories/kids.png",
+        image: "./src/assets/productcategories/kids.png",
       },
     ],
     blinds: [
       {
         name: "roller",
         label: "Roller",
-        image: "/src/assets/productcategories/roller.png",
+        image: "./src/assets/productcategories/roller.png",
       },
       {
         name: "zebra",
         label: "Zebra",
-        image: "/src/assets/productcategories/zebra.png",
+        image: "./src/assets/productcategories/zebra.png",
       },
       {
         name: "roman",
         label: "Roman",
-        image: "/src/assets/productcategories/roman.png",
+        image: "./src/assets/productcategories/roman.png",
       },
     ],
     curtain: [
       {
         name: "drape",
         label: "Drape",
-        image: "/src/assets/productcategories/drape.png",
+        image: "./src/assets/productcategories/drape.png",
       },
       {
         name: "sheer",
         label: "Sheer",
-        image: "/src/assets/productcategories/sheer.png",
+        image: "./src/assets/productcategories/sheer.png",
       },
     ],
   };

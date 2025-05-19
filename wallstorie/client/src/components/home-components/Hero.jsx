@@ -9,7 +9,7 @@ export const Hero = () => {
       <section class="relative bg-white py-12">
         <div class="max-w-6xl mx-auto justify-items-center ">
           <img
-            src="/src/assets/wallpaperimages/group40.png"
+            src="./src/assets/wallpaperimages/group40.png"
             alt="union1"
             class="lg:h-[600px] lg:w-[900px]  bg-cover bg-center"
           />

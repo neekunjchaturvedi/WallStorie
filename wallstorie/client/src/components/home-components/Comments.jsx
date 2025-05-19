@@ -115,7 +115,7 @@ function CommentSection() {
   return (
     <div>
       <img
-        src="\src\assets\testimonial.png"
+        src=".\src\assets\testimonial.png"
         alt="testimonial"
         className="flex justify-center items-center w-2/3 object-cover mx-auto"
       />

@@ -41,10 +41,11 @@ export default function ContactSection() {
                 <span className="text-gray-700">
                   <a href="tel:+916302644520" className="text-green-600">
                     {" "}
-                    +916302644520{" "}
+                    +91 6302644520{" "}
                   </a>
                 </span>
               </p>
+              
             </div>
           </div>
         </div>
@@ -57,13 +58,24 @@ export default function ContactSection() {
               <span className="font-medium text-green-600">Address: </span>
               <span className="text-gray-700">WALLSTORIE,</span>
             </p>
-            <p className="text-gray-700 mb-1">
+            <p className="text-gray-700 mb-1">  
               1st floor, Hanuman plywood complex,
             </p>
-            <p className="text-gray-700 mb-4">
-              Beside PSR Convention center, Kompally, Hyderabad-500014
+            <p className="text-gray-700 mb-1">
+              beside PSR CONVENTION CENTRE, Ruby Block,
             </p>
-
+            <p className="text-gray-700 mb-4">
+              Brundavan Colony, Kompally, Hyderabad, Secunderabad, Telangana
+              500014
+            </p>
+            <a
+              href="https://maps.app.goo.gl/cJ7LLnRjDV5qVK6t5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-green-600 hover:underline mb-4"
+            >
+              View on Maps
+            </a>
             <p className="font-medium text-green-600 mb-1">Store Timings:</p>
             <p className="text-gray-700">
               Monday to Saturday: 11:00 AM - 8:00 PM

@@ -4,7 +4,7 @@ const Makeyours = () => {
   return (
     <div className="relative h-[50vh] w-10/12 max-w-7xl mt-10 mx-auto mb-10 rounded-xl overflow-hidden">
       <img
-        src="/src/assets/Gallery section.png"
+        src="./src/assets/Gallery section.png"
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover rounded-xl"
       />

@@ -2,7 +2,7 @@ import { fetchCartItemCount } from "@/store/shop/cartslice";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import logo from "../../assets/logo.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,7 +45,7 @@ const Navbar = () => {
           onClick={() => {
             return navigate("/home");
           }}
-          src="/src/assets/logo.png"
+          src={logo}
           alt="Wall Storie"
           className="h-16 w-auto mr-4"
         />
