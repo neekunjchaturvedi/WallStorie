@@ -1,28 +1,31 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import wallpaper from "../../assets/wallpaperimages/collection1.png";
+import wallpaperroll from "../../assets/wallpaperimages/collection2.png";
+import blinds from "../../assets/wallpaperimages/collection3.png";
+import curtain from "../../assets/wallpaperimages/collection4.png";
 const OurCollections = () => {
   const navigate = useNavigate();
 
   const collections = [
     {
       name: "Wallpaper",
-      image: "./src/assets/wallpaperimages/collection1.png",
+      image: wallpaper,
       link: "/wallpapers",
     },
     {
       name: "Wallpaper Roll",
-      image: "./src/assets/wallpaperimages/collection2.png",
+      image: wallpaperroll,
       link: "/wallpaperrolls",
     },
     {
       name: "Blinds",
-      image: "./src/assets/wallpaperimages/collection3.png",
+      image: blinds,
       link: "/blinds",
     },
     {
       name: "Curtains",
-      image: "./src/assets/wallpaperimages/collection4.png",
+      image: curtain,
       link: "/curtain",
     },
   ];

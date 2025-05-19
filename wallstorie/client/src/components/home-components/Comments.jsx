@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import commentimg from "../../assets/testimonial.png";
 // const CommentSection = () => {
 //   const comments = [
 //     {
@@ -115,7 +115,7 @@ function CommentSection() {
   return (
     <div>
       <img
-        src=".\src\assets\testimonial.png"
+        src={commentimg}
         alt="testimonial"
         className="flex justify-center items-center w-2/3 object-cover mx-auto"
       />
