@@ -54,9 +54,9 @@ const ProductDetails = () => {
   const title = productdetails.productType;
 
   const materials = [
-    { id: 1, name: "Non woven", price: 99 },
-    { id: 2, name: "Premium Texture", price: 139 },
-    { id: 3, name: "Canvas", price: 249 },
+    { id: 1, name: "Non woven", price: 0 },
+    { id: 2, name: "HD", price: 30 },
+    { id: 3, name: "Canvas", price: 59 },
   ];
   const materialsblinds = [
     { id: 1, name: "Normal Lining", price: 150 },
@@ -70,26 +70,45 @@ const ProductDetails = () => {
     }
   }, [dispatch, id]);
 
+  // Update price calculation to add material price before multiplying by area
   useEffect(() => {
     const basePrice = productdetails?.salePrice || productdetails?.price;
     if (basePrice) {
+      // Add material price to base price first
+      const adjustedBasePrice = basePrice + materialPrice;
+
       if (height && width) {
         const calculatedArea = (height * width) / 144;
         setArea(calculatedArea.toFixed(2));
+        // Multiply the adjusted base price by area and quantity
         const totalPriceCalc = (
-          calculatedArea * basePrice * quantity +
-          materialPrice
+          calculatedArea *
+          adjustedBasePrice *
+          quantity
         ).toFixed(2);
         setTotalPrice(totalPriceCalc);
       } else if (length) {
         setArea(length);
-        const totalPriceCalc = (
-          length * basePrice * quantity +
-          materialPrice
-        ).toFixed(2);
-        setTotalPrice(totalPriceCalc);
+        // For curtains, special case
+        if (productdetails.productType === "curtains") {
+          // For curtains, add material price separately (not per unit length)
+          const totalPriceCalc = (
+            length * basePrice * quantity +
+            materialPrice
+          ).toFixed(2);
+          setTotalPrice(totalPriceCalc);
+        } else {
+          // For other length-based products
+          const totalPriceCalc = (
+            length *
+            adjustedBasePrice *
+            quantity
+          ).toFixed(2);
+          setTotalPrice(totalPriceCalc);
+        }
       } else {
-        setTotalPrice((basePrice * quantity + materialPrice).toFixed(2));
+        // Simple products with no dimensions
+        setTotalPrice((adjustedBasePrice * quantity).toFixed(2));
       }
     }
   }, [height, width, length, productdetails, materialPrice, quantity]);
@@ -109,10 +128,6 @@ const ProductDetails = () => {
   const handleMaterialChange = (material) => {
     setSelectedMaterial(material.name);
     setMaterialPrice(material.price);
-    const basePrice = productdetails?.salePrice || productdetails?.price;
-    if (!height && !width && basePrice) {
-      setTotalPrice((basePrice * quantity + material.price).toFixed(2));
-    }
   };
 
   const handleDecrease = () => {
@@ -123,6 +138,53 @@ const ProductDetails = () => {
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
+  };
+
+  // Calculate cart item data with the correct price formula
+  const calculateCartItemData = () => {
+    const basePrice = productdetails?.salePrice || productdetails?.price || 0;
+    const adjustedBasePrice = basePrice + materialPrice;
+
+    if (productdetails.productType === "curtains") {
+      // For curtains, use length as area and add material price separately
+      const areaValue = parseFloat(length) || 0;
+      return {
+        price: basePrice,
+        // For curtains, material price is added after calculation
+        totalPrice: parseFloat(
+          (length * basePrice * quantity + materialPrice).toFixed(2)
+        ),
+        area: areaValue,
+        length: areaValue,
+        height: null,
+        width: null,
+      };
+    } else if (height && width) {
+      // For custom size products (wallpapers)
+      const areaValue = parseFloat(((height * width) / 144).toFixed(2));
+      return {
+        // Include material price in the unit price
+        price: adjustedBasePrice,
+        // Use adjusted base price (with material price added) before multiplying by area
+        totalPrice: parseFloat(
+          (areaValue * adjustedBasePrice * quantity).toFixed(2)
+        ),
+        area: areaValue,
+        height: parseFloat(height),
+        width: parseFloat(width),
+        length: null,
+      };
+    } else {
+      // For standard products (wallpaperRolls or any other)
+      return {
+        price: adjustedBasePrice,
+        totalPrice: parseFloat((adjustedBasePrice * quantity).toFixed(2)),
+        area: null,
+        height: null,
+        width: null,
+        length: null,
+      };
+    }
   };
 
   const handleAddToCart = async () => {
@@ -186,32 +248,28 @@ const ProductDetails = () => {
         throw new Error("Price is not available.");
       }
 
+      // Calculate price data with the correct formula
+      const priceData = calculateCartItemData();
+
       const cartItem = {
         userId: user.id,
         productId: productdetails._id,
         quantity,
-        price: basePrice,
-        totalPrice: parseFloat(totalPrice),
+        price: priceData.price,
+        totalPrice: priceData.totalPrice,
         productType: productdetails.productType,
         productName: productdetails.title || productdetails.productName,
         image: productdetails.image1,
         selectedMaterial,
         materialPrice,
+        area: priceData.area,
+        height: priceData.height,
+        width: priceData.width,
+        length: priceData.length,
       };
 
-      // Handle different product types
-      if (productdetails.productType === "curtains") {
-        // For curtains use length as the area
-        cartItem.area = parseFloat(length);
-        cartItem.length = parseFloat(length);
-      } else {
-        // For wallpapers and other custom products
-        cartItem.height = height ? parseFloat(height) : null;
-        cartItem.width = width ? parseFloat(width) : null;
-        cartItem.area = area ? parseFloat(area).toFixed(2) : null;
-      }
-
       const result = await dispatch(addToCart(cartItem)).unwrap();
+      console.log(cartItem);
 
       if (result.success) {
         toast({
@@ -289,30 +347,25 @@ const ProductDetails = () => {
         throw new Error("Price is not available.");
       }
 
+      // Calculate price data with the correct formula
+      const priceData = calculateCartItemData();
+
       const cartItem = {
         userId: user.id,
         productId: productdetails._id,
         quantity,
-        price: basePrice,
-        totalPrice: parseFloat(totalPrice),
+        price: priceData.price,
+        totalPrice: priceData.totalPrice,
         productType: productdetails.productType,
         productName: productdetails.title || productdetails.productName,
         image: productdetails.image1,
         selectedMaterial,
         materialPrice,
+        area: priceData.area,
+        height: priceData.height,
+        width: priceData.width,
+        length: priceData.length,
       };
-
-      // Handle different product types
-      if (productdetails.productType === "curtains") {
-        // For curtains use length as the area
-        cartItem.area = parseFloat(length);
-        cartItem.length = parseFloat(length);
-      } else {
-        // For wallpapers and other custom products
-        cartItem.height = height ? parseFloat(height) : null;
-        cartItem.width = width ? parseFloat(width) : null;
-        cartItem.area = area ? parseFloat(area).toFixed(2) : null;
-      }
 
       const result = await dispatch(addToCart(cartItem)).unwrap();
 
@@ -397,7 +450,7 @@ const ProductDetails = () => {
 
           {/* Content Section */}
           <div className="w-full lg:w-2/3">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4 flex">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4 flex text-left">
               {productdetails.productName}
             </h2>
 
@@ -423,7 +476,7 @@ const ProductDetails = () => {
                       </span>
 
                       {productdetails.salePrice &&
-                        productdetails.price != 0 && (
+                        productdetails.price !== 0 && (
                           <span className="text-xl text-gray-500 line-through">
                             ₹{productdetails.price}
                           </span>
@@ -497,10 +550,10 @@ const ProductDetails = () => {
                     <div className="flex items-center gap-4 font-lato">
                       <span className="text-2xl font-bold text-green-600">
                         ₹{productdetails.salePrice || productdetails.price} per
-                        Sqft
+                        sq.ft
                       </span>
                       {productdetails.salePrice &&
-                        productdetails.price != 0 && (
+                        productdetails.price !== 0 && (
                           <span className="text-xl text-gray-500 line-through">
                             ₹{productdetails.price}
                           </span>
@@ -608,6 +661,11 @@ const ProductDetails = () => {
                   flex flex-col items-center justify-center
                   transition-all duration-200
                   ${
+                    !selectedMaterial && material.name === "Non woven"
+                      ? "border-green-600 border-2"
+                      : "null"
+                  }
+                  ${
                     selectedMaterial === material.name
                       ? "border-green-600 border-2"
                       : "border-gray-200 hover:border-green-200"
@@ -701,8 +759,7 @@ const ProductDetails = () => {
               </ul>
             </div>
           </Section>
-        ) : // <div>Product description not available.</div>
-        null}
+        ) : null}
 
         <ProductDetailsextra
           producttype={productdetails.productType}
