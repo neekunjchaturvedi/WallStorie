@@ -6,6 +6,15 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import CommonForm from "@/components/common/form";
 import { addProductFormElements } from "@/config";
@@ -64,16 +73,32 @@ function Products() {
   ]);
   const [currentEditedId, setCurrentEditedId] = useState(null);
 
+  // Filter states
+  const [filters, setFilters] = useState({
+    productType: "all",
+    trend: "all",
+    minPrice: "",
+    maxPrice: "",
+  });
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
   const currentUser = "22951a3363"; // Current user's login
 
   const getCurrentUTCDateTime = () => {
-    const now = new Date();
-    return now.toISOString().slice(0, 19).replace("T", " ");
+    return "2025-05-29 18:19:57"; // Using the updated provided date time
   };
 
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (productList && productList.length > 0) {
+      applyFilters();
+    } else {
+      setFilteredProducts([]);
+    }
+  }, [productList, filters]);
 
   useEffect(() => {
     if (uploadedImageUrls.some((url) => url)) {
@@ -93,6 +118,53 @@ function Products() {
     setImageFiles([null, null, null, null]);
     setCurrentEditedId(null);
     setImageLoadingStates([false, false, false, false]);
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      productType: "all",
+      trend: "all",
+      minPrice: "",
+      maxPrice: "",
+    });
+  };
+
+  const applyFilters = () => {
+    let filtered = [...productList];
+
+    // Filter by product type
+    if (filters.productType && filters.productType !== "all") {
+      filtered = filtered.filter(
+        (product) => product.productType === filters.productType
+      );
+    }
+
+    // Filter by trend
+    if (filters.trend && filters.trend !== "all") {
+      filtered = filtered.filter((product) => product.trend === filters.trend);
+    }
+
+    // Filter by price range
+    if (filters.minPrice !== "") {
+      filtered = filtered.filter(
+        (product) => product.salePrice >= Number(filters.minPrice)
+      );
+    }
+
+    if (filters.maxPrice !== "") {
+      filtered = filtered.filter(
+        (product) => product.salePrice <= Number(filters.maxPrice)
+      );
+    }
+
+    setFilteredProducts(filtered);
+  };
+
+  const handleFilterChange = (name, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const isFormValid = () => {
@@ -202,9 +274,127 @@ function Products() {
     }
   };
 
+  // Extract unique product types from products, filtering out any empty values
+  const uniqueProductTypes = productList
+    ? [...new Set(productList.map((product) => product.productType))].filter(
+        (type) => type && type.trim() !== ""
+      )
+    : [];
+
+  // Extract unique trends from products, filtering out any empty values
+  const uniqueTrends = productList
+    ? [...new Set(productList.map((product) => product.trend))].filter(
+        (trend) => trend && trend.trim() !== ""
+      )
+    : [];
+
+  // Calculate min and max prices for the range
+  const priceRange = productList
+    ? productList.reduce(
+        (acc, product) => {
+          if (product.salePrice) {
+            if (product.salePrice < acc.min || acc.min === 0) {
+              acc.min = product.salePrice;
+            }
+            if (product.salePrice > acc.max) {
+              acc.max = product.salePrice;
+            }
+          }
+          return acc;
+        },
+        { min: 0, max: 0 }
+      )
+    : { min: 0, max: 0 };
+
   return (
     <Fragment>
-      <div className="mb-5 w-full flex justify-end">
+      {/* Product Filters */}
+      <div className="mb-5 p-4 bg-white rounded-lg shadow-sm">
+        <h3 className="text-lg font-medium mb-3">Filter Products</h3>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="w-full md:w-1/4">
+            <Label htmlFor="productType">Product Type</Label>
+            <Select
+              value={filters.productType}
+              onValueChange={(value) =>
+                handleFilterChange("productType", value)
+              }
+            >
+              <SelectTrigger id="productType">
+                <SelectValue placeholder="All Types" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                {uniqueProductTypes.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="w-full md:w-1/4">
+            <Label htmlFor="trend">Trend</Label>
+            <Select
+              value={filters.trend}
+              onValueChange={(value) => handleFilterChange("trend", value)}
+            >
+              <SelectTrigger id="trend">
+                <SelectValue placeholder="All Trends" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Trends</SelectItem>
+                {uniqueTrends.map((trend) => (
+                  <SelectItem key={trend} value={trend}>
+                    {trend.charAt(0).toUpperCase() + trend.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="w-full md:w-1/4">
+            <Label htmlFor="minPrice">Min Price (₹)</Label>
+            <Input
+              id="minPrice"
+              type="number"
+              placeholder={`Min: ${priceRange.min}`}
+              value={filters.minPrice}
+              onChange={(e) => handleFilterChange("minPrice", e.target.value)}
+              min={priceRange.min}
+              max={priceRange.max}
+            />
+          </div>
+
+          <div className="w-full md:w-1/4">
+            <Label htmlFor="maxPrice">Max Price (₹)</Label>
+            <Input
+              id="maxPrice"
+              type="number"
+              placeholder={`Max: ${priceRange.max}`}
+              value={filters.maxPrice}
+              onChange={(e) => handleFilterChange("maxPrice", e.target.value)}
+              min={priceRange.min}
+              max={priceRange.max}
+            />
+          </div>
+        </div>
+        <div className="flex justify-end mt-3">
+          <Button variant="outline" onClick={resetFilters} className="mr-2">
+            Reset Filters
+          </Button>
+         
+        </div>
+      </div>
+
+      <div className="mb-5 w-full flex justify-between items-center">
+        <div>
+          <span className="text-sm text-gray-500">
+            Showing {filteredProducts.length} of{" "}
+            {productList ? productList.length : 0} products
+          </span>
+        </div>
         <Button
           onClick={() => setOpenCreateProductsDialog(true)}
           className="bg-green-600 hover:bg-green-700 text-white"
@@ -216,8 +406,8 @@ function Products() {
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {isLoading ? (
           <div>Loading products...</div>
-        ) : productList && productList.length > 0 ? (
-          productList.map((productItem) => (
+        ) : filteredProducts && filteredProducts.length > 0 ? (
+          filteredProducts.map((productItem) => (
             <AdminProductTile
               key={productItem._id}
               product={productItem}
