@@ -48,7 +48,7 @@ const WhyChooseUs = () => {
             <h3 className="text-xl font-semibold text-green-700">
               {feature.title}
             </h3>
-            <p className="text-gray-600 text-sm font-lato">
+            <p className="text-gray-600 text-sm font-lato hidden lg:block">
               {feature.description}
             </p>
           </div>
