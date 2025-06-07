@@ -6,15 +6,15 @@ import schedule from "../../assets/schedule.png";
 const SchedulingSection = () => {
   const nav = useNavigate();
   return (
-    <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between w-1/2 gap-8 bg-white p-8 rounded-lg mt-20 mb-20 mx-auto">
-      <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
-        <h2 className="text-3xl font-bold text-green-700 mb-6 text-left">
+    <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between w-full lg:w-1/2 gap-3 lg:gap-8 bg-white p-2 lg:p-8 rounded-lg mt-20 mb-20 mx-auto">
+      <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:bg-white bg-green-50 p-3 rounded-lg">
+        <h2 className="text-lg lg:text-3xl font-bold text-green-700 mb-6 text-center lg:text-left">
           Book Your Personalized Consultation
         </h2>
         <div className="flex items-start mb-6 font-lato">
-          <FaRegPaperPlane className="text-green-600 text-3xl mr-4" />
+          <FaRegPaperPlane className="text-green-600 text-2xl mr-4" />
           <div>
-            <h3 className="text-xl font-semibold text-gray-800 text-start">
+            <h3 className="text-lg font-semibold text-gray-800 text-start">
               Share Your Preferences
             </h3>
             <p className="text-gray-600 text-start">
@@ -24,21 +24,21 @@ const SchedulingSection = () => {
           </div>
         </div>
         <div className="flex items-start mb-6 font-lato">
-          <FaLightbulb className="text-green-600 text-3xl mr-4" />
+          <FaLightbulb className="text-green-600 text-2xl mr-4" />
           <div>
-            <h3 className="text-xl font-semibold text-gray-800 text-start">
+            <h3 className="text-lg font-semibold text-gray-800 text-start">
               Get Expert Advice
             </h3>
-            <p className="text-gray-600 text-start ">
+            <p className="text-gray-600 text-start">
               Our design specialists will provide tailored recommendations to
               suit your home's unique aesthetic.
             </p>
           </div>
         </div>
         <div className="flex items-start font-lato">
-          <FaCheckCircle className="text-green-600 text-3xl mr-4" />
+          <FaCheckCircle className="text-green-600 text-2xl mr-4" />
           <div>
-            <h3 className="text-xl font-semibold text-gray-800 text-start">
+            <h3 className="text-lg font-semibold text-gray-800 text-start">
               Confirm Your Booking
             </h3>
             <p className="text-gray-600 text-start">

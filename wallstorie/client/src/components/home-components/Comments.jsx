@@ -117,7 +117,7 @@ function CommentSection() {
       <img
         src={commentimg}
         alt="testimonial"
-        className="flex justify-center items-center w-2/3 object-cover mx-auto"
+        className="flex justify-center items-center w-full lg:w-2/3 object-cover mx-auto"
       />
     </div>
   );
