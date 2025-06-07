@@ -75,6 +75,7 @@ function Products() {
 
   // Filter states
   const [filters, setFilters] = useState({
+    search: "",
     productType: "all",
     trend: "all",
     minPrice: "",
@@ -122,6 +123,7 @@ function Products() {
 
   const resetFilters = () => {
     setFilters({
+      search: "",
       productType: "all",
       trend: "all",
       minPrice: "",
@@ -131,6 +133,14 @@ function Products() {
 
   const applyFilters = () => {
     let filtered = [...productList];
+
+    if (filters.search.trim() !== "") {
+      filtered = filtered.filter((product) =>
+        product.productName
+          .toLowerCase()
+          .includes(filters.search.trim().toLowerCase())
+      );
+    }
 
     // Filter by product type
     if (filters.productType && filters.productType !== "all") {
@@ -313,6 +323,15 @@ function Products() {
         <h3 className="text-lg font-medium mb-3">Filter Products</h3>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/4">
+            <Label htmlFor="search">Search</Label>
+            <Input
+              id="search"
+              placeholder="Search by product name"
+              value={filters.search}
+              onChange={(e) => handleFilterChange("search", e.target.value)}
+            />
+          </div>
+          <div className="w-full md:w-1/4">
             <Label htmlFor="productType">Product Type</Label>
             <Select
               value={filters.productType}
@@ -384,7 +403,6 @@ function Products() {
           <Button variant="outline" onClick={resetFilters} className="mr-2">
             Reset Filters
           </Button>
-         
         </div>
       </div>
 
