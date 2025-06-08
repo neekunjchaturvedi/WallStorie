@@ -142,16 +142,16 @@ function Layout() {
         label: "Roller",
         image: roller,
       },
-      {
-        name: "zebra",
-        label: "Zebra",
-        image: zebra,
-      },
-      {
-        name: "roman",
-        label: "Roman",
-        image: roman,
-      },
+      // {
+      //   name: "zebra",
+      //   label: "Zebra",
+      //   image: zebra,
+      // },
+      // {
+      //   name: "roman",
+      //   label: "Roman",
+      //   image: roman,
+      // },
     ],
     curtain: [
       {
@@ -246,7 +246,7 @@ function Layout() {
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-64 object-contain hover:scale-105 transition-transform"
+                    className="w-full h-56 object-contain hover:scale-105 transition-transform"
                   />
                 </div>
                 <p className="mt-2 text-lg text-green-800">{item.label}</p>
