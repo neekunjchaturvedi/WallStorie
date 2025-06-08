@@ -18,6 +18,7 @@ import roman from "../../assets/productcategories/roman.png";
 import drape from "../../assets/productcategories/drape.png";
 import sheer from "../../assets/productcategories/sheer.png";
 import zebra from "../../assets/productcategories/zebra.png";
+import floral from "../../assets/productcategories/floral.jpg";
 
 import {
   getartist,
@@ -134,6 +135,11 @@ function Layout() {
         name: "kidsSeries",
         label: "Kids Series",
         image: kids,
+      },
+      {
+        name: "floral",
+        label: "Floral",
+        image: floral,
       },
     ],
     blinds: [

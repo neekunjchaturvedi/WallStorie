@@ -4,13 +4,19 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getproductinfo } from "@/store/shop/productslice";
 import { addToCart } from "@/store/shop/cartslice";
 import UserLayout from "../user/layout";
-import { Share2, X } from "lucide-react";
+import {
+  Share2,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import ProductDetailsextra from "./prodextradetails";
 import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
 import { checkAuth } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronDown, ChevronUp } from "lucide-react";
 
 import Review from "./review";
 
@@ -42,6 +48,8 @@ const ProductDetails = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [mainImage, setMainImage] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [height, setHeight] = useState("");
   const [width, setWidth] = useState("");
   const [length, setLength] = useState("");
@@ -69,6 +77,13 @@ const ProductDetails = () => {
       dispatch(checkAuth());
     }
   }, [dispatch, id]);
+
+  // Set initial main image when product details load
+  useEffect(() => {
+    if (productdetails && productdetails.image1) {
+      setMainImage(productdetails.image1);
+    }
+  }, [productdetails]);
 
   // Update price calculation to add material price before multiplying by area
   useEffect(() => {
@@ -113,8 +128,21 @@ const ProductDetails = () => {
     }
   }, [height, width, length, productdetails, materialPrice, quantity]);
 
+  // Get all valid images as an array
+  const getImages = () => {
+    return [
+      productdetails.image1,
+      productdetails.image2,
+      productdetails.image3,
+      productdetails.image4,
+    ].filter(Boolean);
+  };
+
   const openModal = (image) => {
+    const images = getImages();
+    const index = images.indexOf(image);
     setSelectedImage(image);
+    setCurrentImageIndex(index >= 0 ? index : 0);
     setShowModal(true);
     document.body.style.overflow = "hidden";
   };
@@ -123,6 +151,25 @@ const ProductDetails = () => {
     setShowModal(false);
     setSelectedImage(null);
     document.body.style.overflow = "unset";
+  };
+
+  const handleThumbnailClick = (image) => {
+    setMainImage(image);
+  };
+
+  const navigateImage = (direction) => {
+    const images = getImages();
+    let newIndex = currentImageIndex + direction;
+
+    // Handle wrapping around
+    if (newIndex < 0) {
+      newIndex = images.length - 1;
+    } else if (newIndex >= images.length) {
+      newIndex = 0;
+    }
+
+    setCurrentImageIndex(newIndex);
+    setSelectedImage(images[newIndex]);
   };
 
   const handleMaterialChange = (material) => {
@@ -407,12 +454,7 @@ const ProductDetails = () => {
     );
   }
 
-  const images = [
-    productdetails.image1,
-    productdetails.image2,
-    productdetails.image3,
-    productdetails.image4,
-  ].filter(Boolean);
+  const images = getImages();
 
   return (
     <>
@@ -423,10 +465,14 @@ const ProductDetails = () => {
           <div className="w-full lg:w-1/2">
             <div className="overflow-hidden cursor-pointer">
               <img
-                src={productdetails.image1 || "https://via.placeholder.com/500"}
+                src={
+                  mainImage ||
+                  productdetails.image1 ||
+                  "https://via.placeholder.com/500"
+                }
                 alt={productdetails.productName}
                 className="w-full h-[500px] object-contain hover:scale-105 transition-transform duration-300"
-                onClick={() => openModal(productdetails.image1)}
+                onClick={() => openModal(mainImage || productdetails.image1)}
               />
             </div>
             {images.length > 1 && (
@@ -434,8 +480,12 @@ const ProductDetails = () => {
                 {images.map((img, index) => (
                   <div
                     key={index}
-                    className="border rounded-lg overflow-hidden cursor-pointer"
-                    onClick={() => openModal(img)}
+                    className={`border rounded-lg overflow-hidden cursor-pointer ${
+                      (mainImage || productdetails.image1) === img
+                        ? "border-green-500 border-2"
+                        : ""
+                    }`}
+                    onClick={() => handleThumbnailClick(img)}
                   >
                     <img
                       src={img}
@@ -767,16 +817,39 @@ const ProductDetails = () => {
         />
         <Review productDetails={productdetails} />
 
-        {/* Image Modal */}
+        {/* Image Modal with Navigation */}
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4">
             <div className="relative max-w-4xl w-full h-full flex items-center justify-center">
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+                className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10"
               >
                 <X size={24} />
               </button>
+
+              {/* Left Arrow */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateImage(-1);
+                }}
+                className="absolute left-4 text-white hover:text-gray-300 transition-colors z-10 bg-black bg-opacity-30 p-2 rounded-full"
+              >
+                <ChevronLeft size={32} />
+              </button>
+
+              {/* Right Arrow */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateImage(1);
+                }}
+                className="absolute right-4 text-white hover:text-gray-300 transition-colors z-10 bg-black bg-opacity-30 p-2 rounded-full"
+              >
+                <ChevronRight size={32} />
+              </button>
+
               <img
                 src={selectedImage}
                 alt="Enlarged view"
@@ -784,6 +857,34 @@ const ProductDetails = () => {
                 onClick={(e) => e.stopPropagation()}
               />
             </div>
+
+            {/* Thumbnail navigation in modal */}
+            {images.length > 1 && (
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
+                {images.map((img, index) => (
+                  <div
+                    key={index}
+                    className={`w-16 h-16 border-2 rounded overflow-hidden cursor-pointer transition-all ${
+                      currentImageIndex === index
+                        ? "border-white"
+                        : "border-gray-500 opacity-70"
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentImageIndex(index);
+                      setSelectedImage(img);
+                    }}
+                  >
+                    <img
+                      src={img}
+                      alt={`Thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div className="absolute inset-0" onClick={closeModal}></div>
           </div>
         )}
