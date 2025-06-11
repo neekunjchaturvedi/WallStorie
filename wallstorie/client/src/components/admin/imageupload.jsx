@@ -75,7 +75,7 @@ export default function Productimageupload({
       formData.append("file", file);
 
       const response = await axios.post(
-        "https://wallstorie-backend.onrender.com/api/admin/products/upload-image",
+        "https://wallstorie-backend-cswj.onrender.com/api/admin/products/upload-image",
         formData,
         {
           headers: {
