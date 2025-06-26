@@ -31,6 +31,7 @@ import ShippingPolicy from "./pages/common/ShippingPolicy";
 
 import Privacy from "./pages/common/Privacypolicy";
 import Termsandcondition from "./pages/common/Termsandc";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -40,81 +41,84 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="home" element={<Home />} />
-      <Route path="wallpapers" element={<WallPapers />} />
-      <Route path="wallpaperrolls" element={<Wallpaperrolls />} />
-      <Route path="curtain" element={<Curtains />} />
-      <Route path="blinds" element={<Blinds />} />
-      <Route path="cart" element={<Cart />} />
-      <Route path="artist" element={<Artist />} />
-      <Route path="sellart" element={<Sellart />} />
-      <Route path="reachout" element={<Reachout />} />
-      {/* Changed from component to element */}
-      <Route path="/products/:id" element={<ProductDetails />} />
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="home" element={<Home />} />
+        <Route path="wallpapers" element={<WallPapers />} />
+        <Route path="wallpaperrolls" element={<Wallpaperrolls />} />
+        <Route path="curtain" element={<Curtains />} />
+        <Route path="blinds" element={<Blinds />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="artist" element={<Artist />} />
+        <Route path="sellart" element={<Sellart />} />
+        <Route path="reachout" element={<Reachout />} />
+        {/* Changed from component to element */}
+        <Route path="/products/:id" element={<ProductDetails />} />
 
-      <Route path="search" element={<Search />} />
-      <Route path="shipping" element={<ShippingPolicy />} />
-      <Route path="privacy" element={<Privacy />} />
-      <Route path="terms" element={<Termsandcondition />} />
-      <Route
-        path="order/success/:id"
-        element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <OrderSuccess />
-          </CheckAuth>
-        }
-      />
-      {/* Auth-Protected Routes */}
-      <Route
-        path="profile"
-        element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <Accounts />
-          </CheckAuth>
-        }
-      />
-      <Route
-        path="checkout"
-        element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <Checkout />
-          </CheckAuth>
-        }
-      />
+        <Route path="search" element={<Search />} />
+        <Route path="shipping" element={<ShippingPolicy />} />
+        <Route path="privacy" element={<Privacy />} />
+        <Route path="terms" element={<Termsandcondition />} />
+        <Route
+          path="order/success/:id"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <OrderSuccess />
+            </CheckAuth>
+          }
+        />
+        {/* Auth-Protected Routes */}
+        <Route
+          path="profile"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <Accounts />
+            </CheckAuth>
+          }
+        />
+        <Route
+          path="checkout"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <Checkout />
+            </CheckAuth>
+          }
+        />
 
-      {/* Authentication Routes */}
-      <Route
-        path="/auth"
-        element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <AuthLayout />
-          </CheckAuth>
-        }
-      >
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-      </Route>
+        {/* Authentication Routes */}
+        <Route
+          path="/auth"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AuthLayout />
+            </CheckAuth>
+          }
+        >
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
 
-      {/* Admin Routes */}
-      <Route
-        path="/admin"
-        element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <AdminLayout />
-          </CheckAuth>
-        }
-      >
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="products" element={<Products />} />
-      </Route>
+        {/* Admin Routes */}
+        <Route
+          path="/admin"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AdminLayout />
+            </CheckAuth>
+          }
+        >
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="products" element={<Products />} />
+        </Route>
 
-      {/* Fallback Route */}
-      <Route path="*" element={<NotFound />} />
-      <Route path="/unauth" element={<Unauth />} />
-    </Routes>
+        {/* Fallback Route */}
+        <Route path="*" element={<NotFound />} />
+        <Route path="/unauth" element={<Unauth />} />
+      </Routes>
+    </>
   );
 }
 

@@ -1,12 +1,4 @@
-import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-const initialState = {
-  isLoading: false,
-  productList: [],
-  productdetails: {},
-  error: null,
-};
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const generateQueryString = (sortOption, filters) => {
   const queryParams = new URLSearchParams();
@@ -28,7 +20,6 @@ const generateQueryString = (sortOption, filters) => {
       queryParams.append("trends", filters.trends.join(","));
     }
 
-    // Handle multiple colors
     if (filters.color && filters.color.length > 0) {
       queryParams.append("color", filters.color.join(","));
     }
@@ -37,197 +28,107 @@ const generateQueryString = (sortOption, filters) => {
   return queryParams.toString();
 };
 
-export const getWallpaper = createAsyncThunk(
-  "products/getWallpaper",
-  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
-    try {
-      const query = generateQueryString(sortOption, filters);
-      const res = await axios.get(
-        `${import.meta.env.VITE_PORT}/api/shop/products/get?${query}`
-      );
-      if (!res.data.success) {
-        return rejectWithValue(res.data.message);
-      }
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Error fetching wallpapers"
-      );
-    }
-  }
-);
+export const productsApi = createApi({
+  reducerPath: "productsApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${import.meta.env.VITE_PORT}/api/shop/products`,
+  }),
+  tagTypes: ["Products", "ProductDetails"],
+  endpoints: (builder) => ({
+    // Get Wallpapers
+    getWallpapers: builder.query({
+      query: ({ sortOption = "popularity", filters = {} }) => {
+        const query = generateQueryString(sortOption, filters);
+        return `get?${query}`;
+      },
+      providesTags: ["Products"],
+      transformResponse: (response) => response.data,
+      // Cache for 5 minutes
+      keepUnusedDataFor: 600,
+    }),
 
-export const getWallpaperrolls = createAsyncThunk(
-  "products/getWallpaperrolls",
-  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
-    try {
-      const query = generateQueryString(sortOption, filters);
-      const res = await axios.get(
-        `${import.meta.env.VITE_PORT}/api/shop/products/getr?${query}`
-      );
-      if (!res.data.success) {
-        return rejectWithValue(res.data.message);
-      }
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Error fetching wallpaper rolls"
-      );
-    }
-  }
-);
+    // Get Wallpaper Rolls
+    getWallpaperRolls: builder.query({
+      query: ({ sortOption = "popularity", filters = {} }) => {
+        const query = generateQueryString(sortOption, filters);
+        return `getr?${query}`;
+      },
+      providesTags: ["Products"],
+      transformResponse: (response) => response.data,
+      keepUnusedDataFor: 600,
+    }),
 
-export const getblinds = createAsyncThunk(
-  "products/getblinds",
-  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
-    try {
-      const query = generateQueryString(sortOption, filters);
-      const res = await axios.get(
-        `${import.meta.env.VITE_PORT}/api/shop/products/getb?${query}`
-      );
-      if (!res.data.success) {
-        return rejectWithValue(res.data.message);
-      }
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Error fetching blinds"
-      );
-    }
-  }
-);
+    // Get Blinds
+    getBlinds: builder.query({
+      query: ({ sortOption = "popularity", filters = {} }) => {
+        const query = generateQueryString(sortOption, filters);
+        return `getb?${query}`;
+      },
+      providesTags: ["Products"],
+      transformResponse: (response) => response.data,
+      keepUnusedDataFor: 600,
+    }),
 
-export const getcur = createAsyncThunk(
-  "products/getcurtains",
-  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
-    try {
-      const query = generateQueryString(sortOption, filters);
-      const res = await axios.get(
-        `${import.meta.env.VITE_PORT}/api/shop/products/getc?${query}`
-      );
-      if (!res.data.success) {
-        return rejectWithValue(res.data.message);
-      }
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Error fetching curtains"
-      );
-    }
-  }
-);
+    // Get Curtains
+    getCurtains: builder.query({
+      query: ({ sortOption = "popularity", filters = {} }) => {
+        const query = generateQueryString(sortOption, filters);
+        return `getc?${query}`;
+      },
+      providesTags: ["Products"],
+      transformResponse: (response) => response.data,
+      keepUnusedDataFor: 600,
+    }),
 
-export const getartist = createAsyncThunk(
-  "products/getartist",
-  async ({ sortOption = "popularity", filters = {} }, { rejectWithValue }) => {
-    try {
-      const query = generateQueryString(sortOption, filters);
-      const res = await axios.get(
-        `${import.meta.env.VITE_PORT}/api/shop/products/getartist?${query}`
-      );
-      if (!res.data.success) {
-        return rejectWithValue(res.data.message);
-      }
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Error fetching curtains"
-      );
-    }
-  }
-);
+    // Get Artist Collection
+    getArtistCollection: builder.query({
+      query: ({ sortOption = "popularity", filters = {} }) => {
+        const query = generateQueryString(sortOption, filters);
+        return `getartist?${query}`;
+      },
+      providesTags: ["Products"],
+      transformResponse: (response) => response.data,
+      keepUnusedDataFor: 600,
+    }),
 
-export const getProductsByCategory = createAsyncThunk(
-  "products/getByCategory",
-  async (
-    { category, productType, sortOption, filters = {} },
-    { rejectWithValue }
-  ) => {
-    try {
-      const query = generateQueryString(sortOption, filters);
-      const res = await axios.get(
-        `${
-          import.meta.env.VITE_PORT
-        }/api/shop/products/category?category=${category}&productType=${productType}&${query}`
-      );
+    // Get Products by Category
+    getProductsByCategory: builder.query({
+      query: ({ category, productType, sortOption, filters = {} }) => {
+        const query = generateQueryString(sortOption, filters);
+        return `category?category=${category}&productType=${productType}&${query}`;
+      },
+      providesTags: ["Products"],
+      transformResponse: (response) => response.data,
+      keepUnusedDataFor: 600,
+    }),
 
-      if (!res.data.success) {
-        return rejectWithValue(
-          res.data.message || "Failed to fetch products by category"
-        );
-      }
-
-      return res.data;
-    } catch (error) {
-      console.error("Error in getProductsByCategory:", error);
-      return rejectWithValue(
-        error.response?.data?.message || "Error fetching products by category"
-      );
-    }
-  }
-);
-
-export const getproductinfo = createAsyncThunk(
-  "products/getproductinfo",
-  async (id) => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_PORT}/api/shop/products/get/${id}`
-      );
-      return res.data;
-    } catch (error) {
-      return error.response?.data?.message || "Error fetching product details";
-    }
-  }
-);
-
-const shopProductSlice = createSlice({
-  name: "Shopproducts",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    const handlers = [
-      getWallpaper,
-      getWallpaperrolls,
-      getblinds,
-      getcur,
-      getProductsByCategory,
-      getartist,
-    ];
-
-    handlers.forEach((action) => {
-      builder
-        .addCase(action.pending, (state) => {
-          state.isLoading = true;
-          state.error = null;
-        })
-        .addCase(action.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.productList = action.payload.data;
-          state.error = null;
-        })
-        .addCase(action.rejected, (state, action) => {
-          state.isLoading = false;
-          state.productList = [];
-          state.error = action.payload || action.error.message;
-        });
-    });
-    builder
-      .addCase(getproductinfo.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getproductinfo.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.productdetails = action.payload.data; // Ensure the correct path
-        state.error = null;
-      })
-      .addCase(getproductinfo.rejected, (state, action) => {
-        state.isLoading = false;
-        state.productdetails = {};
-        state.error = action.payload || action.error.message;
-      });
-  },
+    // Get Product Details
+    getProductDetails: builder.query({
+      query: (id) => `get/${id}`,
+      providesTags: (result, error, id) => [{ type: "ProductDetails", id }],
+      transformResponse: (response) => response.data,
+      // Cache product details for longer (10 minutes)
+      keepUnusedDataFor: 600,
+    }),
+  }),
 });
 
-export default shopProductSlice.reducer;
+// Export hooks for usage in functional components
+export const {
+  useGetWallpapersQuery,
+  useGetWallpaperRollsQuery,
+  useGetBlindsQuery,
+  useGetCurtainsQuery,
+  useGetArtistCollectionQuery,
+  useGetProductsByCategoryQuery,
+  useGetProductDetailsQuery,
+  useLazyGetWallpapersQuery,
+  useLazyGetWallpaperRollsQuery,
+  useLazyGetBlindsQuery,
+  useLazyGetCurtainsQuery,
+  useLazyGetArtistCollectionQuery,
+  useLazyGetProductsByCategoryQuery,
+  useLazyGetProductDetailsQuery,
+} = productsApi;
+
+export default productsApi.reducer;

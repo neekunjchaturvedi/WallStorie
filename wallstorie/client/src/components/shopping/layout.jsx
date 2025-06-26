@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { ActivityLogIcon } from "@radix-ui/react-icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -14,20 +13,18 @@ import divine from "../../assets/productcategories/divine.png";
 import heritage from "../../assets/productcategories/heritage.png";
 import kids from "../../assets/productcategories/kids.png";
 import roller from "../../assets/productcategories/roller.png";
-import roman from "../../assets/productcategories/roman.png";
 import drape from "../../assets/productcategories/drape.png";
 import sheer from "../../assets/productcategories/sheer.png";
-import zebra from "../../assets/productcategories/zebra.png";
 import floral from "../../assets/productcategories/floral.jpg";
 
 import {
-  getartist,
-  getblinds,
-  getcur,
-  getproductinfo,
-  getProductsByCategory,
-  getWallpaper,
-  getWallpaperrolls,
+  useLazyGetWallpapersQuery,
+  useLazyGetWallpaperRollsQuery,
+  useLazyGetBlindsQuery,
+  useLazyGetCurtainsQuery,
+  useLazyGetArtistCollectionQuery,
+  useLazyGetProductsByCategoryQuery,
+  useGetProductDetailsQuery,
 } from "@/store/shop/productslice";
 
 function capitalizeFirstLetter(string) {
@@ -37,9 +34,7 @@ function capitalizeFirstLetter(string) {
 
 function Layout() {
   const location = useLocation();
-  const dispatch = useDispatch();
   const pathSegments = location.pathname.split("/");
-
   const name = pathSegments[pathSegments.length - 1];
 
   const [sortOption, setSortOption] = useState("popularity");
@@ -49,14 +44,43 @@ function Layout() {
     trends: [],
     color: [],
   });
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
-  const { productList, isLoading, productdetails } = useSelector(
-    (state) => state.shopProducts
+  // Pagination state
+  const [displayedProducts, setDisplayedProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const PRODUCTS_PER_PAGE = 25;
+
+  // RTK Query hooks - using lazy queries for manual triggering
+  const [
+    getWallpapers,
+    { data: wallpapersData, isLoading: wallpapersLoading },
+  ] = useLazyGetWallpapersQuery();
+  const [getWallpaperRolls, { data: rollsData, isLoading: rollsLoading }] =
+    useLazyGetWallpaperRollsQuery();
+  const [getBlinds, { data: blindsData, isLoading: blindsLoading }] =
+    useLazyGetBlindsQuery();
+  const [getCurtains, { data: curtainsData, isLoading: curtainsLoading }] =
+    useLazyGetCurtainsQuery();
+  const [getArtistCollection, { data: artistData, isLoading: artistLoading }] =
+    useLazyGetArtistCollectionQuery();
+  const [
+    getProductsByCategory,
+    { data: categoryData, isLoading: categoryLoading },
+  ] = useLazyGetProductsByCategoryQuery();
+
+  // Get product details when selectedProductId changes
+  const { data: productDetails } = useGetProductDetailsQuery(
+    selectedProductId,
+    {
+      skip: !selectedProductId,
+    }
   );
 
-  const fetchProducts = () => {
-    console.log("Fetching products with filters:", filters);
-    const options = {
+  // Memoize query options to prevent unnecessary re-renders
+  const queryOptions = useMemo(
+    () => ({
       sortOption,
       filters: {
         price: filters.price,
@@ -64,45 +88,79 @@ function Layout() {
         space: filters.space,
         trends: filters.trends,
       },
-    };
+    }),
+    [sortOption, filters]
+  );
+
+  // Get current data and loading state based on the current page
+  const getCurrentData = () => {
+    switch (name) {
+      case "wallpapers":
+        return { data: wallpapersData, isLoading: wallpapersLoading };
+      case "wallpaperrolls":
+        return { data: rollsData, isLoading: rollsLoading };
+      case "blinds":
+        return { data: blindsData, isLoading: blindsLoading };
+      case "curtain":
+        return { data: curtainsData, isLoading: curtainsLoading };
+      case "artist":
+        return { data: artistData, isLoading: artistLoading };
+      default:
+        return { data: categoryData, isLoading: categoryLoading };
+    }
+  };
+
+  const { data: productList, isLoading } = getCurrentData();
+
+  const fetchProducts = () => {
+    console.log("Fetching products with filters:", filters);
 
     switch (name) {
       case "wallpapers":
-        dispatch(getWallpaper(options));
+        getWallpapers(queryOptions);
         break;
       case "wallpaperrolls":
-        dispatch(getWallpaperrolls(options));
+        getWallpaperRolls(queryOptions);
         break;
       case "blinds":
-        dispatch(getblinds(options));
+        getBlinds(queryOptions);
         break;
       case "curtain":
-        dispatch(getcur(options));
+        getCurtains(queryOptions);
         break;
       case "artist":
-        dispatch(getartist(options));
+        getArtistCollection(queryOptions);
+        break;
     }
   };
+
   const handleCategoryClick = (categoryName) => {
     const options = {
       category: categoryName,
       productType: name === "curtain" ? name + "s" : name,
+      ...queryOptions,
     };
 
     console.log(options);
-
-    dispatch(getProductsByCategory(options));
+    getProductsByCategory(options);
   };
-  console.log(productList);
 
   function handlegetdetails(getcurrentid) {
     console.log(getcurrentid);
-    dispatch(getproductinfo(getcurrentid));
+    setSelectedProductId(getcurrentid);
   }
+
+  // Update displayed products when productList changes
+  useEffect(() => {
+    if (productList && productList.length > 0) {
+      setCurrentPage(1);
+      setDisplayedProducts(productList.slice(0, PRODUCTS_PER_PAGE));
+    }
+  }, [productList]);
 
   useEffect(() => {
     fetchProducts();
-  }, [dispatch, name, sortOption]);
+  }, [name, sortOption]);
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
@@ -112,64 +170,40 @@ function Layout() {
     console.log("Applying filters:", filters);
     fetchProducts();
   };
-  console.log(productdetails);
+
+  // Load more products function
+  const loadMoreProducts = () => {
+    setIsLoadingMore(true);
+
+    setTimeout(() => {
+      const nextPage = currentPage + 1;
+      const startIndex = currentPage * PRODUCTS_PER_PAGE;
+      const endIndex = startIndex + PRODUCTS_PER_PAGE;
+
+      const newProducts = productList.slice(startIndex, endIndex);
+      setDisplayedProducts((prev) => [...prev, ...newProducts]);
+      setCurrentPage(nextPage);
+      setIsLoadingMore(false);
+    }, 500);
+  };
+
+  const hasMoreProducts =
+    productList && displayedProducts.length < productList.length;
+
+  console.log(productDetails);
 
   const categoryImages = {
     wallpapers: [
-      {
-        name: "tropical",
-        label: "Tropical",
-        image: tropical,
-      },
-      {
-        name: "heritage",
-        label: "Heritage",
-        image: heritage,
-      },
-      {
-        name: "divine",
-        label: "Divine",
-        image: divine,
-      },
-      {
-        name: "kidsSeries",
-        label: "Kids Series",
-        image: kids,
-      },
-      {
-        name: "floral",
-        label: "Floral",
-        image: floral,
-      },
+      { name: "tropical", label: "Tropical", image: tropical },
+      { name: "heritage", label: "Heritage", image: heritage },
+      { name: "divine", label: "Divine", image: divine },
+      { name: "kidsSeries", label: "Kids Series", image: kids },
+      { name: "floral", label: "Floral", image: floral },
     ],
-    blinds: [
-      {
-        name: "roller",
-        label: "Roller",
-        image: roller,
-      },
-      // {
-      //   name: "zebra",
-      //   label: "Zebra",
-      //   image: zebra,
-      // },
-      // {
-      //   name: "roman",
-      //   label: "Roman",
-      //   image: roman,
-      // },
-    ],
+    blinds: [{ name: "roller", label: "Roller", image: roller }],
     curtain: [
-      {
-        name: "drape",
-        label: "Drape",
-        image: drape,
-      },
-      {
-        name: "sheer",
-        label: "Sheer",
-        image: sheer,
-      },
+      { name: "drape", label: "Drape", image: drape },
+      { name: "sheer", label: "Sheer", image: sheer },
     ],
   };
 
@@ -203,12 +237,12 @@ function Layout() {
       {/* Main Content Section */}
       <div className="px-4 sm:px-6 lg:px-24">
         {/* Breadcrumb and Filters */}
-        <div className="flex flex-col  sm:flex-row justify-between items-start sm:items-center mb-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12">
           <div className="text-gray-500 mb-6 sm:mb-4 font-lato w-full text-left">
             Home / {capitalizeFirstLetter(name)}
           </div>
 
-          <div className="flex  items-center justify-between lg:justify-end gap-4 w-full mx-auto">
+          <div className="flex items-center justify-between lg:justify-end gap-4 w-full mx-auto">
             {/* Filter Sheet */}
             <Sheet>
               <SheetTrigger asChild>
@@ -245,7 +279,7 @@ function Layout() {
             {categoryImages[name].map((item, index) => (
               <div
                 key={index}
-                className="text-center cursor-pointer flex flex-col justify-center items-center "
+                className="text-center cursor-pointer flex flex-col justify-center items-center"
                 onClick={() => handleCategoryClick(item.name)}
               >
                 <div className="rounded-lg overflow-hidden">
@@ -268,11 +302,56 @@ function Layout() {
           <div className="flex justify-center items-center min-h-[200px]">
             <p>Loading products...</p>
           </div>
-        ) : productList && productList.length > 0 ? (
-          <Productgrid
-            products={productList}
-            handlegetdetails={handlegetdetails}
-          />
+        ) : displayedProducts && displayedProducts.length > 0 ? (
+          <>
+            <Productgrid
+              products={displayedProducts}
+              handlegetdetails={handlegetdetails}
+            />
+
+            {/* Load More Button */}
+            {hasMoreProducts && (
+              <div className="flex justify-center mt-8 mb-8">
+                <button
+                  onClick={loadMoreProducts}
+                  disabled={isLoadingMore}
+                  className="bg-green-700 hover:bg-green-800 disabled:bg-green-400 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                >
+                  {isLoadingMore ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Loading...
+                    </>
+                  ) : (
+                    `Load More Products (${
+                      productList.length - displayedProducts.length
+                    } remaining)`
+                  )}
+                </button>
+              </div>
+            )}
+
+            {/* Products count indicator */}
+            <div className="text-center text-gray-600 mb-6">
+              Showing {displayedProducts.length} of {productList?.length || 0}{" "}
+              products
+            </div>
+          </>
         ) : (
           <div className="flex justify-center items-center min-h-[200px]">
             <p>No products found</p>

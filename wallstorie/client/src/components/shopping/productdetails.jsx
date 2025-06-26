@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getproductinfo } from "@/store/shop/productslice";
+import { useGetProductDetailsQuery } from "@/store/shop/productslice";
 import { addToCart } from "@/store/shop/cartslice";
 import UserLayout from "../user/layout";
 import {
@@ -41,10 +41,17 @@ const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { productdetails, isLoading } = useSelector(
-    (state) => state.shopProducts
-  );
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  // RTK Query hook - called directly as a hook
+  const {
+    data: productdetails,
+    isLoading,
+    error,
+    isSuccess,
+  } = useGetProductDetailsQuery(id, {
+    skip: !id, // Skip the query if no id
+  });
 
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -59,7 +66,6 @@ const ProductDetails = () => {
   const [materialPrice, setMaterialPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
-  const title = productdetails.productType;
 
   const materials = [
     { id: 1, name: "Non woven", price: 0 },
@@ -72,11 +78,8 @@ const ProductDetails = () => {
   ];
 
   useEffect(() => {
-    if (id) {
-      dispatch(getproductinfo(id));
-      dispatch(checkAuth());
-    }
-  }, [dispatch, id]);
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   // Set initial main image when product details load
   useEffect(() => {
@@ -130,6 +133,7 @@ const ProductDetails = () => {
 
   // Get all valid images as an array
   const getImages = () => {
+    if (!productdetails) return [];
     return [
       productdetails.image1,
       productdetails.image2,
@@ -443,6 +447,33 @@ const ProductDetails = () => {
     }
   };
 
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <>
+        <UserLayout />
+        <div className="flex justify-center items-center min-h-[400px]">
+          <p className="text-xl text-gray-600">Loading product details...</p>
+        </div>
+      </>
+    );
+  }
+
+  // Handle error state
+  if (error) {
+    return (
+      <>
+        <UserLayout />
+        <div className="flex justify-center items-center min-h-[400px]">
+          <p className="text-xl text-red-600">
+            Error loading product: {error.message}
+          </p>
+        </div>
+      </>
+    );
+  }
+
+  // Handle case where product is not found
   if (!productdetails) {
     return (
       <>
