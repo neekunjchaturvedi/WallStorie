@@ -45,6 +45,8 @@ function Layout() {
     color: [],
   });
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category
+  const [isShowingCategory, setIsShowingCategory] = useState(false); // Track if showing category results
 
   // Pagination state
   const [displayedProducts, setDisplayedProducts] = useState([]);
@@ -94,6 +96,12 @@ function Layout() {
 
   // Get current data and loading state based on the current page
   const getCurrentData = () => {
+    // If showing category results, return category data
+    if (isShowingCategory) {
+      return { data: categoryData, isLoading: categoryLoading };
+    }
+
+    // Otherwise return main category data
     switch (name) {
       case "wallpapers":
         return { data: wallpapersData, isLoading: wallpapersLoading };
@@ -106,7 +114,7 @@ function Layout() {
       case "artist":
         return { data: artistData, isLoading: artistLoading };
       default:
-        return { data: categoryData, isLoading: categoryLoading };
+        return { data: null, isLoading: false };
     }
   };
 
@@ -114,6 +122,10 @@ function Layout() {
 
   const fetchProducts = () => {
     console.log("Fetching products with filters:", filters);
+
+    // Reset category view when fetching main products
+    setIsShowingCategory(false);
+    setSelectedCategory(null);
 
     switch (name) {
       case "wallpapers":
@@ -135,14 +147,30 @@ function Layout() {
   };
 
   const handleCategoryClick = (categoryName) => {
+    console.log("Category clicked:", categoryName);
+
     const options = {
       category: categoryName,
       productType: name === "curtain" ? name + "s" : name,
-      ...queryOptions,
+      sortOption: queryOptions.sortOption,
+      filters: queryOptions.filters,
     };
 
-    console.log(options);
+    console.log("Category query options:", options);
+
+    // Set states to show category results
+    setSelectedCategory(categoryName);
+    setIsShowingCategory(true);
+
+    // Trigger the category query
     getProductsByCategory(options);
+  };
+
+  // Function to go back to main category view
+  const handleBackToMainCategory = () => {
+    setIsShowingCategory(false);
+    setSelectedCategory(null);
+    fetchProducts(); // Refetch main category products
   };
 
   function handlegetdetails(getcurrentid) {
@@ -155,12 +183,28 @@ function Layout() {
     if (productList && productList.length > 0) {
       setCurrentPage(1);
       setDisplayedProducts(productList.slice(0, PRODUCTS_PER_PAGE));
+    } else {
+      setDisplayedProducts([]);
     }
   }, [productList]);
 
+  // Reset everything when page/name changes
   useEffect(() => {
+    setIsShowingCategory(false);
+    setSelectedCategory(null);
     fetchProducts();
   }, [name, sortOption]);
+
+  // Apply filters - works for both main category and sub-category
+  useEffect(() => {
+    if (isShowingCategory && selectedCategory) {
+      // Re-fetch category data with new filters
+      handleCategoryClick(selectedCategory);
+    } else {
+      // Re-fetch main category data with new filters
+      fetchProducts();
+    }
+  }, [filters]);
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
@@ -168,7 +212,7 @@ function Layout() {
 
   const applyFilters = () => {
     console.log("Applying filters:", filters);
-    fetchProducts();
+    // The useEffect above will handle the actual fetching
   };
 
   // Load more products function
@@ -190,7 +234,10 @@ function Layout() {
   const hasMoreProducts =
     productList && displayedProducts.length < productList.length;
 
-  console.log(productDetails);
+  console.log("Product Details:", productDetails);
+  console.log("Current product list:", productList);
+  console.log("Is showing category:", isShowingCategory);
+  console.log("Selected category:", selectedCategory);
 
   const categoryImages = {
     wallpapers: [
@@ -226,9 +273,20 @@ function Layout() {
           <>
             <h2 className="text-3xl font-bold text-green-700 mb-3">
               {capitalizeFirstLetter(name)}
+              {isShowingCategory && selectedCategory && (
+                <span className="text-xl text-gray-600 ml-2">
+                  - {capitalizeFirstLetter(selectedCategory)}
+                </span>
+              )}
             </h2>
             <p className="text-gray-700 mt-2 font-lato mb-3">
               Find Your Perfect {capitalizeFirstLetter(name)}
+              {isShowingCategory && selectedCategory && (
+                <span>
+                  {" "}
+                  in {capitalizeFirstLetter(selectedCategory)} category
+                </span>
+              )}
             </p>
           </>
         )}
@@ -240,6 +298,25 @@ function Layout() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12">
           <div className="text-gray-500 mb-6 sm:mb-4 font-lato w-full text-left">
             Home / {capitalizeFirstLetter(name)}
+            {isShowingCategory && selectedCategory && (
+              <>
+                {" / "}
+                <button
+                  onClick={handleBackToMainCategory}
+                  className="text-green-600 hover:underline"
+                >
+                  {capitalizeFirstLetter(selectedCategory)}
+                </button>
+              </>
+            )}
+            {isShowingCategory && (
+              <button
+                onClick={handleBackToMainCategory}
+                className="ml-4 text-green-600 hover:underline text-sm"
+              >
+                ← Back to all {capitalizeFirstLetter(name)}
+              </button>
+            )}
           </div>
 
           <div className="flex items-center justify-between lg:justify-end gap-4 w-full mx-auto">
@@ -273,8 +350,8 @@ function Layout() {
           </div>
         </div>
 
-        {/* Category Images Grid */}
-        {categoryImages[name] && (
+        {/* Category Images Grid - Only show when not viewing category results */}
+        {!isShowingCategory && categoryImages[name] && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 items-center">
             {categoryImages[name].map((item, index) => (
               <div
@@ -350,11 +427,25 @@ function Layout() {
             <div className="text-center text-gray-600 mb-6">
               Showing {displayedProducts.length} of {productList?.length || 0}{" "}
               products
+              {isShowingCategory && selectedCategory && (
+                <span>
+                  {" "}
+                  in {capitalizeFirstLetter(selectedCategory)} category
+                </span>
+              )}
             </div>
           </>
         ) : (
           <div className="flex justify-center items-center min-h-[200px]">
-            <p>No products found</p>
+            <p>
+              No products found
+              {isShowingCategory && selectedCategory && (
+                <span>
+                  {" "}
+                  in {capitalizeFirstLetter(selectedCategory)} category
+                </span>
+              )}
+            </p>
           </div>
         )}
       </div>

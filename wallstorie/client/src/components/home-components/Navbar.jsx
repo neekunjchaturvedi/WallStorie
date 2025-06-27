@@ -52,7 +52,7 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Menu */}
-      <ul className="hidden lg:flex space-x-8 text-[#4a4a4a] font-medium text-lg">
+      <ul className="hidden lg:flex space-x-6 text-[#4a4a4a] font-medium text-lg">
         <li>
           <a
             onClick={() => {
@@ -83,7 +83,7 @@ const Navbar = () => {
             Blinds
           </a>
         </li>
-        <li>
+        {/* <li>
           <a
             onClick={() => {
               return navigate("/curtain");
@@ -92,7 +92,7 @@ const Navbar = () => {
           >
             Curtain
           </a>
-        </li>
+        </li> */}
         <li>
           <a
             onClick={() => {
@@ -247,14 +247,14 @@ const Navbar = () => {
           >
             Blinds
           </a>
-          <a
+          {/* <a
             onClick={() => {
               return navigate("/curtain");
             }}
             className="hover:text-green-700 transition-colors duration-300 cursor-pointer"
           >
             Curtain
-          </a>
+          </a> */}
 
           <a
             onClick={() => {
