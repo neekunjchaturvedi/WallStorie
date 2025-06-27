@@ -44,7 +44,7 @@ export const productsApi = createApi({
       providesTags: ["Products"],
       transformResponse: (response) => response.data,
       // Cache for 5 minutes
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 1800,
     }),
 
     // Get Wallpaper Rolls
@@ -55,7 +55,7 @@ export const productsApi = createApi({
       },
       providesTags: ["Products"],
       transformResponse: (response) => response.data,
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 1800,
     }),
 
     // Get Blinds
@@ -66,7 +66,7 @@ export const productsApi = createApi({
       },
       providesTags: ["Products"],
       transformResponse: (response) => response.data,
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 1800,
     }),
 
     // Get Curtains
@@ -77,7 +77,7 @@ export const productsApi = createApi({
       },
       providesTags: ["Products"],
       transformResponse: (response) => response.data,
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 1800,
     }),
 
     // Get Artist Collection
@@ -88,7 +88,7 @@ export const productsApi = createApi({
       },
       providesTags: ["Products"],
       transformResponse: (response) => response.data,
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 1800,
     }),
 
     // Get Products by Category
@@ -99,7 +99,7 @@ export const productsApi = createApi({
       },
       providesTags: ["Products"],
       transformResponse: (response) => response.data,
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 1800,
     }),
 
     // Get Product Details
@@ -108,7 +108,7 @@ export const productsApi = createApi({
       providesTags: (result, error, id) => [{ type: "ProductDetails", id }],
       transformResponse: (response) => response.data,
       // Cache product details for longer (10 minutes)
-      keepUnusedDataFor: 600,
+      keepUnusedDataFor: 1800,
     }),
   }),
 });
