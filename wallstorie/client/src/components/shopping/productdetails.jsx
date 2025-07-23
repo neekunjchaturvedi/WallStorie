@@ -19,6 +19,7 @@ import { checkAuth } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
 
 import Review from "./review";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Section = ({ title, children, className }) => {
   const [open, setOpen] = useState(true);
@@ -431,19 +432,59 @@ const ProductDetails = () => {
   };
 
   const handleshare = async () => {
-    if (navigator.share) {
-      try {
+    if (!navigator.share) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Web Share API not supported in this browser",
+      });
+      return;
+    }
+
+    const productName = productdetails.productName;
+    const url = window.location.href;
+    const imageUrl = mainImage || productdetails.image1;
+
+    try {
+      // Try to fetch the image and create a File object
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "product-image.jpg", { type: blob.type });
+
+      // Give user a choice, or prefer text over file
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        // Some browsers ignore text when sharing files, so ask user
+        if (
+          window.confirm(
+            "Do you want to share the product image only? Press Cancel to share product details instead."
+          )
+        ) {
+          await navigator.share({
+            files: [file],
+          });
+        } else {
+          await navigator.share({
+            title: productName,
+            text: `Check out this product: ${productName}\nSold by WallStorie\n${url}`,
+          });
+        }
+      } else {
+        // Fallback: share with text, title, and url only
         await navigator.share({
-          title: `Check this ${productdetails.productType}`,
-          text: `Sold by WallStorie  ${productdetails.productName}.`,
-          url: window.location.href,
+          title: productName,
+          text: `Check out this product: ${productName}\nSold by WallStorie\n${url}`,
         });
-        console.log("Content shared successfully");
-      } catch (error) {
-        console.error("Error sharing content", error);
       }
-    } else {
-      console.error("Web Share API not supported in this browser");
+      toast({
+        title: "Success",
+        description: "Content shared successfully",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error sharing content: " + (error.message || ""),
+      });
     }
   };
 
@@ -491,6 +532,12 @@ const ProductDetails = () => {
     <>
       <UserLayout />
       <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <FaArrowLeft
+          className="cursor-pointer text-green-600 mb-4 text-2xl"
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <div className="flex flex-col lg:flex-row gap-8 mb-12">
           {/* Images Section */}
           <div className="w-full lg:w-1/2">
@@ -824,7 +871,9 @@ const ProductDetails = () => {
             <a
               href={`https://wa.me/916302644520?text=I'm%20interested%20in%20buying%20${encodeURIComponent(
                 productdetails.productName
-              )}%20${encodeURIComponent(productdetails.productType)}`}
+              )}%20${encodeURIComponent(
+                productdetails.productType
+              )}%20${encodeURIComponent(window.location.href)}`}
             >
               <button className="flex-1 bg-white text-green-700 py-3 px-6 border-2 border-green-500 transition duration-200 text-lg font-lato">
                 Need Help? Order via Whatsapp
@@ -832,8 +881,17 @@ const ProductDetails = () => {
             </a>
           </div>
         </div>
-        {productdetails.productType == "artist" ? (
+        {productdetails.productType === "artist" ? (
           <Section title="Artist Description" className="text-green-500">
+            <div className="mb-4 flex flex-col text-left">
+              <ul className="list-disc pl-10 flex flex-col mb-6">
+                {productdetails.description}
+              </ul>
+            </div>
+          </Section>
+        ) : null}
+        {productdetails.productType !== "artist" ? (
+          <Section title="Product Description" className="text-green-500">
             <div className="mb-4 flex flex-col text-left">
               <ul className="list-disc pl-10 flex flex-col mb-6">
                 {productdetails.description}

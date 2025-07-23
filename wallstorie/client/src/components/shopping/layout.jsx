@@ -172,6 +172,17 @@ function Layout() {
     setSelectedCategory(null);
     fetchProducts(); // Refetch main category products
   };
+  const handleBackToCategory = () => {
+    const options = {
+      category: categoryName,
+      productType: name === "curtain" ? name + "s" : name,
+      sortOption: queryOptions.sortOption,
+      filters: queryOptions.filters,
+    };
+    getProductsByCategory(options);
+    setIsShowingCategory(false);
+    setSelectedCategory(null);
+  };
 
   function handlegetdetails(getcurrentid) {
     console.log(getcurrentid);
@@ -302,7 +313,7 @@ function Layout() {
               <>
                 {" / "}
                 <button
-                  onClick={handleBackToMainCategory}
+                  onClick={handleBackToCategory}
                   className="text-green-600 hover:underline"
                 >
                   {capitalizeFirstLetter(selectedCategory)}
