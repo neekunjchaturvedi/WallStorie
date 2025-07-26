@@ -30,7 +30,7 @@ export const Hero = () => {
               }}
               class="inline-flex items-center px-6 py-3 text-white bg-green-700 hover:bg-green-800 rounded-lg cursor-pointer"
             >
-              Find your style
+              Find your Wallpaper
               <MoveUpRight />
             </a>
           </div>

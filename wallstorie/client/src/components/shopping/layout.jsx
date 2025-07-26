@@ -16,6 +16,8 @@ import roller from "../../assets/productcategories/roller.png";
 import drape from "../../assets/productcategories/drape.png";
 import sheer from "../../assets/productcategories/sheer.png";
 import floral from "../../assets/productcategories/floral.jpg";
+import bestseller from "../../assets/productcategories/bestseller.jpg";
+import artistcollection from "../../assets/productcategories/artistcollection.jpg";
 
 import {
   useLazyGetWallpapersQuery,
@@ -257,6 +259,12 @@ function Layout() {
       { name: "divine", label: "Divine", image: divine },
       { name: "kidsSeries", label: "Kids Series", image: kids },
       { name: "floral", label: "Floral", image: floral },
+      { name: "bestseller", label: "Bestseller", image: bestseller },
+      {
+        name: "artistCollection",
+        label: "Artist Collection",
+        image: artistcollection,
+      },
     ],
     blinds: [{ name: "roller", label: "Roller", image: roller }],
     curtain: [
@@ -370,7 +378,7 @@ function Layout() {
                 className="text-center cursor-pointer flex flex-col justify-center items-center"
                 onClick={() => handleCategoryClick(item.name)}
               >
-                <div className="rounded-lg overflow-hidden">
+                <div className="rounded-3xl overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.name}
