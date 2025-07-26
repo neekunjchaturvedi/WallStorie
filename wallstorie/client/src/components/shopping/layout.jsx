@@ -254,17 +254,17 @@ function Layout() {
 
   const categoryImages = {
     wallpapers: [
-      { name: "tropical", label: "Tropical", image: tropical },
-      { name: "heritage", label: "Heritage", image: heritage },
-      { name: "divine", label: "Divine", image: divine },
-      { name: "kidsSeries", label: "Kids Series", image: kids },
-      { name: "floral", label: "Floral", image: floral },
       { name: "bestseller", label: "Bestseller", image: bestseller },
       {
         name: "artistCollection",
         label: "Artist Collection",
         image: artistcollection,
       },
+      { name: "tropical", label: "Tropical", image: tropical },
+      { name: "heritage", label: "Heritage", image: heritage },
+      { name: "divine", label: "Divine", image: divine },
+      { name: "floral", label: "Floral", image: floral },
+      { name: "kidsSeries", label: "Kids Series", image: kids },
     ],
     blinds: [{ name: "roller", label: "Roller", image: roller }],
     curtain: [
@@ -378,7 +378,7 @@ function Layout() {
                 className="text-center cursor-pointer flex flex-col justify-center items-center"
                 onClick={() => handleCategoryClick(item.name)}
               >
-                <div className="rounded-3xl overflow-hidden">
+                <div className="rounded-full overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.name}
