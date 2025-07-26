@@ -77,6 +77,7 @@ function Products() {
   const [filters, setFilters] = useState({
     search: "",
     productType: "all",
+    categoryType: "all", // <-- Added categoryType filter
     trend: "all",
     minPrice: "",
     maxPrice: "",
@@ -86,7 +87,7 @@ function Products() {
   const currentUser = "22951a3363"; // Current user's login
 
   const getCurrentUTCDateTime = () => {
-    return "2025-05-29 18:19:57"; // Using the updated provided date time
+    return "2025-05-29 18:19:57";
   };
 
   useEffect(() => {
@@ -125,6 +126,7 @@ function Products() {
     setFilters({
       search: "",
       productType: "all",
+      categoryType: "all",
       trend: "all",
       minPrice: "",
       maxPrice: "",
@@ -146,6 +148,13 @@ function Products() {
     if (filters.productType && filters.productType !== "all") {
       filtered = filtered.filter(
         (product) => product.productType === filters.productType
+      );
+    }
+
+    // Filter by category type (matches category field in data)
+    if (filters.categoryType && filters.categoryType !== "all") {
+      filtered = filtered.filter(
+        (product) => product.category === filters.categoryType
       );
     }
 
@@ -291,6 +300,13 @@ function Products() {
       )
     : [];
 
+  // Extract unique category types from products (category field)
+  const uniqueCategoryTypes = productList
+    ? [...new Set(productList.map((product) => product.category))].filter(
+        (cat) => cat && cat.trim() !== ""
+      )
+    : [];
+
   // Extract unique trends from products, filtering out any empty values
   const uniqueTrends = productList
     ? [...new Set(productList.map((product) => product.trend))].filter(
@@ -322,7 +338,7 @@ function Products() {
       <div className="mb-5 p-4 bg-white rounded-lg shadow-sm">
         <h3 className="text-lg font-medium mb-3">Filter Products</h3>
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="w-full md:w-1/4">
+          <div className="w-full md:w-1/5">
             <Label htmlFor="search">Search</Label>
             <Input
               id="search"
@@ -331,7 +347,7 @@ function Products() {
               onChange={(e) => handleFilterChange("search", e.target.value)}
             />
           </div>
-          <div className="w-full md:w-1/4">
+          <div className="w-full md:w-1/5">
             <Label htmlFor="productType">Product Type</Label>
             <Select
               value={filters.productType}
@@ -352,8 +368,29 @@ function Products() {
               </SelectContent>
             </Select>
           </div>
-
-          <div className="w-full md:w-1/4">
+          {/* Category Type Filter */}
+          <div className="w-full md:w-1/5">
+            <Label htmlFor="categoryType">Category Type</Label>
+            <Select
+              value={filters.categoryType}
+              onValueChange={(value) =>
+                handleFilterChange("categoryType", value)
+              }
+            >
+              <SelectTrigger id="categoryType">
+                <SelectValue placeholder="All Category Types" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Category Types</SelectItem>
+                {uniqueCategoryTypes.map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="w-full md:w-1/5">
             <Label htmlFor="trend">Trend</Label>
             <Select
               value={filters.trend}
@@ -373,7 +410,7 @@ function Products() {
             </Select>
           </div>
 
-          <div className="w-full md:w-1/4">
+          <div className="w-full md:w-1/5">
             <Label htmlFor="minPrice">Min Price (₹)</Label>
             <Input
               id="minPrice"
@@ -386,7 +423,7 @@ function Products() {
             />
           </div>
 
-          <div className="w-full md:w-1/4">
+          <div className="w-full md:w-1/5">
             <Label htmlFor="maxPrice">Max Price (₹)</Label>
             <Input
               id="maxPrice"
