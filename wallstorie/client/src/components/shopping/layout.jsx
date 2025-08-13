@@ -29,6 +29,9 @@ import {
   useGetProductDetailsQuery,
 } from "@/store/shop/productslice";
 
+// Import SEO component
+import SEO from "@/components/common/SEO";
+
 function capitalizeFirstLetter(string) {
   if (!string) return "";
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -47,16 +50,14 @@ function Layout() {
     color: [],
   });
   const [selectedProductId, setSelectedProductId] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category
-  const [isShowingCategory, setIsShowingCategory] = useState(false); // Track if showing category results
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isShowingCategory, setIsShowingCategory] = useState(false);
 
-  // Pagination state
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const PRODUCTS_PER_PAGE = 25;
 
-  // RTK Query hooks - using lazy queries for manual triggering
   const [
     getWallpapers,
     { data: wallpapersData, isLoading: wallpapersLoading },
@@ -74,7 +75,6 @@ function Layout() {
     { data: categoryData, isLoading: categoryLoading },
   ] = useLazyGetProductsByCategoryQuery();
 
-  // Get product details when selectedProductId changes
   const { data: productDetails } = useGetProductDetailsQuery(
     selectedProductId,
     {
@@ -82,7 +82,6 @@ function Layout() {
     }
   );
 
-  // Memoize query options to prevent unnecessary re-renders
   const queryOptions = useMemo(
     () => ({
       sortOption,
@@ -96,14 +95,10 @@ function Layout() {
     [sortOption, filters]
   );
 
-  // Get current data and loading state based on the current page
   const getCurrentData = () => {
-    // If showing category results, return category data
     if (isShowingCategory) {
       return { data: categoryData, isLoading: categoryLoading };
     }
-
-    // Otherwise return main category data
     switch (name) {
       case "wallpapers":
         return { data: wallpapersData, isLoading: wallpapersLoading };
@@ -123,12 +118,8 @@ function Layout() {
   const { data: productList, isLoading } = getCurrentData();
 
   const fetchProducts = () => {
-    console.log("Fetching products with filters:", filters);
-
-    // Reset category view when fetching main products
     setIsShowingCategory(false);
     setSelectedCategory(null);
-
     switch (name) {
       case "wallpapers":
         getWallpapers(queryOptions);
@@ -149,31 +140,23 @@ function Layout() {
   };
 
   const handleCategoryClick = (categoryName) => {
-    console.log("Category clicked:", categoryName);
-
     const options = {
       category: categoryName,
       productType: name === "curtain" ? name + "s" : name,
       sortOption: queryOptions.sortOption,
       filters: queryOptions.filters,
     };
-
-    console.log("Category query options:", options);
-
-    // Set states to show category results
     setSelectedCategory(categoryName);
     setIsShowingCategory(true);
-
-    // Trigger the category query
     getProductsByCategory(options);
   };
 
-  // Function to go back to main category view
   const handleBackToMainCategory = () => {
     setIsShowingCategory(false);
     setSelectedCategory(null);
-    fetchProducts(); // Refetch main category products
+    fetchProducts();
   };
+
   const handleBackToCategory = () => {
     const options = {
       category: categoryName,
@@ -187,11 +170,9 @@ function Layout() {
   };
 
   function handlegetdetails(getcurrentid) {
-    console.log(getcurrentid);
     setSelectedProductId(getcurrentid);
   }
 
-  // Update displayed products when productList changes
   useEffect(() => {
     if (productList && productList.length > 0) {
       setCurrentPage(1);
@@ -201,20 +182,16 @@ function Layout() {
     }
   }, [productList]);
 
-  // Reset everything when page/name changes
   useEffect(() => {
     setIsShowingCategory(false);
     setSelectedCategory(null);
     fetchProducts();
   }, [name, sortOption]);
 
-  // Apply filters - works for both main category and sub-category
   useEffect(() => {
     if (isShowingCategory && selectedCategory) {
-      // Re-fetch category data with new filters
       handleCategoryClick(selectedCategory);
     } else {
-      // Re-fetch main category data with new filters
       fetchProducts();
     }
   }, [filters]);
@@ -223,20 +200,14 @@ function Layout() {
     setSortOption(e.target.value);
   };
 
-  const applyFilters = () => {
-    console.log("Applying filters:", filters);
-    // The useEffect above will handle the actual fetching
-  };
+  const applyFilters = () => {};
 
-  // Load more products function
   const loadMoreProducts = () => {
     setIsLoadingMore(true);
-
     setTimeout(() => {
       const nextPage = currentPage + 1;
       const startIndex = currentPage * PRODUCTS_PER_PAGE;
       const endIndex = startIndex + PRODUCTS_PER_PAGE;
-
       const newProducts = productList.slice(startIndex, endIndex);
       setDisplayedProducts((prev) => [...prev, ...newProducts]);
       setCurrentPage(nextPage);
@@ -246,11 +217,6 @@ function Layout() {
 
   const hasMoreProducts =
     productList && displayedProducts.length < productList.length;
-
-  console.log("Product Details:", productDetails);
-  console.log("Current product list:", productList);
-  console.log("Is showing category:", isShowingCategory);
-  console.log("Selected category:", selectedCategory);
 
   const categoryImages = {
     wallpapers: [
@@ -273,13 +239,57 @@ function Layout() {
     ],
   };
 
+  // -----------------
+  // Dynamic SEO Setup
+  // -----------------
+  const pageTitle = `${capitalizeFirstLetter(name)}${
+    selectedCategory ? ` - ${capitalizeFirstLetter(selectedCategory)}` : ""
+  } | WallStorie`;
+  const pageDescription = `Explore our collection of ${capitalizeFirstLetter(
+    name
+  )}${
+    selectedCategory
+      ? ` in ${capitalizeFirstLetter(selectedCategory)} category`
+      : ""
+  } at WallStorie. Premium designs, fast delivery, and easy installation in India.`;
+  const canonicalUrl = `https://www.wallstorie.in/${name}${
+    selectedCategory ? `/${selectedCategory}` : ""
+  }`;
+
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    name: "WallStorie",
+    url: canonicalUrl,
+    logo: "https://www.wallstorie.in/images/logo.png",
+    image: "https://www.wallstorie.in/images/og-image.jpg",
+    description: pageDescription,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress:
+        "1st floor, Hanuman plywood complex, Beside PSR Convention centre, Kompally, Hyderabad-500014",
+      addressCountry: "IN",
+    },
+  };
+
   return (
     <div>
+      <SEO
+        title={pageTitle}
+        description={pageDescription}
+        keywords={`${name}, ${
+          selectedCategory || ""
+        }, wallpapers, wall decor, home decoration`}
+        image="https://www.wallstorie.in/images/og-image.jpg"
+        url={canonicalUrl}
+        schema={schemaData}
+      />
+
       <UserLayout />
 
       {/* Header Section */}
       <div className="flex flex-col justify-center items-center">
-        {name == "artist" ? (
+        {name === "artist" ? (
           <>
             <h2 className="text-3xl font-bold text-green-700 mb-3">
               Artist Collection

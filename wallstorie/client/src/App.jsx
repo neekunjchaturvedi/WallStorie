@@ -18,7 +18,7 @@ import Checkout from "./pages/Shopping/Checkout";
 import Unauth from "./pages/unauth";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CheckAuth from "./components/common/Checkauth";
 import ProductDetails from "./components/shopping/productdetails";
 import Cart from "./pages/Shopping/Cart";
@@ -28,17 +28,36 @@ import Search from "./pages/Shopping/Search";
 import Sellart from "./components/shopping/Sellart";
 import Reachout from "./components/shopping/reachout";
 import ShippingPolicy from "./pages/common/ShippingPolicy";
-
 import Privacy from "./pages/common/Privacypolicy";
 import Termsandcondition from "./pages/common/Termsandc";
 import ScrollToTop from "./components/common/ScrollToTop";
 
+import loader from "./assets/loader.gif";
+
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    dispatch(checkAuth());
+    const init = async () => {
+      try {
+        dispatch(checkAuth());
+      } finally {
+        setLoading(false);
+      }
+    };
+    init();
   }, [dispatch]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen bg-white">
+        <img src={loader} alt="Loading..." className="w-100 h-100" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -54,9 +73,7 @@ function App() {
         <Route path="artist" element={<Artist />} />
         <Route path="sellart" element={<Sellart />} />
         <Route path="reachout" element={<Reachout />} />
-        {/* Changed from component to element */}
         <Route path="/products/:id" element={<ProductDetails />} />
-
         <Route path="search" element={<Search />} />
         <Route path="shipping" element={<ShippingPolicy />} />
         <Route path="privacy" element={<Privacy />} />
@@ -69,7 +86,6 @@ function App() {
             </CheckAuth>
           }
         />
-        {/* Auth-Protected Routes */}
         <Route
           path="profile"
           element={
@@ -86,8 +102,6 @@ function App() {
             </CheckAuth>
           }
         />
-
-        {/* Authentication Routes */}
         <Route
           path="/auth"
           element={
@@ -99,8 +113,6 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
-
-        {/* Admin Routes */}
         <Route
           path="/admin"
           element={
@@ -113,8 +125,6 @@ function App() {
           <Route path="orders" element={<Orders />} />
           <Route path="products" element={<Products />} />
         </Route>
-
-        {/* Fallback Route */}
         <Route path="*" element={<NotFound />} />
         <Route path="/unauth" element={<Unauth />} />
       </Routes>

@@ -2,9 +2,84 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/assets/logo.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./src/assets/logo.png" />
+
+    <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WallStorie</title>
+
+    <!-- Primary SEO Title -->
+    <title>WallStorie | Premium Wallpapers & Wall Decor Online in India</title>
+
+    <!-- Meta Description -->
+    <meta
+      name="description"
+      content="Shop premium wallpapers & wall decor at WallStorie. Trendy designs, easy installation & fast delivery across India. Upgrade your walls today!"
+    />
+
+    <!-- Keywords (Optional for modern SEO but can help slightly) -->
+    <meta
+      name="keywords"
+      content="wallpapers, wall decor, home decoration, premium wallpapers India, living room wallpaper, bedroom wallpaper"
+    />
+
+    <!-- Canonical Tag -->
+    <link rel="canonical" href="https://www.wallstorie.in/" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta
+      property="og:title"
+      content="WallStorie | Premium Wallpapers & Wall Decor"
+    />
+    <meta
+      property="og:description"
+      content="Shop premium wallpapers & wall decor at WallStorie. Trendy designs, easy installation & fast delivery across India."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.wallstorie.in/" />
+    <meta
+      property="og:image"
+      content="https://www.wallstorie.in/images/og-image.jpg"
+    />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card (For better sharing on Twitter/X) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="WallStorie | Premium Wallpapers & Wall Decor"
+    />
+    <meta
+      name="twitter:description"
+      content="Shop premium wallpapers & wall decor at WallStorie. Trendy designs, easy installation & fast delivery across India."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.wallstorie.in/images/og-image.jpg"
+    />
+
+    <!-- Robots.txt equivalent -->
+    <meta name="robots" content="index, follow" />
+
+    <!-- Schema.org JSON-LD Markup -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "WallStorie",
+        "url": "https://www.wallstorie.in",
+        "logo": "https://www.wallstorie.in/logo.png",
+        "image": "https://www.wallstorie.in/images/og-image.jpg",
+        "description": "Shop premium wallpapers & wall decor at WallStorie. Trendy designs, easy installation & fast delivery across India.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "IN"
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
@@ -12,6 +87,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
       rel="stylesheet"
@@ -20,7 +97,11 @@
       href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Preload Key Assets -->
+    <link rel="preload" href="./src/assets/logo.png" as="image" />
   </head>
+
   <style>
     .font-lato {
       font-family: "Lato", sans-serif;
@@ -29,8 +110,27 @@
       font-family: "Playfair Display", serif;
     }
   </style>
+
   <body>
+    <!-- Main H1 for SEO -->
+    <h1
+      style="
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      "
+    >
+      Premium Wallpapers & Wall Decor Online in India | WallStorie
+    </h1>
+
     <div id="root"></div>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

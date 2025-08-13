@@ -17,9 +17,9 @@ import Footer from "../home-components/Footer";
 import { Bottomfoot } from "../home-components/Bottomfoot";
 import { checkAuth } from "@/store/auth-slice";
 import { useToast } from "@/hooks/use-toast";
-
 import Review from "./review";
 import { FaArrowLeft } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 const Section = ({ title, children, className }) => {
   const [open, setOpen] = useState(true);
@@ -531,6 +531,68 @@ const ProductDetails = () => {
   return (
     <>
       <UserLayout />
+      <Helmet>
+        <title>{productdetails.productName} | WallStorie</title>
+        <meta
+          name="description"
+          content={
+            productdetails.metaDescription ||
+            productdetails.description?.slice(0, 160)
+          }
+        />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={productdetails.productName} />
+        <meta
+          property="og:description"
+          content={
+            productdetails.metaDescription ||
+            productdetails.description?.slice(0, 160)
+          }
+        />
+        <meta property="og:image" content={productdetails.image1} />
+        <meta property="og:url" content={window.location.href} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={productdetails.productName} />
+        <meta
+          name="twitter:description"
+          content={
+            productdetails.metaDescription ||
+            productdetails.description?.slice(0, 160)
+          }
+        />
+        <meta name="twitter:image" content={productdetails.image1} />
+
+        {/* JSON-LD Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            name: productdetails.productName,
+            image: [productdetails.image1],
+            description:
+              productdetails.metaDescription || productdetails.description,
+            sku: productdetails._id,
+            brand: {
+              "@type": "Brand",
+              name: "WallStorie",
+            },
+            offers: {
+              "@type": "Offer",
+              url: window.location.href,
+              priceCurrency: "INR",
+              price: productdetails.salePrice || productdetails.price,
+              availability:
+                productdetails.stockQuantity > 0
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+            },
+          })}
+        </script>
+      </Helmet>
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <FaArrowLeft
           className="cursor-pointer text-green-600 mb-4 text-2xl"
