@@ -262,7 +262,7 @@ function Layout() {
     name: "WallStorie",
     url: canonicalUrl,
     logo: "https://www.wallstorie.in/images/logo.png",
-    image: "https://www.wallstorie.in/images/og-image.jpg",
+    image: "https://www.wallstorie.in/images/og-image.png",
     description: pageDescription,
     address: {
       "@type": "PostalAddress",
@@ -280,7 +280,7 @@ function Layout() {
         keywords={`${name}, ${
           selectedCategory || ""
         }, wallpapers, wall decor, home decoration`}
-        image="https://www.wallstorie.in/images/og-image.jpg"
+        image="https://www.wallstorie.in/images/og-image.png"
         url={canonicalUrl}
         schema={schemaData}
       />

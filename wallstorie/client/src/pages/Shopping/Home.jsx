@@ -37,7 +37,7 @@ function Home() {
     name: "WallStorie",
     url: "https://www.wallstorie.in",
     logo: "https://www.wallstorie.in/images/logo.png",
-    image: "https://www.wallstorie.in/images/og-image.jpg",
+    image: "https://www.wallstorie.in/images/og-image.png",
     description:
       "Shop premium wallpapers & wall decor at WallStorie. Trendy designs, easy installation & fast delivery across India.",
     address: {
@@ -57,7 +57,7 @@ function Home() {
         title="WallStorie | Premium Wallpapers & Wall Decor Online in India"
         description="Shop premium wallpapers & wall decor at WallStorie. Trendy designs, easy installation & fast delivery across India."
         keywords="wallpapers, wall decor, premium wallpapers India, bedroom wallpaper, living room wallpaper"
-        image="https://www.wallstorie.in/images/og-image.jpg"
+        image="https://www.wallstorie.in/images/og-image.png"
         url="https://www.wallstorie.in/"
         schema={schemaData}
       />
