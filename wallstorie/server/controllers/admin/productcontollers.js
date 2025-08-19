@@ -1,5 +1,5 @@
 const { imageUploadUtil } = require("../../helpers/cloudinary");
-const Product = require("../../models/Product");
+const Product = require("../../models/Product.js");
 
 // Utility function for current UTC datetime
 const getCurrentUTCDateTime = () => {
@@ -173,7 +173,6 @@ const editProduct = async (req, res) => {
       const parsed = Number(updates.discount);
       updates.discount = isNaN(parsed) ? undefined : parsed;
     }
-
     if (updates.stockQuantity)
       updates.stockQuantity = Number(updates.stockQuantity);
     if (updates.popularity) updates.popularity = Number(updates.popularity);
