@@ -6,7 +6,7 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const path = require("path");
-
+const lusca = require("lusca");
 // Routes imports
 const authRouter = require("./routes/auth/auth-rotes");
 const adminProductsRouter = require("./routes/admin/product-routes");
@@ -71,7 +71,7 @@ async function createServer() {
 
   app.use(passport.initialize());
   app.use(passport.session());
-
+  app.use(lusca.csrf());
   // API routes
   app.use("/api/auth", authRouter);
   app.use("/api/info", userinforouter);
