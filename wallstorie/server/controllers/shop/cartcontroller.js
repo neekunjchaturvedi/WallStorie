@@ -273,10 +273,11 @@ exports.updateCartItemQuantity = async (req, res) => {
       });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(itemId)) {
+    // Validate userId to prevent NoSQL injection
+    if (typeof userId !== "string" || !mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid item ID",
+        message: "Invalid user ID",
       });
     }
 
@@ -314,7 +315,7 @@ exports.updateCartItemQuantity = async (req, res) => {
     await cartItem.save();
 
     // Update cart totals
-    const cart = await Cart.findOne({ userId });
+    const cart = await Cart.findOne({ userId: { $eq: userId } });
     const cartItems = await CartItem.find({ cartId: cart._id });
     cart.totalItems = cartItems.length;
     cart.totalAmount = cartItems.reduce(
