@@ -1,20 +1,14 @@
 import React from "react";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa";
-import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import footerimg from "../../assets/footerimg.png";
 
 const Footer = () => {
-  const nav = useNavigate();
   return (
     <footer className="bg-green-50 text-white p-4 mt-10 px-10 font-lato w-full">
       <div className="lg:h-[270px] sm:h-[800px] max-w-5xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+        {/* Logo + About */}
         <div>
           <img
             src={logo}
@@ -31,6 +25,7 @@ const Footer = () => {
               aria-label="Facebook"
               className="text-gray-600 hover:text-green-700"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <FaFacebookF size={24} />
             </a>
@@ -39,6 +34,7 @@ const Footer = () => {
               aria-label="Instagram"
               className="text-gray-600 hover:text-green-700"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <FaInstagram size={24} />
             </a>
@@ -47,107 +43,99 @@ const Footer = () => {
               aria-label="LinkedIn"
               className="text-gray-600 hover:text-green-700"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <FaLinkedinIn size={24} />
             </a>
           </div>
         </div>
+
+        {/* Links Sections */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-x-64">
+          {/* Our Services */}
           <div className="mb-10">
             <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
               Our Services
             </h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  className="text-gray-600 hover:text-green-700 cursor-pointer"
-                  onClick={() => {
-                    nav("/wallpapers");
-                  }}
+                <Link
+                  to="/wallpapers"
+                  className="text-gray-600 hover:text-green-700"
                 >
                   Wallpaper
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  onClick={() => {
-                    nav("/wallpaperrolls");
-                  }}
-                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                <Link
+                  to="/wallpaperrolls"
+                  className="text-gray-600 hover:text-green-700"
                 >
-                  WallpaperRolls
-                </a>
+                  Wallpaper Rolls
+                </Link>
               </li>
               <li>
-                <a
-                  onClick={() => {
-                    nav("/blinds");
-                  }}
-                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                <Link
+                  to="/blinds"
+                  className="text-gray-600 hover:text-green-700"
                 >
                   Blinds
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  onClick={() => {
-                    nav("/curtain");
-                  }}
-                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                <Link
+                  to="/curtain"
+                  className="text-gray-600 hover:text-green-700"
                 >
                   Curtains
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  onClick={() => {
-                    nav("/artist");
-                  }}
-                  className="text-gray-600 hover:text-green-700 cursor-pointer"
+                <Link
+                  to="/artist"
+                  className="text-gray-600 hover:text-green-700"
                 >
                   Artiste
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
+
+          {/* Quick Links */}
           <div className="mb-10">
             <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
               Quick Links
             </h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  onClick={() => {
-                    nav("/shipping");
-                  }}
-                  className="text-gray-600 hover:text-green-700 whitespace-nowrap cursor-pointer"
+                <Link
+                  to="/shipping"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
                 >
                   Shipping & Returns
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  onClick={() => {
-                    nav("/terms");
-                  }}
-                  className="text-gray-600 hover:text-green-700 whitespace-nowrap cursor-pointer"
+                <Link
+                  to="/terms"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
                 >
                   Terms & Conditions
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  className="text-gray-600 hover:text-green-700 whitespace-nowrap cursor-pointer"
-                  onClick={() => {
-                    nav("/privacy");
-                  }}
+                <Link
+                  to="/privacy"
+                  className="text-gray-600 hover:text-green-700 whitespace-nowrap"
                 >
                   Privacy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
-          <div className="mb-10 md:w-48 md:text-left ">
+
+          {/* Customer Care */}
+          <div className="mb-10 md:w-48 md:text-left">
             <h4 className="text-lg font-semibold text-green-700 mb-4 whitespace-nowrap">
               Customer Care
             </h4>
@@ -183,8 +171,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center mt-4  ">
-        <img src={footerimg} alt="footerimg" />
+
+      {/* Bottom Image */}
+      <div className="flex justify-center items-center mt-4">
+        <img src={footerimg} alt="footer decorative" />
       </div>
     </footer>
   );
