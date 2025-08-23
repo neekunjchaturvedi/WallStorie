@@ -5,6 +5,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import footerimg from "../../assets/footerimg.png";
@@ -26,30 +27,26 @@ const Footer = () => {
           </p>
           <div className="flex space-x-4 mt-4 justify-center md:justify-start">
             <a
-              href="#"
+              href="https://www.facebook.com/people/Wall-Storie/61561597268599"
               aria-label="Facebook"
               className="text-gray-600 hover:text-green-700"
+              target="_blank"
             >
               <FaFacebookF size={24} />
             </a>
             <a
-              href="#"
-              aria-label="Twitter"
-              className="text-gray-600 hover:text-green-700"
-            >
-              <FaTwitter size={24} />
-            </a>
-            <a
-              href="#"
+              href="https://www.instagram.com/wall.storie/"
               aria-label="Instagram"
               className="text-gray-600 hover:text-green-700"
+              target="_blank"
             >
               <FaInstagram size={24} />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/wallstorie3/"
               aria-label="LinkedIn"
               className="text-gray-600 hover:text-green-700"
+              target="_blank"
             >
               <FaLinkedinIn size={24} />
             </a>
